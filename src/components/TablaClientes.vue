@@ -34,22 +34,27 @@
                 </div>
                 <div class="input-group-text mb-3">
                     <span class="input-group-text custom-span ms-auto me-2">Provincia</span>
-                    <select name="provincia" id="provincia" class="form-select w-50">
-                        <option value="">Selecciona una opción</option>
+                    <select name="provincia" id="provincia" class="form-select w-50" v-model="cliente.provincia">
+                        <option value="" disabled>Provincia</option>
+                        <option v-for="provincia in provincias" :key="provincia.id" :value="provincia">{{ provincia.nm}}</option>
                     </select>
                     <span class="input-group-text custom-span ms-2 me-2">Municipio</span>
-                    <select name="municipio" id="municipio" class="form-select  ">
-                        <option value="">Selecciona una opción</option>
+                    <select name="municipio" id="municipio" class="form-select  " v-model="cliente.municipio">
+                        <option value="" disabled>Municipio</option>
+                        <option v-for="municipio in filtroMunicipios" :key="municipio.id" :value="municipio">{{
+                            municipio.nm }}</option>
                     </select>
                     <input class="ms-3" type="checkbox" name="historico" id="historico" v-model="isChecked">
-                    <label class="input-group-text custom-span mx-2" for="historico" >Historico</label>
-
+                    <label class="input-group-text custom-span mx-2" for="historico">Historico</label>
+                    <button class="btn btn-secondary" >
+                    <i class="bi bi-eraser-fill fs-5" @click="limpiarFormCli"></i>
+                    </button>
                 </div>
 
                 <div class="d-flex justify-content-center flex-sm-wrap">
-                    <input class="btn btn-primary m-2" type="submit" @click.prevent="grabarCliente" value="Guardar">
-                    <input class="btn btn-primary m-2" type="submit" @click.prevent="grabarCliente" value="Modificar">
-                    <input class="btn btn-primary m-2" type="submit" @click.prevent="grabarCliente" value="Eliminar">
+                    <input class="btn btn-primary m-2" type="submit" @click.prevent="grabarcliente" value="Guardar">
+                    <input class="btn btn-primary m-2" type="submit" @click.prevent="" value="Modificar">
+                    <input class="btn btn-primary m-2" type="submit" @click.prevent="" value="Eliminar">
                 </div>
 
                 <table class="table table-striped mt-2 ">
@@ -58,9 +63,9 @@
                             <th scope="col" class="w-15 text-center">DNI</th>
                             <th scope="col" class="w-25">Apellidos</th>
                             <th scope="col" class="w-25">Nombre</th>
-                            <th scope="col" class="w-20 text-center">Email</th>
-                            <th scope="col" class= "w-10 text-center">Fecha Baja</th>
-                            <th scope="col" class="table-info">Acciones</th>
+                            <th scope="col" class="w-20 text-start">Email</th>
+                            <th scope="col" class="w-10 text-center">Fecha Baja</th>
+                            <th scope="col" class="table-info text-center">Editar</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -72,13 +77,10 @@
                             <td class="align-middle">{{ cliente.baja }}</td>
                             <td class="text-center align-middle table-info">
                                 <div>
-                  <button class="btn btn-warning m-2" @click="seleccionaCliente(cliente)">
-                    <i class="fas fa-pencil-alt"></i>
-                  </button>
-                  <button class="btn btn-danger m-2" @click="deleteCliente(cliente.dni)">
-                    <i class="bi bi-trash"></i>
-                  </button>
-                </div>
+                                    <button class="btn btn-warning m-2" @click="seleccionaCliente(cliente)">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </button>
+                                </div>
                             </td>
                         </tr>
                     </tbody>
@@ -99,65 +101,96 @@ export default {
 
     data() {
         return {
-            clientes: [
-            {
-                dni: "12345678A",
-                alta: "2024-11-01",
-                apellidos: "González Pérez",
-                nombre: "Juan",
-                direccion: "Calle Ficticia, 123", 
-                email: "sdfhksdjfh@mgs.com"
-            },
-            {
-                dni: "87654321B",
-                alta: "2024-11-02",
-                apellidos: "Martínez Rodríguez",
-                nombre: "Ana",
-                direccion: "Avenida Libertad, 456"
-            },
-            {
-                dni: "11223344C",
-                alta: "2024-11-03",
-                apellidos: "López Sánchez",
-                nombre: "Carlos",
-                direccion: "Calle del Sol, 789",
-                baja:"24-10-2024",
-            }
-            ],
             cliente: {
                 dni: "",
                 alta: "",
                 apellidos: "",
                 nombre: "",
                 direccion: "",
-                email:"", 
-                provincia: "", 
-                municipio: "", 
-                baja:"",
+                email: "",
+                provincia: "",
+                municipio: {
+                    id:"",
+                    nm: "",
+                },
+                baja: "",
             },
+            clientes: [],
+            provincias: [],
+            municipios: [],
             erros: [],
-            isChecked: false, 
+            isChecked: false,
         }
     },
 
+    mounted() {
+        this.getProvincias();
+        this.getClientes();
+        this.getMunicipios();
+    },
+
     computed: {
-        filtroClientes(){
-            return this.isChecked ? this.clientes : this.clientes.filter(cliente => !cliente.baja); 
+        filtroClientes() {
+            return this.isChecked ? this.clientes : this.clientes.filter(cliente => !cliente.baja);
+        },
+
+        filtroMunicipios() {
+            return this.municipios.filter(municipio => municipio.id.startsWith(this.cliente.provincia.id));
         }
+
     },
 
     methods: {
         // Método para grabar el cliente
-        grabarCliente() {
-            let dni = this.cliente.dni;
-            if (this.cliente.dni && this.cliente.apellidos && this.cliente.email && this.cliente.alta) {
-                console.log("DNI válido: ", dni);
-                this.clientes.push({...this.clientes})
+        async grabarcliente() {
+            // Verificar si los campos requeridos están llenos
+            if (this.cliente.dni && this.cliente.apellidos) {
+                try {
+                    this.cliente.baja = ''
+                    // Obtener los clientes existentes
+                    const response = await fetch('http://localhost:3000/clientes');
+                    if (!response.ok) {
+                        throw new Error('Error al obtener los clientes: ' + response.statusText);
+                    }
+
+                    const clientesExistentes = await response.json();
+
+                    // Verificar si el DNI ya está registrado
+                    const clienteExistente = clientesExistentes.find(cliente => cliente.dni === this.cliente.dni);
+
+                    if (clienteExistente) {
+                        // Si el DNI ya existe, mostrar un mensaje de error
+                        this.mostrarAlerta('Error', 'El DNI ya está registrado.', 'error');
+                    } else {
+                        // Si el DNI no existe, agregar el cliente a la base de datos
+                        const crearResponse = await fetch('http://localhost:3000/clientes', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(this.cliente)
+                        });
+
+                        if (!crearResponse.ok) {
+                            throw new Error('Error al guardar el cliente: ' + crearResponse.statusText);
+                        }
+
+                        const nuevoCliente = await crearResponse.json();
+                        this.clientes.push(nuevoCliente); // Agregar cliente al array local
+                        this.mostrarAlerta('Aviso', 'Cliente Grabado', 'success');
+                        this.getClientes();
+                    }
+                    this.limpiarCampos()
+                } catch (error) {
+                    console.error(error);
+                    this.mostrarAlerta('Error', 'No se pudo grabar el cliente.', 'error');
+                }
             } else {
-                console.log("Error: Por favor completa todos los campos requeridos")
+                this.mostrarAlerta('Error', 'Por favor, completa todos los campos requeridos.', 'error');
             }
-            console.log("Prueba grabar dni");
         },
+
+        
 
         // Métodos auxiliares
         // Método para validar el dni
@@ -223,7 +256,59 @@ export default {
                     modal: 'custom-alert-modal'
                 }
             });
-        }
+        },
+
+        async getClientes() {
+            try {
+                const response = await fetch("http://localhost:3000/clientes")
+                if (!response.ok) {
+                    throw new Error("Error en la solicitud" + response.statusText)
+                }
+                this.clientes = (await response.json()).sort((a,b) => a.apellidos.localeCompare(b.apellidos) || a.nombre.localeCompare(b.nombre));
+            } catch (error) {
+                console.error(error);
+            }
+        },
+
+        async getProvincias() {
+            try {
+                const response = await fetch("http://localhost:3000/provincias")
+                if (!response.ok) {
+                    throw new Error("Error en la solicitud" + response.statusText)
+                }
+                this.provincias = await response.json();
+            } catch (error) {
+                console.error(error);
+            }
+        },
+
+        async getMunicipios() {
+            try {
+                const response = await fetch("http://localhost:3000/municipios")
+                if (!response.ok) {
+                    throw new Error("Error en la solicitud" + response.statusText)
+                }
+                this.municipios = await response.json();
+            } catch (error) {
+                console.error(error);
+            }
+        },
+
+        limpiarFormCli(){
+            this.cliente = {
+                alta : "",
+                dni : "",
+                apellidos: "",
+                nombre: "",
+                direccion: "",
+                email: "",
+                provincia: "",
+                municipio: "",
+                baja: ""
+            }
+    },
+
+
     }
 }
 
