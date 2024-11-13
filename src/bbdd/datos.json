@@ -32800,25 +32800,6 @@
       },
       "baja": "",
       "movil": "678111111"
-    },
-    {
-      "id": "2992",
-      "dni": "54508965T",
-      "alta": "2005-11-27",
-      "apellidos": "Marquez",
-      "nombre": "Nadia",
-      "direccion": "taithi",
-      "email": "naida@example.com",
-      "provincia": {
-        "id": "32",
-        "nm": "Ourense"
-      },
-      "municipio": {
-        "id": "32012",
-        "nm": "Blancos, Os"
-      },
-      "baja": "",
-      "movil": "698417811"
     }
   ]
 }
