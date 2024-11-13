@@ -32709,254 +32709,20 @@
   ],
   "clientes": [
     {
-      "dni": "12345678Z",
-      "alta": "01/01/2024",
-      "apellidos": "Gómez Pérez",
-      "nombre": "Juan",
-      "direccion": "Calle Falsa 123",
-      "email": "juan.gomez@example.com",
-      "provincia": "Madrid",
-      "municipio": "Alcalá de Henares",
-      "baja": "",
-      "id": "3a51"
-    },
-    {
-      "dni": "23456789B",
-      "alta": "02/01/2024",
-      "apellidos": "López Ruiz",
-      "nombre": "María",
-      "direccion": "Calle Verdadera 456",
-      "email": "maria.lopez@example.com",
-      "provincia": "Barcelona",
-      "municipio": "Sabadell",
-      "baja": "",
-      "id": "eb12"
-    },
-    {
-      "dni": "34567890C",
-      "alta": "03/01/2024",
-      "apellidos": "Fernández García",
-      "nombre": "Carlos",
-      "direccion": "Calle A 789",
-      "email": "carlos.fernandez@example.com",
-      "provincia": "Valencia",
-      "municipio": "Gandía",
-      "baja": "",
-      "id": "6256"
-    },
-    {
-      "dni": "45678901D",
-      "alta": "04/01/2024",
-      "apellidos": "Martínez Sánchez",
-      "nombre": "Laura",
-      "direccion": "Calle B 101",
-      "email": "laura.martinez@example.com",
-      "provincia": "Sevilla",
-      "municipio": "Mairena del Aljarafe",
-      "baja": "30/10/2024",
-      "id": "4019"
-    },
-    {
-      "dni": "56789012E",
-      "alta": "05/01/2024",
-      "apellidos": "García López",
-      "nombre": "José",
-      "direccion": "Calle C 202",
-      "email": "jose.garcia@example.com",
-      "provincia": "Málaga",
-      "municipio": "Marbella",
-      "baja": "",
-      "id": "7874"
-    },
-    {
-      "dni": "67890123F",
-      "alta": "06/01/2024",
-      "apellidos": "Hernández Torres",
-      "nombre": "Ana",
-      "direccion": "Calle D 303",
-      "email": "ana.hernandez@example.com",
-      "provincia": "Zaragoza",
-      "municipio": "Calatayud",
-      "baja": "",
-      "id": "43d9"
-    },
-    {
-      "dni": "78901234G",
-      "alta": "07/01/2024",
-      "apellidos": "Moreno Romero",
-      "nombre": "Luis",
-      "direccion": "Calle E 404",
-      "email": "luis.moreno@example.com",
-      "provincia": "Granada",
-      "municipio": "Baza",
-      "baja": "01/11/2024",
-      "id": "fb30"
-    },
-    {
-      "dni": "89012345H",
-      "alta": "08/01/2024",
-      "apellidos": "Jiménez Ruiz",
-      "nombre": "Sofía",
-      "direccion": "Calle F 505",
-      "email": "sofia.jimenez@example.com",
-      "provincia": "Badajoz",
-      "municipio": "Don Benito",
-      "baja": "",
-      "id": "ee2e"
-    },
-    {
-      "dni": "90123456I",
-      "alta": "09/01/2024",
-      "apellidos": "Sánchez Pérez",
-      "nombre": "Pedro",
-      "direccion": "Calle G 606",
-      "email": "pedro.sanchez@example.com",
-      "provincia": "Toledo",
-      "municipio": "Talavera de la Reina",
-      "baja": "",
-      "id": "2166"
-    },
-    {
-      "dni": "11022344J",
-      "alta": "10/01/2024",
-      "apellidos": "Molina Ruiz",
-      "nombre": "Isabel",
-      "direccion": "Calle H 707",
-      "email": "isabel.molina@example.com",
-      "provincia": "Alicante",
-      "municipio": "Alcoy",
-      "baja": "",
-      "id": "930b"
-    },
-    {
-      "dni": "22033455K",
-      "alta": "11/01/2024",
-      "apellidos": "Vázquez Morales",
-      "nombre": "Ángel",
-      "direccion": "Calle I 808",
-      "email": "angel.vazquez@example.com",
-      "provincia": "Murcia",
-      "municipio": "Cartagena",
-      "baja": "02/11/2024",
-      "id": "cbfe"
-    },
-    {
-      "dni": "33044566L",
-      "alta": "12/01/2024",
-      "apellidos": "Pérez Ruiz",
-      "nombre": "David",
-      "direccion": "Calle J 909",
-      "email": "david.perez@example.com",
-      "provincia": "Valencia",
-      "municipio": "Sagunto",
-      "baja": "",
-      "id": "9e7d"
-    },
-    {
-      "dni": "44055677M",
-      "alta": "13/01/2024",
-      "apellidos": "Cruz González",
-      "nombre": "Nuria",
-      "direccion": "Calle K 1011",
-      "email": "nuria.cruz@example.com",
-      "provincia": "Cádiz",
-      "municipio": "San Fernando",
-      "baja": "",
-      "id": "5771"
-    },
-    {
-      "dni": "55066788N",
-      "alta": "14/01/2024",
-      "apellidos": "Ríos Martín",
-      "nombre": "Diego",
-      "direccion": "Calle L 1213",
-      "email": "diego.rios@example.com",
-      "provincia": "Granada",
-      "municipio": "Guadix",
-      "baja": "",
-      "id": "2e22"
-    },
-    {
-      "dni": "66077899O",
-      "alta": "15/01/2024",
-      "apellidos": "Reyes Castro",
-      "nombre": "Laura",
-      "direccion": "Calle M 1415",
-      "email": "laura.reyes@example.com",
-      "provincia": "Málaga",
-      "municipio": "Ronda",
-      "baja": "",
-      "id": "e614"
-    },
-    {
-      "dni": "77088900P",
-      "alta": "16/01/2024",
-      "apellidos": "Torres Jiménez",
-      "nombre": "Fernando",
-      "direccion": "Calle N 1617",
-      "email": "fernando.torres@example.com",
-      "provincia": "Zaragoza",
-      "municipio": "Cuarte de Huerva",
-      "baja": "",
-      "id": "d625"
-    },
-    {
-      "dni": "88090011Q",
-      "alta": "17/01/2024",
-      "apellidos": "Gómez López",
-      "nombre": "Elena",
-      "direccion": "Calle O 1819",
-      "email": "elena.gomez@example.com",
-      "provincia": "Madrid",
-      "municipio": "Fuenlabrada",
-      "baja": "03/11/2024",
-      "id": "3016"
-    },
-    {
-      "dni": "99001122R",
-      "alta": "18/01/2024",
-      "apellidos": "Jiménez Pérez",
-      "nombre": "Álvaro",
-      "direccion": "Calle P 2021",
-      "email": "alvaro.jimenez@example.com",
-      "provincia": "Barcelona",
-      "municipio": "Badalona",
-      "baja": "",
-      "id": "2695"
-    },
-    {
-      "dni": "10112233S",
-      "alta": "19/01/2024",
-      "apellidos": "López Gómez",
-      "nombre": "Verónica",
-      "direccion": "Calle Q 2223",
-      "email": "veronica.lopez@example.com",
-      "provincia": "Toledo",
-      "municipio": "Seseña",
-      "baja": "",
-      "id": "948b"
-    },
-    {
-      "dni": "21123344T",
-      "alta": "20/01/2024",
-      "apellidos": "Martínez Rodríguez",
-      "nombre": "Javier",
-      "direccion": "Calle R 2425",
-      "email": "javier.martinez@example.com",
-      "provincia": "Sevilla",
-      "municipio": "Utrera",
-      "baja": "04/11/2024",
-      "id": "309b"
-    },
-    {
       "dni": "32134455U",
       "alta": "21/01/2024",
       "apellidos": "Hernández Castro",
       "nombre": "Sara",
       "direccion": "Calle S 2627",
       "email": "sara.hernandez@example.com",
-      "provincia": "Granada",
-      "municipio": "Ogíjares",
+      "provincia": {
+        "id": "03",
+        "nm": "Alicante/Alacant"
+      },
+      "municipio": {
+        "id": "03004",
+        "nm": "Aigües"
+      },
       "baja": "",
       "id": "2b80"
     },
@@ -32976,7 +32742,8 @@
         "id": "03004",
         "nm": "Aigües"
       },
-      "baja": ""
+      "baja": "",
+      "movil": "712121212"
     },
     {
       "id": "9a1a",
@@ -32985,7 +32752,7 @@
       "apellidos": "Gómez",
       "nombre": "Marta",
       "direccion": "Sevilla",
-      "email": "marta@gmail.com",
+      "email": "marta.rey@gmail.com",
       "provincia": {
         "id": "23",
         "nm": "Jaén"
@@ -32994,7 +32761,8 @@
         "id": "23010",
         "nm": "Bailén"
       },
-      "baja": ""
+      "baja": "",
+      "movil": "712341234"
     },
     {
       "id": "9a68",
@@ -33009,10 +32777,48 @@
         "nm": "Rioja, La"
       },
       "municipio": {
-        "id": "26021",
-        "nm": "Autol"
+        "id": "26006",
+        "nm": "Alberite"
       },
       "baja": ""
+    },
+    {
+      "id": "f8c4",
+      "dni": "28356476Y",
+      "alta": "1111-11-11",
+      "apellidos": "Gomez",
+      "nombre": "sharon",
+      "direccion": "vigoº",
+      "email": "sh@gmail.com",
+      "provincia": {
+        "id": "09",
+        "nm": "Burgos"
+      },
+      "municipio": {
+        "id": "09010",
+        "nm": "Alcocero de Mola"
+      },
+      "baja": "",
+      "movil": "678111111"
+    },
+    {
+      "id": "2992",
+      "dni": "54508965T",
+      "alta": "2005-11-27",
+      "apellidos": "Marquez",
+      "nombre": "Nadia",
+      "direccion": "taithi",
+      "email": "naida@example.com",
+      "provincia": {
+        "id": "32",
+        "nm": "Ourense"
+      },
+      "municipio": {
+        "id": "32012",
+        "nm": "Blancos, Os"
+      },
+      "baja": "",
+      "movil": "698417811"
     }
   ]
 }

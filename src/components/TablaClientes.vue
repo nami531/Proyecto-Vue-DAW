@@ -15,7 +15,7 @@
                 <div class="input-group-text mb-3">
                     <span class="input-group-text custom-span me-2">DNI/NIE</span>
                     <input type="text" class="form-control sm w-25" placeholder="DNI/NIE" v-model="cliente.dni"
-                        @blur="validarDNI(this.cliente.dni)">
+                        @blur="validarDNI(this.cliente.dni)" :disabled="editDNI">
                     <span class="input-group-text custom-span ms-auto me-2">Fecha alta</span>
                     <input type="date" class="form-control sm w-25" v-model="cliente.alta">
                 </div>
@@ -28,15 +28,19 @@
                 <div class="input-group-text mb-3">
                     <span class="input-group-text custom-span ms-auto me-2">Dirección</span>
                     <input type="text" class="form-control sm w-75" placeholder="Dirección" v-model="cliente.direccion">
-                    <span class="input-group-text custom-span ms-auto me-2">Email</span>
+                    <span class="input-group-text custom-span ms-2 me-2">Email</span>
                     <input type="text" class="form-control sm w-25" placeholder="Correo electrónico"
                         v-model="cliente.email">
+                        <span class="input-group-text custom-span ms-2">Móvil</span>
+                        <input type="text" class="form-control sm w-25 ms-2" placeholder="Móvil" v-model="cliente.movil" @blur="validarMovil(this.cliente.movil)" >
                 </div>
                 <div class="input-group-text mb-3">
                     <span class="input-group-text custom-span ms-auto me-2">Provincia</span>
                     <select name="provincia" id="provincia" class="form-select w-50" v-model="cliente.provincia">
                         <option value="" disabled>Provincia</option>
-                        <option v-for="provincia in provincias" :key="provincia.id" :value="provincia">{{ provincia.nm}}</option>
+                        <option v-for="provincia in provincias" :key="provincia.id" :value="provincia">{{ provincia.nm
+                            }}
+                        </option>
                     </select>
                     <span class="input-group-text custom-span ms-2 me-2">Municipio</span>
                     <select name="municipio" id="municipio" class="form-select  " v-model="cliente.municipio">
@@ -46,15 +50,16 @@
                     </select>
                     <input class="ms-3" type="checkbox" name="historico" id="historico" v-model="isChecked">
                     <label class="input-group-text custom-span mx-2" for="historico">Historico</label>
-                    <button class="btn btn-secondary" >
-                    <i class="bi bi-eraser-fill fs-5" @click="limpiarFormCli"></i>
+                    <button class="btn btn-secondary">
+                        <i class="bi bi-eraser-fill fs-5" @click="limpiarFormCli"></i>
                     </button>
                 </div>
 
-                <div class="d-flex justify-content-center flex-sm-wrap">
-                    <input class="btn btn-primary m-2" type="submit" @click.prevent="grabarcliente" value="Guardar">
-                    <input class="btn btn-primary m-2" type="submit" @click.prevent="" value="Modificar">
-                    <input class="btn btn-primary m-2" type="submit" @click.prevent="" value="Eliminar">
+                <div class="d-flex justify-content-center flex-sm-wrap row">
+                    <input class="btn btn-primary m-2 col-1" type="submit" @click.prevent="grabarcliente" value="Alta">
+                    <input class="btn btn-primary m-2 col-1" type="submit" @click.prevent="modificarCliente"
+                        value="Modificar">
+                    <input class="btn btn-primary m-2 col-1" type="submit" @click.prevent="eliminarCliente" value="Eliminar">
                 </div>
 
                 <table class="table table-striped mt-2 ">
@@ -64,6 +69,7 @@
                             <th scope="col" class="w-25">Apellidos</th>
                             <th scope="col" class="w-25">Nombre</th>
                             <th scope="col" class="w-20 text-start">Email</th>
+                            <th scope="col" class="w-10 text-center">Móvil</th>
                             <th scope="col" class="w-10 text-center">Fecha Baja</th>
                             <th scope="col" class="table-info text-center">Editar</th>
                         </tr>
@@ -74,6 +80,7 @@
                             <td class="align-middle">{{ cliente.apellidos }}</td>
                             <td class="align-middle">{{ cliente.nombre }}</td>
                             <td class="align-middle">{{ cliente.email }}</td>
+                            <td class="align-middle">{{ cliente.movil }}</td>
                             <td class="align-middle">{{ cliente.baja }}</td>
                             <td class="text-center align-middle table-info">
                                 <div>
@@ -110,16 +117,18 @@ export default {
                 email: "",
                 provincia: "",
                 municipio: {
-                    id:"",
+                    id: "",
                     nm: "",
                 },
                 baja: "",
+                movil: "", 
             },
             clientes: [],
             provincias: [],
             municipios: [],
             erros: [],
             isChecked: false,
+            editDNI: false,
         }
     },
 
@@ -143,54 +152,190 @@ export default {
     methods: {
         // Método para grabar el cliente
         async grabarcliente() {
+
             // Verificar si los campos requeridos están llenos
             if (this.cliente.dni && this.cliente.apellidos) {
-                try {
-                    this.cliente.baja = ''
-                    // Obtener los clientes existentes
-                    const response = await fetch('http://localhost:3000/clientes');
-                    if (!response.ok) {
-                        throw new Error('Error al obtener los clientes: ' + response.statusText);
-                    }
-
-                    const clientesExistentes = await response.json();
-
-                    // Verificar si el DNI ya está registrado
-                    const clienteExistente = clientesExistentes.find(cliente => cliente.dni === this.cliente.dni);
-
-                    if (clienteExistente) {
-                        // Si el DNI ya existe, mostrar un mensaje de error
-                        this.mostrarAlerta('Error', 'El DNI ya está registrado.', 'error');
-                    } else {
-                        // Si el DNI no existe, agregar el cliente a la base de datos
-                        const crearResponse = await fetch('http://localhost:3000/clientes', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify(this.cliente)
-                        });
-
-                        if (!crearResponse.ok) {
-                            throw new Error('Error al guardar el cliente: ' + crearResponse.statusText);
+                // Obtener los clientes existentes
+                const response = await fetch('http://localhost:3000/clientes');
+                        if (!response.ok) {
+                            throw new Error('Error al obtener los clientes: ' + response.statusText);
                         }
 
-                        const nuevoCliente = await crearResponse.json();
-                        this.clientes.push(nuevoCliente); // Agregar cliente al array local
-                        this.mostrarAlerta('Aviso', 'Cliente Grabado', 'success');
-                        this.getClientes();
+                        const clientesExistentes = await response.json();
+                
+                // Verificar si el DNI ya está registrado
+                const clienteExistente = clientesExistentes.find(cliente => cliente.dni === this.cliente.dni);
+                if (this.cliente.baja) {
+                    try {
+                        if (clienteExistente) {
+                            clienteExistente.baja = "";
+
+                            await fetch(`http://localhost:3000/clientes/${clienteExistente.id}`, {
+                                method: 'PUT',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(clienteExistente)
+                            });
+
+                            this.mostrarAlerta("Aviso", "Cliente dado de alta correctamente", "success")
+                            this.getClientes();
+                        } else {
+                            this.mostrarAlerta("Error", "Cliente no encontrado", "error")
+                        }
+                        this.limpiarFormCli()
+                    } catch (error) {
+                        console.error(error);
+                        this.mostrarAlerta('Error', 'No se pudo dar de alta el cliente.', 'error');
                     }
-                    this.limpiarCampos()
-                } catch (error) {
-                    console.error(error);
-                    this.mostrarAlerta('Error', 'No se pudo grabar el cliente.', 'error');
+                } else {
+                    try {
+                        this.cliente.baja = ''
+
+                        if (clienteExistente) {
+                            // Si el DNI ya existe, mostrar un mensaje de error
+                            this.mostrarAlerta('Error', 'El DNI ya está registrado.', 'error');
+                        } else {
+                            // Si el DNI no existe, agregar el cliente a la base de datos
+                            const crearResponse = await fetch('http://localhost:3000/clientes', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(this.cliente)
+                            });
+
+                            if (!crearResponse.ok) {
+                                throw new Error('Error al guardar el cliente: ' + crearResponse.statusText);
+                            }
+
+                            const nuevoCliente = await crearResponse.json();
+                            this.clientes.push(nuevoCliente); // Agregar cliente al array local
+                            this.mostrarAlerta('Aviso', 'Cliente Grabado', 'success');
+                            this.getClientes();
+                        }
+                        this.limpiarFormCli()
+                    } catch (error) {
+                        console.error(error);
+                        this.mostrarAlerta('Error', 'No se pudo grabar el cliente.', 'error');
+                    }
                 }
             } else {
                 this.mostrarAlerta('Error', 'Por favor, completa todos los campos requeridos.', 'error');
             }
         },
 
-        
+        async seleccionaCliente(cliente) {
+            // Buscar el cliente por DNI en el archivo JSON
+            try {
+                this.limpiarFormCli()
+                const response = await fetch('http://localhost:3000/clientes');
+                if (!response.ok) {
+                    throw new Error('Error en la solicitud: ' + response.statusText);
+                }
+                const clientes = await response.json();
+
+                // Encontrar el cliente por su DNI
+                const clienteEncontrado = clientes.find(c => c.dni === cliente.dni);
+
+
+                if (clienteEncontrado) {
+                    // Convertir la fecha de alta al formato dd/mm/yyyy
+                    // Asignar el objeto completo de provincia y municipio
+                    if (this.cliente.provincia) {
+                        this.cliente.provincia = this.provincias.find(p => p.nm === this.cliente.provincia).nm;
+                        if (this.cliente.provincia) {
+                            console.log("Provincia encontrada", this.cliente.provincia);
+
+                        }
+                    }
+
+                    this.cliente = { ...clienteEncontrado };
+                    this.editDNI = true;
+                    console.log("Cliente encontrado", this.cliente.municipio);
+                    if (this.cliente.alta) {
+                        this.cliente.alta = this.cliente.alta.split('T')[0];  // Para asegurarse de que la fecha esté en formato YYYY-MM-DD
+                    }
+                } else {
+                    this.mostrarAlerta('Error', 'Cliente no encontrado en el servidor.', 'error');
+                }
+            } catch (error) {
+                console.error(error);
+                this.mostrarAlerta('Error', 'No se pudo cargar el cliente desde el servidor.', 'error');
+            }
+        },
+
+        async eliminarCliente() {
+            try {
+                const response = await fetch('http://localhost:3000/clientes');
+                if (!response.ok) {
+                    throw new Error('Error al obtener los clientes: ' + response.statusText);
+                }
+
+                const clientesExistentes = await response.json();
+
+                // Verificar si el DNI ya está registrado
+                const clienteExistente = clientesExistentes.find(cliente => cliente.dni === this.cliente.dni);
+
+                if (clienteExistente) {
+                    const hoy = this.obtenerFechaHoy();
+                    clienteExistente.baja = hoy;
+
+                    await fetch(`http://localhost:3000/clientes/${clienteExistente.id}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(clienteExistente)
+                    });
+
+                    this.mostrarAlerta("Aviso", "Cliente dado de baja correctamente", "success")
+                    this.getClientes();
+                } else {
+                    this.mostrarAlerta("Error", "Cliente no encontrado", "error")
+                }
+                this.limpiarFormCli()
+            } catch (error) {
+                console.error(error);
+                this.mostrarAlerta('Error', 'No se pudo dar de baja el cliente.', 'error');
+            }
+        },
+
+        async modificarCliente() {
+            try {
+                const response = await fetch('http://localhost:3000/clientes');
+                if (!response.ok) {
+                    throw new Error('Error al obtener los clientes: ' + response.statusText);
+                }
+
+                const clientesExistentes = await response.json();
+
+                // Verificar si el DNI ya está registrado
+                let clienteExistente = clientesExistentes.find(cliente => cliente.dni === this.cliente.dni);
+
+                if (clienteExistente) {
+                    clienteExistente = this.cliente;
+
+                    await fetch(`http://localhost:3000/clientes/${clienteExistente.id}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(clienteExistente)
+                    });
+
+                    this.mostrarAlerta("Aviso", "Cliente modificado correctamente", "success")
+                    this.getClientes();
+                } else {
+                    this.mostrarAlerta("Error", "Cliente no encontrado", "error")
+                }
+                this.limpiarFormCli()
+            } catch (error) {
+                console.error(error);
+                this.mostrarAlerta('Error', 'No se pudo modificar el cliente.', 'error');
+            }
+        },
+
 
         // Métodos auxiliares
         // Método para validar el dni
@@ -244,6 +389,22 @@ export default {
                 return true;
             }
         },
+
+        validarMovil(movil) {
+            if (movil === '') {
+                // Si el campo está vacío, no hace nada
+                return true;
+            }
+            this.cliente.movil = movil;
+            // Comprobar el formato del DNI/NIE
+            const movilRegex = /^[67]\d{8}$/; // Formato empieza por 6 o 7 seguido de 8 dígitos 
+
+            if (!movilRegex.test(movil)) {
+                this.mostrarAlerta('Error', 'Móvil con formato no válido.', 'error');
+                return false;
+            }
+
+        },
         // Método para mostrar alertas
         mostrarAlerta(titulo, mensaje, icono) {
             Swal.fire({
@@ -264,7 +425,7 @@ export default {
                 if (!response.ok) {
                     throw new Error("Error en la solicitud" + response.statusText)
                 }
-                this.clientes = (await response.json()).sort((a,b) => a.apellidos.localeCompare(b.apellidos) || a.nombre.localeCompare(b.nombre));
+                this.clientes = (await response.json()).sort((a, b) => a.apellidos.localeCompare(b.apellidos) || a.nombre.localeCompare(b.nombre));
             } catch (error) {
                 console.error(error);
             }
@@ -294,19 +455,29 @@ export default {
             }
         },
 
-        limpiarFormCli(){
+        limpiarFormCli() {
             this.cliente = {
-                alta : "",
-                dni : "",
+                alta: "",
+                dni: "",
                 apellidos: "",
                 nombre: "",
                 direccion: "",
                 email: "",
                 provincia: "",
                 municipio: "",
-                baja: ""
+                baja: "", 
+                movil: "",
             }
-    },
+            this.editDNI = false;
+        },
+
+        obtenerFechaHoy() {
+            const fecha = new Date();
+            const opciones = { day: '2-digit', month: '2-digit', year: 'numeric' };
+            const fechaFormateada = new Intl.DateTimeFormat('es-ES', opciones).format(fecha);
+            //return fecha.toLocaleDateString('es-ES');  // Formato dd/mm/yyyy
+            return fechaFormateada;
+        },
 
 
     }
@@ -314,4 +485,6 @@ export default {
 
 </script>
 
-<style scoped></style>
+<style scoped>
+    
+</style>
