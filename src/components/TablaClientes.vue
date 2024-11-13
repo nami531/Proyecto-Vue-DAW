@@ -62,16 +62,16 @@
                     <input class="btn btn-primary m-2 col-1" type="submit" @click.prevent="eliminarCliente" value="Eliminar">
                 </div>
 
-                <table class="table table-striped mt-2 ">
+                <table class="table table-striped mt-2 tbodyAltura" >
                     <thead>
-                        <tr class="table-primary">
-                            <th scope="col" class="w-15 text-center">DNI</th>
-                            <th scope="col" class="w-25">Apellidos</th>
-                            <th scope="col" class="w-25">Nombre</th>
-                            <th scope="col" class="w-20 text-start">Email</th>
-                            <th scope="col" class="w-10 text-center">Móvil</th>
-                            <th scope="col" class="w-10 text-center">Fecha Baja</th>
-                            <th scope="col" class="table-info text-center">Editar</th>
+                        <tr class="table-primary sticky-top">
+                            <th scope="col" class="w-15 text-center align-middle">DNI</th>
+                            <th scope="col" class="w-25 align-middle">Apellidos</th>
+                            <th scope="col" class="w-25 align-middle">Nombre</th>
+                            <th scope="col" class="w-20 text-start align-middle">Email</th>
+                            <th scope="col" class="w-10 text-center align-middle">Móvil</th>
+                            <th scope="col" class="w-10 text-center align-middle">Fecha Baja</th>
+                            <th scope="col" class="table-info text-center align-middle">Editar</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -486,5 +486,10 @@ export default {
 </script>
 
 <style scoped>
-    
+    .tbodyAltura{
+        width: 100%;
+        max-height: 450px;
+        display: block;
+        overflow: auto;
+    }
 </style>
