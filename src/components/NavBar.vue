@@ -14,13 +14,13 @@
             <div class = "collapse navbar-collapse" id = "navbarNav">
             <ul class = "navbar-nav">
                 <li class = "nav-item">
-                <a class = "nav-link active" aria-current = "page" href = "#">Inicio</a>
+                    <router-link to ="/" class="nav-link active">Inicio</router-link>
                 </li>
                 <li class = "nav-item">
-                <a class = "nav-link active" aria-current = "page" href = "#">Clientes</a>
+                    <router-link to ="/clientes" class="nav-link active">Clientes</router-link>
                 </li>
                 <li class = "nav-item">
-                <a class = "nav-link active" aria-current = "page" href = "#">Artículos</a>
+                    <router-link to ="/contacto" class="nav-link active">Contacto</router-link>
                 </li>
             </ul>
             </div>
@@ -36,5 +36,7 @@ export default{
 }
 </script>
 <style scoped>
-
+.nav-link.active {
+    color : #FAD02E !important
+}
 </style>
