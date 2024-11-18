@@ -61,9 +61,9 @@
                         value="Modificar">
                     <input class="btn btn-primary m-2 col-1" type="submit" @click.prevent="eliminarCliente" value="Eliminar">
                 </div>
-
+            </form>
                 <table class="table table-striped mt-2" >
-                    <thead class="alturaHead">
+                    <thead>
                         <tr class="table-primary">
                             <th scope="col" class="w-15 text-center align-middle">DNI</th>
                             <th scope="col" class="w-25 align-middle">Apellidos</th>
@@ -101,7 +101,7 @@
                         <i class="bi bi-chevron-right"></i>
                     </button>
                 </div>
-            </form>
+            
         </div>
     </div>
 </template>
@@ -521,8 +521,12 @@ export default {
         display: block;
         overflow: auto;
     }
-    .alturaHead{
+    thead{
         height: 75px;
         max-height: 75px;
+    }
+
+    tbody{
+    height: 350px !important; 
     }
 </style>
