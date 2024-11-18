@@ -30,7 +30,7 @@
                     <input type="text" class="form-control sm w-75" placeholder="Dirección" v-model="cliente.direccion">
                     <span class="input-group-text custom-span ms-2 me-2">Email</span>
                     <input type="text" class="form-control sm w-25" placeholder="Correo electrónico"
-                        v-model="cliente.email">
+                        v-model="cliente.email" @blur="validarEmail">
                         <span class="input-group-text custom-span ms-2">Móvil</span>
                         <input type="text" class="form-control sm w-25 ms-2" placeholder="Móvil" v-model="cliente.movil" @blur="validarMovil(this.cliente.movil)" >
                 </div>

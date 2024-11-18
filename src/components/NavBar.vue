@@ -22,6 +22,9 @@
                 <li class = "nav-item">
                     <router-link to ="/contacto" class="nav-link active">Contacto</router-link>
                 </li>
+                <li class = "nav-item">
+                    <router-link to ="/empleo" class="nav-link active">Empleo</router-link>
+                </li>
             </ul>
             </div>
         </div>
