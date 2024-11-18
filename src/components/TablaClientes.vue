@@ -62,9 +62,9 @@
                     <input class="btn btn-primary m-2 col-1" type="submit" @click.prevent="eliminarCliente" value="Eliminar">
                 </div>
 
-                <table class="table table-striped mt-2 tbodyAltura" >
-                    <thead>
-                        <tr class="table-primary sticky-top">
+                <table class="table table-striped mt-2" >
+                    <thead class="alturaHead">
+                        <tr class="table-primary">
                             <th scope="col" class="w-15 text-center align-middle">DNI</th>
                             <th scope="col" class="w-25 align-middle">Apellidos</th>
                             <th scope="col" class="w-25 align-middle">Nombre</th>
@@ -75,7 +75,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="cliente in filtroClientes" :key="cliente.id">
+                        <tr v-for="cliente in clientesPorPagina" :key="cliente.id">
                             <td class="align-middle">{{ cliente.dni }}</td>
                             <td class="align-middle">{{ cliente.apellidos }}</td>
                             <td class="align-middle">{{ cliente.nombre }}</td>
@@ -92,6 +92,15 @@
                         </tr>
                     </tbody>
                 </table>
+                <div class="d-flex justify-content-center my-3">
+                    <button class="btn btn-primary" :disabled=" currentPage === 1" @click="paginaAnterior">
+                        <i class="bi bi-chevron-left"></i>
+                    </button>
+                    <span class="mx-3 align-self-center"> Página {{ currentPage }}</span>
+                    <button class="btn btn-primary" :disabled="currentPage * pageSize >= clientes.length" @click="siguientePagina">
+                        <i class="bi bi-chevron-right"></i>
+                    </button>
+                </div>
             </form>
         </div>
     </div>
@@ -129,6 +138,8 @@ export default {
             erros: [],
             isChecked: false,
             editDNI: false,
+            pageSize: 5, //Registros por página
+            currentPage: 1,
         }
     },
 
@@ -139,6 +150,12 @@ export default {
     },
 
     computed: {
+        clientesPorPagina(){
+            const clientesFiltrados = this.filtroClientes; 
+            const indiceInicial = (this.currentPage - 1) * this.pageSize; 
+            return clientesFiltrados.slice(indiceInicial, indiceInicial + this.pageSize); 
+        }, 
+
         filtroClientes() {
             return this.isChecked ? this.clientes : this.clientes.filter(cliente => !cliente.baja);
         },
@@ -419,6 +436,18 @@ export default {
             });
         },
 
+        siguientePagina(){
+            if (this.currentPage * this.pageSize < this.clientes.length){
+                this.currentPage++; 
+            }
+        },
+
+        paginaAnterior(){
+            if (this.currentPage > 1){
+                this.currentPage--; 
+            }
+        },
+
         async getClientes() {
             try {
                 const response = await fetch("http://localhost:3000/clientes")
@@ -491,5 +520,9 @@ export default {
         max-height: 450px;
         display: block;
         overflow: auto;
+    }
+    .alturaHead{
+        height: 75px;
+        max-height: 75px;
     }
 </style>
