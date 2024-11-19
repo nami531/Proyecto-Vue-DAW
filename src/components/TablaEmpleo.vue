@@ -1,13 +1,12 @@
 <template>
-    <NavBar />
     <div>
         <div class="row d-flex align-items-center">
             <h5 class="text-center front-weight-bold ">Trabaja con nosotros</h5>
         </div>
     </div>
-    <div class="container-fluid border p-4">
-        <div class="col-10 col-m-6 col-lg-5 mx-auto">
-            <form @submit.prevent="grabarCandidato" class="form-in-line">
+    <div class="container-fluid">
+        <div class="col-10 col-m-10 col-lg-10 border p-4 mx-auto">
+            <form @submit.prevent="grabarCandidato" class="d-inline">
 
                 <div class="input-group-text mb-3">
                     <span class="input-group-text custom-span me-2">Apellidos: </span>
@@ -40,13 +39,12 @@
 </template>
 
 <script>
-import NavBar from './NavBar.vue';
 import Swal from 'sweetalert2';
 
 export default {
     name: "TablaEmpleo",
     components: {
-        NavBar
+        
     },
 
     data() {

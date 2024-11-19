@@ -1,8 +1,5 @@
 <template>
     <div>
-        <NavBar></NavBar>
-    </div>
-    <div>
         <div class="row d-flex align-items-center">
             <h5 class="text-center front-weight-bold ">GESTIÓN CLIENTES</h5>
         </div>
@@ -31,8 +28,9 @@
                     <span class="input-group-text custom-span ms-2 me-2">Email</span>
                     <input type="text" class="form-control sm w-25" placeholder="Correo electrónico"
                         v-model="cliente.email" @blur="validarEmail">
-                        <span class="input-group-text custom-span ms-2">Móvil</span>
-                        <input type="text" class="form-control sm w-25 ms-2" placeholder="Móvil" v-model="cliente.movil" @blur="validarMovil(this.cliente.movil)" >
+                    <span class="input-group-text custom-span ms-2">Móvil</span>
+                    <input type="text" class="form-control sm w-25 ms-2" placeholder="Móvil" v-model="cliente.movil"
+                        @blur="validarMovil(this.cliente.movil)">
                 </div>
                 <div class="input-group-text mb-3">
                     <span class="input-group-text custom-span ms-auto me-2">Provincia</span>
@@ -59,60 +57,61 @@
                     <input class="btn btn-primary m-2 col-1" type="submit" @click.prevent="grabarcliente" value="Alta">
                     <input class="btn btn-primary m-2 col-1" type="submit" @click.prevent="modificarCliente"
                         value="Modificar">
-                    <input class="btn btn-primary m-2 col-1" type="submit" @click.prevent="eliminarCliente" value="Eliminar">
+                    <input class="btn btn-primary m-2 col-1" type="submit" @click.prevent="eliminarCliente"
+                        value="Eliminar">
                 </div>
             </form>
-                <table class="table table-striped mt-2" >
-                    <thead>
-                        <tr class="table-primary">
-                            <th scope="col" class="w-15 text-center align-middle">DNI</th>
-                            <th scope="col" class="w-25 align-middle">Apellidos</th>
-                            <th scope="col" class="w-25 align-middle">Nombre</th>
-                            <th scope="col" class="w-20 text-start align-middle">Email</th>
-                            <th scope="col" class="w-10 text-center align-middle">Móvil</th>
-                            <th scope="col" class="w-10 text-center align-middle">Fecha Baja</th>
-                            <th scope="col" class="table-info text-center align-middle">Editar</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="cliente in clientesPorPagina" :key="cliente.id">
-                            <td class="align-middle">{{ cliente.dni }}</td>
-                            <td class="align-middle">{{ cliente.apellidos }}</td>
-                            <td class="align-middle">{{ cliente.nombre }}</td>
-                            <td class="align-middle">{{ cliente.email }}</td>
-                            <td class="align-middle">{{ cliente.movil }}</td>
-                            <td class="align-middle">{{ cliente.baja }}</td>
-                            <td class="text-center align-middle table-info">
-                                <div>
-                                    <button class="btn btn-warning m-2" @click="seleccionaCliente(cliente)">
-                                        <i class="fas fa-pencil-alt"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="d-flex justify-content-center my-3">
-                    <button class="btn btn-primary" :disabled=" currentPage === 1" @click="paginaAnterior">
-                        <i class="bi bi-chevron-left"></i>
-                    </button>
-                    <span class="mx-3 align-self-center"> Página {{ currentPage }}</span>
-                    <button class="btn btn-primary" :disabled="currentPage * pageSize >= clientes.length" @click="siguientePagina">
-                        <i class="bi bi-chevron-right"></i>
-                    </button>
-                </div>
-            
+            <table class="table table-striped mt-2">
+                <thead>
+                    <tr class="table-primary">
+                        <th scope="col" class="w-15 text-center align-middle">DNI</th>
+                        <th scope="col" class="w-25 align-middle">Apellidos</th>
+                        <th scope="col" class="w-25 align-middle">Nombre</th>
+                        <th scope="col" class="w-20 text-start align-middle">Email</th>
+                        <th scope="col" class="w-10 text-center align-middle">Móvil</th>
+                        <th scope="col" class="w-10 text-center align-middle">Fecha Baja</th>
+                        <th scope="col" class="table-info text-center align-middle">Editar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="cliente in clientesPorPagina" :key="cliente.id">
+                        <td class="align-middle">{{ cliente.dni }}</td>
+                        <td class="align-middle">{{ cliente.apellidos }}</td>
+                        <td class="align-middle">{{ cliente.nombre }}</td>
+                        <td class="align-middle">{{ cliente.email }}</td>
+                        <td class="align-middle">{{ cliente.movil }}</td>
+                        <td class="align-middle">{{ cliente.baja }}</td>
+                        <td class="text-center align-middle table-info">
+                            <div>
+                                <button class="btn btn-warning m-2" @click="seleccionaCliente(cliente)">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-center my-3">
+                <button class="btn btn-primary" :disabled="currentPage === 1" @click="paginaAnterior">
+                    <i class="bi bi-chevron-left"></i>
+                </button>
+                <span class="mx-3 align-self-center"> Página {{ currentPage }}</span>
+                <button class="btn btn-primary" :disabled="currentPage * pageSize >= clientes.length"
+                    @click="siguientePagina">
+                    <i class="bi bi-chevron-right"></i>
+                </button>
+            </div>
+
         </div>
     </div>
 </template>
 
 <script>
-import NavBar from './NavBar.vue';
 import Swal from 'sweetalert2';
 export default {
     name: "TablaClientes",
     components: {
-        NavBar
+        
     },
 
     data() {
@@ -130,7 +129,7 @@ export default {
                     nm: "",
                 },
                 baja: "",
-                movil: "", 
+                movil: "",
             },
             clientes: [],
             provincias: [],
@@ -150,11 +149,11 @@ export default {
     },
 
     computed: {
-        clientesPorPagina(){
-            const clientesFiltrados = this.filtroClientes; 
-            const indiceInicial = (this.currentPage - 1) * this.pageSize; 
-            return clientesFiltrados.slice(indiceInicial, indiceInicial + this.pageSize); 
-        }, 
+        clientesPorPagina() {
+            const clientesFiltrados = this.filtroClientes;
+            const indiceInicial = (this.currentPage - 1) * this.pageSize;
+            return clientesFiltrados.slice(indiceInicial, indiceInicial + this.pageSize);
+        },
 
         filtroClientes() {
             return this.isChecked ? this.clientes : this.clientes.filter(cliente => !cliente.baja);
@@ -174,12 +173,12 @@ export default {
             if (this.cliente.dni && this.cliente.apellidos) {
                 // Obtener los clientes existentes
                 const response = await fetch('http://localhost:3000/clientes');
-                        if (!response.ok) {
-                            throw new Error('Error al obtener los clientes: ' + response.statusText);
-                        }
+                if (!response.ok) {
+                    throw new Error('Error al obtener los clientes: ' + response.statusText);
+                }
 
-                        const clientesExistentes = await response.json();
-                
+                const clientesExistentes = await response.json();
+
                 // Verificar si el DNI ya está registrado
                 const clienteExistente = clientesExistentes.find(cliente => cliente.dni === this.cliente.dni);
                 if (this.cliente.baja) {
@@ -436,15 +435,15 @@ export default {
             });
         },
 
-        siguientePagina(){
-            if (this.currentPage * this.pageSize < this.clientes.length){
-                this.currentPage++; 
+        siguientePagina() {
+            if (this.currentPage * this.pageSize < this.clientes.length) {
+                this.currentPage++;
             }
         },
 
-        paginaAnterior(){
-            if (this.currentPage > 1){
-                this.currentPage--; 
+        paginaAnterior() {
+            if (this.currentPage > 1) {
+                this.currentPage--;
             }
         },
 
@@ -494,7 +493,7 @@ export default {
                 email: "",
                 provincia: "",
                 municipio: "",
-                baja: "", 
+                baja: "",
                 movil: "",
             }
             this.editDNI = false;
@@ -515,18 +514,19 @@ export default {
 </script>
 
 <style scoped>
-    .tbodyAltura{
-        width: 100%;
-        max-height: 450px;
-        display: block;
-        overflow: auto;
-    }
-    thead{
-        height: 75px;
-        max-height: 75px;
-    }
+.tbodyAltura {
+    width: 100%;
+    max-height: 450px;
+    display: block;
+    overflow: auto;
+}
 
-    tbody{
-    height: 350px !important; 
-    }
+thead {
+    height: 75px;
+    max-height: 75px;
+}
+
+tbody {
+    height: 350px !important;
+}
 </style>
