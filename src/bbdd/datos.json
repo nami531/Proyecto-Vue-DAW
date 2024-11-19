@@ -32972,5 +32972,15 @@
       "baja": "",
       "movil": "699171122"
     }
+  ],
+  "candidatos": [
+    {
+      "id": "f536",
+      "apellidos": "Rodriguez",
+      "nombre": "German",
+      "email": "grmarty@gmail.com",
+      "movil": "689121212",
+      "cv": ""
+    }
   ]
 }
