@@ -32982,5 +32982,22 @@
       "movil": "689121212",
       "cv": ""
     }
+  ], 
+  "categorias" : [
+    {
+      "nombre" : "Ventas"
+    }, 
+    {
+      "nombre" : "Compras"
+    }, 
+    {
+      "nombre" : "IT"
+    }, 
+    {
+      "nombre" : "Logistíca"
+    }, 
+    {
+      "nombre" : "Jurídico"
+    }
   ]
 }

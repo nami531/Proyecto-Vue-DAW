@@ -27,6 +27,25 @@
                 </div>
 
                 <div class="input-group-text mb-3">
+                    <span class="input-group-text custom-span me-2">Departamento: </span>
+                    <select name="provincia" id="provincia" class="form-select w-50" v-model="empleado.categoria">
+                        <option value="" disabled>Departamento</option>
+                        <option v-for="categoria in categorias" :key="categoria.id" :value="categoria.nombre">{{ categoria.nombre }}</option>
+                    </select>
+                    
+                    <div class="d-flex justify-content-center align-items-center ">
+                        <input id="remoto" class="form-check-input ms-2 " type="radio" name="modalidad" v-model="empleado.modalidad" value="Remoto">
+                        <label for="remoto" class="custom-span me-2 ms-1">Remoto</label>
+
+                        <input id="hibrido" class="form-check-input ms-2 " type="radio" name="modalidad" v-model="empleado.modalidad" value="Híbrido">
+                        <label for="hibrido" class="custom-span me-2  ms-1">Híbrido</label>
+
+                        <input id="presencial" class="form-check-input ms-2 " type="radio" name="modalidad" v-model="empleado.modalidad" value="Presencial">
+                        <label for="presencial" class="custom-span me-2  ms-1">Presencial</label>
+                    </div>
+                </div>
+
+                <div class="input-group-text mb-3">
                     <span class="input-group-text custom-span me-2">CV (.pdf): </span>
                     <input type="file" class="form-control sm w-100" placeholder="">
 
@@ -55,9 +74,16 @@ export default {
                 email: "",
                 movil: "",
                 cv: "",
+                categoria: "",
+                modalidad : "",
             },
             candidatos: [],
+            categorias: [],
         }
+    },
+
+    mounted(){
+        this.getDepartamentos(); 
     },
 
     methods: {
@@ -163,6 +189,18 @@ export default {
                 cv: "",
             }
         },
+
+        async getDepartamentos(){
+            try {
+                const response = await fetch("http://localhost:3000/categorias")
+                if (!response.ok) {
+                    throw new Error("Error en la solicitud" + response.statusText)
+                }
+                this.categorias = await response.json();
+            } catch (error) {
+                console.error(error);
+            }
+        }
     }
 }
 </script>
