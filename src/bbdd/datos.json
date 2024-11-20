@@ -32981,23 +32981,38 @@
       "email": "grmarty@gmail.com",
       "movil": "689121212",
       "cv": ""
+    },
+    {
+      "id": "4107",
+      "apellidos": "Negro",
+      "nombre": "Samuel",
+      "email": "samu@example.com",
+      "movil": "656111112",
+      "cv": "",
+      "categoria": "Ventas",
+      "modalidad": "Remoto"
     }
-  ], 
-  "categorias" : [
+  ],
+  "categorias": [
     {
-      "nombre" : "Ventas"
-    }, 
+      "nombre": "Ventas",
+      "id": "7757"
+    },
     {
-      "nombre" : "Compras"
-    }, 
+      "nombre": "Compras",
+      "id": "775e"
+    },
     {
-      "nombre" : "IT"
-    }, 
+      "nombre": "IT",
+      "id": "5331"
+    },
     {
-      "nombre" : "Logistíca"
-    }, 
+      "nombre": "Logistíca",
+      "id": "1a79"
+    },
     {
-      "nombre" : "Jurídico"
+      "nombre": "Jurídico",
+      "id": "66be"
     }
   ]
 }

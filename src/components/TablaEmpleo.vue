@@ -4,7 +4,7 @@
             <h5 class="text-center front-weight-bold ">Trabaja con nosotros</h5>
         </div>
     </div>
-    <div class="container-fluid">
+    <div class="container">
         <div class="col-10 col-m-10 col-lg-10 border p-4 mx-auto">
             <form @submit.prevent="grabarCandidato" class="d-inline">
 
@@ -33,15 +33,22 @@
                         <option v-for="categoria in categorias" :key="categoria.id" :value="categoria.nombre">{{ categoria.nombre }}</option>
                     </select>
                     
-                    <div class="d-flex justify-content-center align-items-center ">
-                        <input id="remoto" class="form-check-input ms-2 " type="radio" name="modalidad" v-model="empleado.modalidad" value="Remoto">
-                        <label for="remoto" class="custom-span me-2 ms-1">Remoto</label>
+                    <span class="input-group-text custom-span mx-2">Modalidad: </span>
+                    <div class="d-flex justify-content-evenly align-items-center w-50 flex-wrap">
+                        <div>
+                            <input id="remoto" class="form-check-input ms-2 " type="radio" name="modalidad" v-model="empleado.modalidad" value="Remoto">
+                            <label for="remoto" class="custom-span me-2 ms-1">Remoto</label>
+                        </div>
 
-                        <input id="hibrido" class="form-check-input ms-2 " type="radio" name="modalidad" v-model="empleado.modalidad" value="Híbrido">
-                        <label for="hibrido" class="custom-span me-2  ms-1">Híbrido</label>
+                        <div>
+                            <input id="hibrido" class="form-check-input ms-2 " type="radio" name="modalidad" v-model="empleado.modalidad" value="Híbrido">
+                            <label for="hibrido" class="custom-span me-2  ms-1">Híbrido</label>
+                        </div>
 
-                        <input id="presencial" class="form-check-input ms-2 " type="radio" name="modalidad" v-model="empleado.modalidad" value="Presencial">
-                        <label for="presencial" class="custom-span me-2  ms-1">Presencial</label>
+                        <div>
+                            <input id="presencial" class="form-check-input ms-2 " type="radio" name="modalidad" v-model="empleado.modalidad" value="Presencial">
+                            <label for="presencial" class="custom-span me-2  ms-1">Presencial</label>
+                        </div>
                     </div>
                 </div>
 
@@ -92,7 +99,7 @@ export default {
         async grabarCandidato() {
 
             // Verificar si los campos requeridos están llenos
-            if (this.empleado.apellidos && this.empleado.email) {
+            if (this.empleado.apellidos && this.empleado.email && this.empleado.nombre && this.empleado.categoria && this.empleado.movil && this.empleado.modalidad) {
                 try {
                     const response = await fetch('http://localhost:3000/candidatos');
                     if (!response.ok) {
