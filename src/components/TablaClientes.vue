@@ -8,21 +8,26 @@
     <div class="container-fluid border p-4">
         <div class="col-10 col-m-6 col-lg-8 mx-auto">
             <form @submit.prevent="grabarCliente" class="form-in-line">
-                <div class="d-flex flex-column">
-                    <div class="input-group-text mb-3">
-                        <div class="input-group w-25">
-                            <span class="input-group-text custom-span me-2">DNI/NIE</span>
-                            <input type="text" class="form-control sm w-25" placeholder="DNI/NIE" v-model="cliente.dni"
-                            @blur="validarDNI(this.cliente.dni)" :disabled="editDNI">
-                            <button class="input-group-text" id="basic-addon1" @click.prevent="buscarCliente()">
-                                <i class="bi bi-search"></i>
-                            </button>
+            
+                <div class="input-group-text mb-3">
+                    <div class="input-group">
+                        <div class="input-group d-flex flex-row ">
+                            <div class="input-group w-50" >
+                                <span class="input-group-text custom-span me-2">DNI/NIE</span>
+                                <input type="text" class="form-control sm w-25" placeholder="DNI/NIE" v-model="cliente.dni"
+                                @blur="validarDNI(this.cliente.dni)" :disabled="editDNI">
+                                <button class="input-group-text" id="basic-addon1" @click.prevent="buscarCliente()">
+                                    <i class="bi bi-search"></i>
+                                </button>
+                            </div>
+                            <p class="me-2" :hidden="this.cliente.baja===''">El cliente está dado de baja</p>
                         </div>
-                        <span class="input-group-text custom-span ms-auto me-2">Fecha alta</span>
-                        <input type="date" class="form-control sm w-25" v-model="cliente.alta">
                     </div>
-                    <span :hidden="this.cliente.baja"></span>
+                    <span class="input-group-text custom-span ms-auto me-2">Fecha alta</span>
+                    <input type="date" class="form-control sm w-25" v-model="cliente.alta">
                 </div>
+                
+                
                 <div class="input-group-text mb-3">
                     <span class="input-group-text custom-span me-2">Apellidos</span>
                     <input type="text" class="form-control sm w-50" placeholder="Apellidos" v-model="cliente.apellidos">
