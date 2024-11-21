@@ -32788,7 +32788,7 @@
       "alta": "1111-11-11",
       "apellidos": "Gomez",
       "nombre": "sharon",
-      "direccion": "vigoº",
+      "direccion": "vigo",
       "email": "sh@gmail.com",
       "provincia": {
         "id": "09",
@@ -32912,7 +32912,7 @@
         "id": "37040",
         "nm": "Barbadillo"
       },
-      "baja": "",
+      "baja": "21/11/2024",
       "movil": "789121212"
     },
     {
@@ -32950,7 +32950,7 @@
         "id": "20055",
         "nm": "Arrasate/Mondragón"
       },
-      "baja": "",
+      "baja": "21/11/2024",
       "movil": "789454545"
     },
     {

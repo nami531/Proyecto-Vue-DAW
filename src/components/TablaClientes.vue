@@ -8,13 +8,20 @@
     <div class="container-fluid border p-4">
         <div class="col-10 col-m-6 col-lg-8 mx-auto">
             <form @submit.prevent="grabarCliente" class="form-in-line">
-
-                <div class="input-group-text mb-3">
-                    <span class="input-group-text custom-span me-2">DNI/NIE</span>
-                    <input type="text" class="form-control sm w-25" placeholder="DNI/NIE" v-model="cliente.dni"
-                        @blur="validarDNI(this.cliente.dni)" :disabled="editDNI">
-                    <span class="input-group-text custom-span ms-auto me-2">Fecha alta</span>
-                    <input type="date" class="form-control sm w-25" v-model="cliente.alta">
+                <div class="d-flex flex-column">
+                    <div class="input-group-text mb-3">
+                        <div class="input-group w-25">
+                            <span class="input-group-text custom-span me-2">DNI/NIE</span>
+                            <input type="text" class="form-control sm w-25" placeholder="DNI/NIE" v-model="cliente.dni"
+                            @blur="validarDNI(this.cliente.dni)" :disabled="editDNI">
+                            <button class="input-group-text" id="basic-addon1" @click.prevent="buscarCliente()">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </div>
+                        <span class="input-group-text custom-span ms-auto me-2">Fecha alta</span>
+                        <input type="date" class="form-control sm w-25" v-model="cliente.alta">
+                    </div>
+                    <span :hidden="this.cliente.baja"></span>
                 </div>
                 <div class="input-group-text mb-3">
                     <span class="input-group-text custom-span me-2">Apellidos</span>
@@ -65,9 +72,9 @@
                 <thead>
                     <tr class="table-primary">
                         <th scope="col" class="w-15 text-center align-middle">DNI</th>
-                        <th scope="col" class="w-25 align-middle">Apellidos</th>
-                        <th scope="col" class="w-25 align-middle">Nombre</th>
-                        <th scope="col" class="w-20 text-start align-middle">Email</th>
+                        <th scope="col" class="w-25 text-start  align-middle">Apellidos</th>
+                        <th scope="col" class="w-25 text-start  align-middle">Nombre</th>
+                        <th scope="col" class="w-20 text-center align-middle">Email</th>
                         <th scope="col" class="w-10 text-center align-middle">Móvil</th>
                         <th scope="col" class="w-10 text-center align-middle">Fecha Baja</th>
                         <th scope="col" class="table-info text-center align-middle">Editar</th>
@@ -75,12 +82,12 @@
                 </thead>
                 <tbody>
                     <tr v-for="cliente in clientesPorPagina" :key="cliente.id">
-                        <td class="align-middle">{{ cliente.dni }}</td>
-                        <td class="align-middle">{{ cliente.apellidos }}</td>
-                        <td class="align-middle">{{ cliente.nombre }}</td>
-                        <td class="align-middle">{{ cliente.email }}</td>
-                        <td class="align-middle">{{ cliente.movil }}</td>
-                        <td class="align-middle">{{ cliente.baja }}</td>
+                        <td class="text-start align-middle">{{ cliente.dni }}</td>
+                        <td class="text-start align-middle">{{ cliente.apellidos }}</td>
+                        <td class="text-start align-middle">{{ cliente.nombre }}</td>
+                        <td class="text-center align-middle">{{ cliente.email }}</td>
+                        <td class="text-start align-middle">{{ cliente.movil }}</td>
+                        <td class="text-start align-middle">{{ cliente.baja }}</td>
                         <td class="text-center align-middle table-info">
                             <div>
                                 <button class="btn btn-warning m-2" @click="seleccionaCliente(cliente)">
@@ -96,7 +103,7 @@
                     <i class="bi bi-chevron-left"></i>
                 </button>
                 <span class="mx-3 align-self-center"> Página {{ currentPage }}</span>
-                <button class="btn btn-primary" :disabled="currentPage * pageSize >= clientes.length"
+                <button class="btn btn-primary" :disabled="currentPage * pageSize >= filtroClientes.length"
                     @click="siguientePagina">
                     <i class="bi bi-chevron-right"></i>
                 </button>
@@ -150,6 +157,7 @@ export default {
 
     computed: {
         clientesPorPagina() {
+            console.log(this.filtroClientes); 
             const clientesFiltrados = this.filtroClientes;
             const indiceInicial = (this.currentPage - 1) * this.pageSize;
             return clientesFiltrados.slice(indiceInicial, indiceInicial + this.pageSize);
@@ -507,6 +515,37 @@ export default {
             return fechaFormateada;
         },
 
+        async buscarCliente(){
+            try {
+                if (this.cliente.dni === ""){
+                    this.mostrarAlerta('Error', 'Debes introducir un DNI', 'error');
+                } else {
+                    // Primero, conseguimos el array de clientes para encontrar al cliente por su dni                 
+                    let response = await fetch("http://localhost:3000/clientes/"); 
+                    if (!response.ok){
+                        throw new Error("Error en la solicitud" + response.statusText); 
+                    }
+                    
+                    let clientes = await response.json();
+                    let clienteExistente = clientes.filter(cliente => cliente.dni === this.cliente.dni)[0];
+                    
+                    if (!clienteExistente){
+                        this.mostrarAlerta('Error', `El cliente con dni ${this.cliente.dni} no existe`, 'error');
+                    } else {
+                        response = await fetch(`http://localhost:3000/clientes/${clienteExistente.id}`)
+                        if (!response.ok) {
+                            throw new Error("Error en la solicitud" + response.statusText)
+                        }
+                        this.cliente = await response.json()
+                    }
+                }
+                
+            } catch (error) {
+                console.error(error);
+                this.mostrarAlerta('Error', 'No se pudo encontrar el cliente.', 'error');
+
+            }
+        }
 
     }
 }
