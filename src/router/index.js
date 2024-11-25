@@ -4,6 +4,8 @@ import TablaClientes from '@/components/TablaClientes.vue'
 import TablaContacto from '@/components/TablaContacto.vue'
 import NotFound from '@/components/NotFound.vue'
 import TablaEmpleo from '@/components/TablaEmpleo.vue'
+import PoliticaPrivacidad from '@/components/PoliticaPrivacidad.vue'
+import AvisoLegal from '@/components/AvisoLegal.vue'
 
 const routes = [
   {
@@ -30,8 +32,17 @@ const routes = [
     path : "/empleo", 
     name: "empleo",
     component: TablaEmpleo
-  }
-
+  }, 
+  {
+    path : "/privacidad",
+    name : "politicaPrivacidad",
+    component : PoliticaPrivacidad
+  },
+  {
+    path : "/avisos-legales", 
+    name : "avisoLegal", 
+    component : AvisoLegal
+  },
 
 ]
 

@@ -50,6 +50,7 @@
                             <label for="presencial" class="custom-span me-2  ms-1">Presencial</label>
                         </div>
                     </div>
+                    
                 </div>
 
                 <div class="input-group-text mb-3">
@@ -57,6 +58,9 @@
                     <input type="file" class="form-control sm w-100" placeholder="">
 
                 </div>
+                <div class="container text-center">
+                        <input type="checkbox" v-model="empleado.avisolegal"> He leído y acepto la <router-link to="/privacidad">Política de privacidad</router-link>
+                    </div>
                 <input class="btn btn-primary m-2 col-2 p-2 text-align-center" type="submit"
                     @click.prevent="grabarCandidato" value="Enviar">
             </form>
@@ -83,6 +87,7 @@ export default {
                 cv: "",
                 categoria: "",
                 modalidad : "",
+                avisolegal : "",
             },
             candidatos: [],
             categorias: [],
@@ -100,7 +105,8 @@ export default {
 
             // Verificar si los campos requeridos están llenos
             if (this.empleado.apellidos && this.empleado.email && this.empleado.nombre && this.empleado.categoria && this.empleado.movil && this.empleado.modalidad) {
-                try {
+                if (this.empleado.avisolegal){
+                    try {
                     const response = await fetch('http://localhost:3000/candidatos');
                     if (!response.ok) {
                         throw new Error('Error al obtener los candidatos: ' + response.statusText);
@@ -138,6 +144,11 @@ export default {
                     console.error(error);
                     this.mostrarAlerta('Error', 'No se pudo grabar el empleado.', 'error');
                 }
+                } else {
+                    this.mostrarAlerta('Error', 'Debe aceptar la política de privacidad para continuar', 'error');
+                }
+
+                
             } else {
                 this.mostrarAlerta('Error', 'Por favor, completa todos los campos requeridos.', 'error');
             }

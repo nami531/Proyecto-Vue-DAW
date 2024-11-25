@@ -32980,7 +32980,10 @@
       "nombre": "German",
       "email": "grmarty@gmail.com",
       "movil": "689121212",
-      "cv": ""
+      "cv": "",
+      "categoria": "Ventas",
+      "modalidad": "Remoto",
+      "avisolegal": true
     },
     {
       "id": "4107",
@@ -32990,7 +32993,8 @@
       "movil": "656111112",
       "cv": "",
       "categoria": "Ventas",
-      "modalidad": "Remoto"
+      "modalidad": "Remoto",
+      "avisolegal": true
     }
   ],
   "categorias": [

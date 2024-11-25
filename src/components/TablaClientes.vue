@@ -1,7 +1,8 @@
 <template>
     <div>
         <div class="row d-flex align-items-center">
-            <h5 class="text-center front-weight-bold ">GESTIÓN CLIENTES</h5>
+            <h5 class="text-center front-weight-bold p-3 text-primary">
+                <i class="bi bi-person-circle"></i> GESTIÓN CLIENTES</h5>
         </div>
     </div>
 
