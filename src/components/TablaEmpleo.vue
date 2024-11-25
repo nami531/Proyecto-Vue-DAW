@@ -205,6 +205,7 @@ export default {
                 email: "",
                 movil: "",
                 cv: "",
+                avisolegal : false,
             }
         },
 
