@@ -32995,6 +32995,30 @@
       "categoria": "Ventas",
       "modalidad": "Remoto",
       "avisolegal": true
+    },
+    {
+      "id": "4230",
+      "apellidos": "Hola",
+      "nombre": "CaraCola",
+      "email": "hola@example.com",
+      "movil": "671121485",
+      "cv": "",
+      "categoria": "Compras",
+      "modalidad": "Presencial",
+      "avisolegal": true,
+      "comentarios": "Hola Caracola Me llamo CaraCola"
+    },
+    {
+      "id": "0be7",
+      "apellidos": "Hola",
+      "nombre": "CaraCola",
+      "email": "hola@sample.com",
+      "movil": "645123123",
+      "cv": "",
+      "avisolegal": true,
+      "categoria": "IT",
+      "modalidad": "Presencial",
+      "comentarios": ""
     }
   ],
   "categorias": [

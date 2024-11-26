@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="row d-flex align-items-center">
-            <h5 class="text-center front-weight-bold ">Trabaja con nosotros</h5>
+            <h5 class="text-center front-weight-bold text-primary p-3" >Trabaja con nosotros</h5>
         </div>
     </div>
     <div class="container">
@@ -54,6 +54,11 @@
                 </div>
 
                 <div class="input-group-text mb-3">
+                    <span class="input-group-text custom-span me-2 h-100 p-3">Comentarios: </span>
+                    <textarea class="form-control w-100" v-model="empleado.comentarios" placeholder="Comentarios (máximo 256 caracteres)" @blur="validarComentario(this.empleado.comentarios)"></textarea>
+                </div>
+
+                <div class="input-group-text mb-3 ">
                     <span class="input-group-text custom-span me-2">CV (.pdf): </span>
                     <input type="file" class="form-control sm w-100" placeholder="">
 
@@ -88,6 +93,7 @@ export default {
                 categoria: "",
                 modalidad : "",
                 avisolegal : "",
+                comentarios: "",
             },
             candidatos: [],
             categorias: [],
@@ -106,6 +112,7 @@ export default {
             // Verificar si los campos requeridos están llenos
             if (this.empleado.apellidos && this.empleado.email && this.empleado.nombre && this.empleado.categoria && this.empleado.movil && this.empleado.modalidad) {
                 if (this.empleado.avisolegal){
+                    if (this.empleado.comentarios.length > 256) this.empleado.comentarios = ""; 
                     try {
                     const response = await fetch('http://localhost:3000/candidatos');
                     if (!response.ok) {
@@ -184,6 +191,16 @@ export default {
 
         },
 
+        validarComentario(comentario){
+            if (this.empleado.comentarios.length > 256) {
+                this.mostrarAlerta('Error', 'Has sobrepasado el número máximo de caracteres', 'error'); 
+                return false; 
+            } else {
+                this.empleado.comentarios = comentario
+                return false; 
+            }
+        },
+
         // Método para mostrar alertas
         mostrarAlerta(titulo, mensaje, icono) {
             Swal.fire({
@@ -209,6 +226,7 @@ export default {
             }
         },
 
+    
         async getDepartamentos(){
             try {
                 const response = await fetch("http://localhost:3000/categorias")
