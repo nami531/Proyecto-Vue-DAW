@@ -32725,7 +32725,8 @@
         "nm": "Bailén"
       },
       "baja": "",
-      "movil": "712341234"
+      "movil": "712341234",
+      "tipo": "usuario"
     },
     {
       "id": "9a68",
@@ -32743,7 +32744,8 @@
         "id": "26006",
         "nm": "Alberite"
       },
-      "baja": ""
+      "baja": "",
+      "tipo": "usuario"
     },
     {
       "id": "f8c4",
@@ -32783,7 +32785,7 @@
       },
       "baja": "13/11/2024",
       "movil": "698417811",
-      "tipo": "usuario"
+      "tipo": "admin"
     },
     {
       "id": "0c14",
@@ -32823,7 +32825,7 @@
       },
       "baja": "",
       "movil": "789451212",
-      "tipo": "usuario"
+      "tipo": "admin"
     },
     {
       "id": "8742",
@@ -32983,6 +32985,26 @@
       },
       "baja": "26/11/2024",
       "movil": "741859685",
+      "tipo": "usuario"
+    },
+    {
+      "id": "43d0",
+      "dni": "35608710H",
+      "alta": "2024-12-16",
+      "apellidos": "Alonso Rueda",
+      "nombre": "Aarón",
+      "direccion": "Tuy",
+      "email": "aaron@gmail.com",
+      "provincia": {
+        "id": "25",
+        "nm": "Lleida"
+      },
+      "municipio": {
+        "id": "25050",
+        "nm": "Bellpuig"
+      },
+      "baja": "",
+      "movil": "681894717",
       "tipo": "usuario"
     }
   ],

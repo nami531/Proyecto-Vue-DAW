@@ -17,7 +17,7 @@
                     <router-link to ="/" class="nav-link" v-bind:class="{ active: isActive}">Inicio</router-link>
                 </li>
                 <li class = "nav-item">
-                    <router-link to ="/usuarios" class="nav-link" >usuarios</router-link>
+                    <router-link to ="/usuarios" class="nav-link" >Usuarios</router-link>
                 </li>
                 <li class = "nav-item">
                     <router-link to ="/contacto" class="nav-link">Contacto</router-link>
@@ -39,7 +39,7 @@ export default{
 }
 </script>
 <style scoped>
-.nav-link.active {
+router-link:active {
     color : #FAD02E !important
 }
 

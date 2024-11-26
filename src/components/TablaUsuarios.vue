@@ -49,16 +49,20 @@
                     <span class="input-group-text custom-span ms-auto me-2">Provincia</span>
                     <select name="provincia" id="provincia" class="form-select w-50" v-model="usuario.provincia">
                         <option value="" disabled>Provincia</option>
-                        <option v-for="provincia in provincias" :key="provincia.id" :value="provincia">{{ provincia.nm
-                            }}
-                        </option>
+                        <option v-for="provincia in provincias" :key="provincia.id" :value="provincia">{{ provincia.nm }}</option>
                     </select>
                     <span class="input-group-text custom-span ms-2 me-2">Municipio</span>
                     <select name="municipio" id="municipio" class="form-select  " v-model="usuario.municipio">
                         <option value="" disabled>Municipio</option>
-                        <option v-for="municipio in filtroMunicipios" :key="municipio.id" :value="municipio">{{
-                            municipio.nm }}</option>
+                        <option v-for="municipio in filtroMunicipios" :key="municipio.id" :value="municipio">{{ municipio.nm }}</option>
                     </select>
+
+                    <span class="input-group-text custom-span ms-2 me-2">Tipo de usuario: </span>
+                    <select name="municipio" id="municipio" class="form-select  " v-model="usuario.tipo">
+                        <option value="" disabled>Tipo</option>
+                        <option v-for="tipo in tipos" :key="tipo" :value="tipo">{{ tipo }}</option>
+                    </select>
+
                     <input class="ms-3" type="checkbox" name="historico" id="historico" v-model="isChecked">
                     <label class="input-group-text custom-span mx-2" for="historico">Historico</label>
                     <button class="btn btn-secondary">
@@ -155,6 +159,7 @@ export default {
             editDNI: false,
             pageSize: 5, //Registros por página
             currentPage: 1,
+            tipos: ["usuario", "admin"]
         }
     },
 
@@ -230,7 +235,7 @@ export default {
                             this.mostrarAlerta('Error', 'El DNI ya está registrado.', 'error');
                         } else {
                             // Le añadimos el campo oculto al usuario.
-                            this.usuario.tipo = "usuario"; 
+                            if (this.usuario.tipo === "") this.usuario.tipo = "usuario"; 
 
                             // Si el DNI no existe, agregar el usuario a la base de datos
                             const crearResponse = await fetch('http://localhost:3000/usuarios', {
