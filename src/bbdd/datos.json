@@ -32707,44 +32707,7 @@
       "nm": "Melilla"
     }
   ],
-  "clientes": [
-    {
-      "dni": "32134455U",
-      "alta": "21/01/2024",
-      "apellidos": "Hernández Castro",
-      "nombre": "Sara",
-      "direccion": "Calle S 2627",
-      "email": "sara.hernandez@example.com",
-      "provincia": {
-        "id": "03",
-        "nm": "Alicante/Alacant"
-      },
-      "municipio": {
-        "id": "03004",
-        "nm": "Aigües"
-      },
-      "baja": "",
-      "id": "2b80"
-    },
-    {
-      "id": "bb94",
-      "dni": "05846237M",
-      "alta": "1978-02-11",
-      "apellidos": "Pérez",
-      "nombre": "Juan Carlos",
-      "direccion": "Vigo",
-      "email": "juan@gmail.com",
-      "provincia": {
-        "id": "03",
-        "nm": "Alicante/Alacant"
-      },
-      "municipio": {
-        "id": "03004",
-        "nm": "Aigües"
-      },
-      "baja": "",
-      "movil": "712121212"
-    },
+  "usuarios": [
     {
       "id": "9a1a",
       "dni": "96790939Q",
@@ -32799,7 +32762,8 @@
         "nm": "Alcocero de Mola"
       },
       "baja": "",
-      "movil": "678111111"
+      "movil": "678111111",
+      "tipo": "usuario"
     },
     {
       "id": "2992",
@@ -32818,7 +32782,8 @@
         "nm": "Blancos, Os"
       },
       "baja": "13/11/2024",
-      "movil": "698417811"
+      "movil": "698417811",
+      "tipo": "usuario"
     },
     {
       "id": "0c14",
@@ -32837,14 +32802,15 @@
         "nm": "Alovera"
       },
       "baja": "",
-      "movil": "698151612"
+      "movil": "698151612",
+      "tipo": "usuario"
     },
     {
       "id": "51e9",
       "alta": "1996-11-07",
       "dni": "X9561954A",
       "apellidos": "Alonso",
-      "nombre": "Aaron",
+      "nombre": "Javier",
       "direccion": "España",
       "email": "aaron@gmail.com",
       "provincia": {
@@ -32856,7 +32822,8 @@
         "nm": "Almenar"
       },
       "baja": "",
-      "movil": "789451212"
+      "movil": "789451212",
+      "tipo": "usuario"
     },
     {
       "id": "8742",
@@ -32875,7 +32842,8 @@
         "nm": "Camarma de Esteruelas"
       },
       "baja": "",
-      "movil": "691232323"
+      "movil": "691232323",
+      "tipo": "usuario"
     },
     {
       "id": "d93b",
@@ -32894,7 +32862,8 @@
         "nm": "Melilla"
       },
       "baja": "",
-      "movil": "698172345"
+      "movil": "698172345",
+      "tipo": "usuario"
     },
     {
       "id": "7322",
@@ -32913,7 +32882,8 @@
         "nm": "Barbadillo"
       },
       "baja": "21/11/2024",
-      "movil": "789121212"
+      "movil": "789121212",
+      "tipo": "usuario"
     },
     {
       "id": "0ce6",
@@ -32932,7 +32902,8 @@
         "nm": "Benahavís"
       },
       "baja": "",
-      "movil": "755232330"
+      "movil": "755232330",
+      "tipo": "usuario"
     },
     {
       "id": "88b9",
@@ -32951,7 +32922,8 @@
         "nm": "Arrasate/Mondragón"
       },
       "baja": "21/11/2024",
-      "movil": "789454545"
+      "movil": "789454545",
+      "tipo": "usuario"
     },
     {
       "id": "b862",
@@ -32970,7 +32942,48 @@
         "nm": "Carlota, La"
       },
       "baja": "",
-      "movil": "699171122"
+      "movil": "699171122",
+      "tipo": "usuario"
+    },
+    {
+      "id": "5a03",
+      "alta": "1998-10-13",
+      "dni": "12345678Z",
+      "apellidos": "Hola",
+      "nombre": "CaraCola",
+      "direccion": "vigo",
+      "email": "jose@gmail.com",
+      "provincia": {
+        "id": "22",
+        "nm": "Huesca"
+      },
+      "municipio": {
+        "id": "22014",
+        "nm": "Alcalá de Gurrea"
+      },
+      "baja": "",
+      "movil": "689147412",
+      "tipo": "usuario"
+    },
+    {
+      "id": "8fab",
+      "dni": "05846237M",
+      "alta": "2024-11-05",
+      "apellidos": "sol",
+      "nombre": "asf",
+      "direccion": "ghj",
+      "email": "asaas@mfl.ls",
+      "provincia": {
+        "id": "34",
+        "nm": "Palencia"
+      },
+      "municipio": {
+        "id": "34057",
+        "nm": "Cevico de la Torre"
+      },
+      "baja": "26/11/2024",
+      "movil": "741859685",
+      "tipo": "usuario"
     }
   ],
   "candidatos": [

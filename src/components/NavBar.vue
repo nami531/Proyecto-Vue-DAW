@@ -17,7 +17,7 @@
                     <router-link to ="/" class="nav-link" v-bind:class="{ active: isActive}">Inicio</router-link>
                 </li>
                 <li class = "nav-item">
-                    <router-link to ="/clientes" class="nav-link" >Clientes</router-link>
+                    <router-link to ="/usuarios" class="nav-link" >usuarios</router-link>
                 </li>
                 <li class = "nav-item">
                     <router-link to ="/contacto" class="nav-link">Contacto</router-link>

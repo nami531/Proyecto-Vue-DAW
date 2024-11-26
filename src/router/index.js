@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import PaginaInicio from '@/components/PaginaInicio.vue'
-import TablaClientes from '@/components/TablaClientes.vue'
+import TablaUsuarios from '@/components/TablaUsuarios.vue'
 import TablaContacto from '@/components/TablaContacto.vue'
 import NotFound from '@/components/NotFound.vue'
 import TablaEmpleo from '@/components/TablaEmpleo.vue'
@@ -14,9 +14,9 @@ const routes = [
     component: PaginaInicio
   },
   {
-    path: "/clientes",
-    name: "clientes",
-    component: TablaClientes
+    path: "/usuarios",
+    name: "usuarios",
+    component: TablaUsuarios
   },
   {
     path: "/contacto",

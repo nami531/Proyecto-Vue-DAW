@@ -128,7 +128,7 @@ export default {
                         // Si el email ya existe, mostrar un mensaje de error
                         this.mostrarAlerta('Error', 'El email ya está registrado.', 'error');                    
                     } else {
-                    // Si el DNI no existe, agregar el cliente a la base de datos
+                    // Si el DNI no existe, agregar el usuario a la base de datos
                     const crearResponse = await fetch('http://localhost:3000/candidatos', {
                         method: 'POST',
                         headers: {
@@ -138,11 +138,11 @@ export default {
                     });
 
                     if (!crearResponse.ok) {
-                        throw new Error('Error al guardar el cliente: ' + crearResponse.statusText);
+                        throw new Error('Error al guardar el usuario: ' + crearResponse.statusText);
                     }
 
                     const nuevoCandidato = await crearResponse.json();
-                    this.candidatos.push(nuevoCandidato); // Agregar cliente al array local
+                    this.candidatos.push(nuevoCandidato); // Agregar usuario al array local
                     this.mostrarAlerta('Aviso', 'Candidatura Enviada', 'success');
                     this.limpiarFormCli();
                 }

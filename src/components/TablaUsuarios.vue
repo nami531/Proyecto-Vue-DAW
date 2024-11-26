@@ -2,59 +2,59 @@
     <div>
         <div class="row d-flex align-items-center">
             <h5 class="text-center front-weight-bold p-3 text-primary">
-                <i class="bi bi-person-circle"></i> GESTIÓN CLIENTES</h5>
+                <i class="bi bi-person-circle"></i> GESTIÓN USUARIOS</h5>
         </div>
     </div>
 
     <div class="container-fluid border p-4">
         <div class="col-10 col-m-6 col-lg-8 mx-auto">
-            <form @submit.prevent="grabarCliente" class="form-in-line">
+            <form @submit.prevent="grabarUsuario" class="form-in-line">
             
                 <div class="input-group-text mb-3">
                     <div class="input-group">
                         <div class="input-group d-flex flex-row ">
                             <div class="input-group w-50" >
                                 <span class="input-group-text custom-span me-2">DNI/NIE</span>
-                                <input type="text" class="form-control sm w-25" placeholder="DNI/NIE" v-model="cliente.dni"
-                                @blur="validarDNI(this.cliente.dni)" :disabled="editDNI">
-                                <button class="input-group-text" id="basic-addon1" @click.prevent="buscarCliente()">
+                                <input type="text" class="form-control sm w-25" placeholder="DNI/NIE" v-model="usuario.dni"
+                                @blur="validarDNI(this.usuario.dni)" :disabled="editDNI">
+                                <button class="input-group-text" id="basic-addon1" @click.prevent="buscarusuario()">
                                     <i class="bi bi-search"></i>
                                 </button>
                             </div>
-                            <p class="me-2" :hidden="this.cliente.baja===''">El cliente está dado de baja</p>
+                            <p class="me-2" :hidden="this.usuario.baja===''">El usuario está dado de baja</p>
                         </div>
                     </div>
                     <span class="input-group-text custom-span ms-auto me-2">Fecha alta</span>
-                    <input type="date" class="form-control sm w-25" v-model="cliente.alta">
+                    <input type="date" class="form-control sm w-25" v-model="usuario.alta">
                 </div>
                 
                 
                 <div class="input-group-text mb-3">
                     <span class="input-group-text custom-span me-2">Apellidos</span>
-                    <input type="text" class="form-control sm w-50" placeholder="Apellidos" v-model="cliente.apellidos">
+                    <input type="text" class="form-control sm w-50" placeholder="Apellidos" v-model="usuario.apellidos">
                     <span class="input-group-text custom-span me-2 ms-2">Nombre</span>
-                    <input type="text" class="form-control sm w-50 ms-2" placeholder="Nombre" v-model="cliente.nombre">
+                    <input type="text" class="form-control sm w-50 ms-2" placeholder="Nombre" v-model="usuario.nombre">
                 </div>
                 <div class="input-group-text mb-3">
                     <span class="input-group-text custom-span ms-auto me-2">Dirección</span>
-                    <input type="text" class="form-control sm w-75" placeholder="Dirección" v-model="cliente.direccion">
+                    <input type="text" class="form-control sm w-75" placeholder="Dirección" v-model="usuario.direccion">
                     <span class="input-group-text custom-span ms-2 me-2">Email</span>
                     <input type="text" class="form-control sm w-25" placeholder="Correo electrónico"
-                        v-model="cliente.email" @blur="validarEmail">
+                        v-model="usuario.email" @blur="validarEmail(usuario.email)">
                     <span class="input-group-text custom-span ms-2">Móvil</span>
-                    <input type="text" class="form-control sm w-25 ms-2" placeholder="Móvil" v-model="cliente.movil"
-                        @blur="validarMovil(this.cliente.movil)">
+                    <input type="text" class="form-control sm w-25 ms-2" placeholder="Móvil" v-model="usuario.movil"
+                        @blur="validarMovil(this.usuario.movil)">
                 </div>
                 <div class="input-group-text mb-3">
                     <span class="input-group-text custom-span ms-auto me-2">Provincia</span>
-                    <select name="provincia" id="provincia" class="form-select w-50" v-model="cliente.provincia">
+                    <select name="provincia" id="provincia" class="form-select w-50" v-model="usuario.provincia">
                         <option value="" disabled>Provincia</option>
                         <option v-for="provincia in provincias" :key="provincia.id" :value="provincia">{{ provincia.nm
                             }}
                         </option>
                     </select>
                     <span class="input-group-text custom-span ms-2 me-2">Municipio</span>
-                    <select name="municipio" id="municipio" class="form-select  " v-model="cliente.municipio">
+                    <select name="municipio" id="municipio" class="form-select  " v-model="usuario.municipio">
                         <option value="" disabled>Municipio</option>
                         <option v-for="municipio in filtroMunicipios" :key="municipio.id" :value="municipio">{{
                             municipio.nm }}</option>
@@ -67,10 +67,10 @@
                 </div>
 
                 <div class="d-flex justify-content-center flex-sm-wrap row">
-                    <input class="btn btn-primary m-2 col-1" type="submit" @click.prevent="grabarcliente" value="Alta">
-                    <input class="btn btn-primary m-2 col-1" type="submit" @click.prevent="modificarCliente"
+                    <input class="btn btn-primary m-2 col-1" type="submit" @click.prevent="grabarUsuario" value="Alta">
+                    <input class="btn btn-primary m-2 col-1" type="submit" @click.prevent="modificarUsuario"
                         value="Modificar">
-                    <input class="btn btn-primary m-2 col-1" type="submit" @click.prevent="eliminarCliente"
+                    <input class="btn btn-primary m-2 col-1" type="submit" @click.prevent="eliminarUsuario"
                         value="Eliminar">
                 </div>
             </form>
@@ -82,21 +82,23 @@
                         <th scope="col" class="w-25 text-start  align-middle">Nombre</th>
                         <th scope="col" class="w-20 text-center align-middle">Email</th>
                         <th scope="col" class="w-10 text-center align-middle">Móvil</th>
+                        <th scope="col" class="w-10 text-center align-middle">Rol</th>
                         <th scope="col" class="w-10 text-center align-middle">Fecha Baja</th>
                         <th scope="col" class="table-info text-center align-middle">Editar</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="cliente in clientesPorPagina" :key="cliente.id">
-                        <td class="text-start align-middle">{{ cliente.dni }}</td>
-                        <td class="text-start align-middle">{{ cliente.apellidos }}</td>
-                        <td class="text-start align-middle">{{ cliente.nombre }}</td>
-                        <td class="text-center align-middle">{{ cliente.email }}</td>
-                        <td class="text-start align-middle">{{ cliente.movil }}</td>
-                        <td class="text-start align-middle">{{ cliente.baja }}</td>
+                    <tr v-for="usuario in usuariosPorPagina" :key="usuario.id">
+                        <td class="text-start align-middle">{{ usuario.dni }}</td>
+                        <td class="text-start align-middle">{{ usuario.apellidos }}</td>
+                        <td class="text-start align-middle">{{ usuario.nombre }}</td>
+                        <td class="text-center align-middle">{{ usuario.email }}</td>
+                        <td class="text-start align-middle">{{ usuario.movil }}</td>
+                        <td class="text-start align-middle">{{ usuario.tipo }}</td>
+                        <td class="text-start align-middle">{{ usuario.baja }}</td>
                         <td class="text-center align-middle table-info">
                             <div>
-                                <button class="btn btn-warning m-2" @click="seleccionaCliente(cliente)">
+                                <button class="btn btn-warning m-2" @click="seleccionaUsuario(usuario)">
                                     <i class="fas fa-pencil-alt"></i>
                                 </button>
                             </div>
@@ -109,7 +111,7 @@
                     <i class="bi bi-chevron-left"></i>
                 </button>
                 <span class="mx-3 align-self-center"> Página {{ currentPage }}</span>
-                <button class="btn btn-primary" :disabled="currentPage * pageSize >= filtroClientes.length"
+                <button class="btn btn-primary" :disabled="currentPage * pageSize >= filtroUsuarios.length"
                     @click="siguientePagina">
                     <i class="bi bi-chevron-right"></i>
                 </button>
@@ -122,14 +124,14 @@
 <script>
 import Swal from 'sweetalert2';
 export default {
-    name: "TablaClientes",
+    name: "TablaUsuarios",
     components: {
         
     },
 
     data() {
         return {
-            cliente: {
+            usuario: {
                 dni: "",
                 alta: "",
                 apellidos: "",
@@ -143,8 +145,9 @@ export default {
                 },
                 baja: "",
                 movil: "",
+                tipo : "",
             },
-            clientes: [],
+            usuarios: [],
             provincias: [],
             municipios: [],
             erros: [],
@@ -157,97 +160,100 @@ export default {
 
     mounted() {
         this.getProvincias();
-        this.getClientes();
+        this.getUsuarios();
         this.getMunicipios();
     },
 
     computed: {
-        clientesPorPagina() {
-            console.log(this.filtroClientes); 
-            const clientesFiltrados = this.filtroClientes;
+        usuariosPorPagina() {
+            console.log(this.filtroUsuarios); 
+            const usuariosFiltrados = this.filtroUsuarios;
             const indiceInicial = (this.currentPage - 1) * this.pageSize;
-            return clientesFiltrados.slice(indiceInicial, indiceInicial + this.pageSize);
+            return usuariosFiltrados.slice(indiceInicial, indiceInicial + this.pageSize);
         },
 
-        filtroClientes() {
-            return this.isChecked ? this.clientes : this.clientes.filter(cliente => !cliente.baja);
+        filtroUsuarios() {
+            return this.isChecked ? this.usuarios : this.usuarios.filter(usuario => !usuario.baja);
         },
 
         filtroMunicipios() {
-            return this.municipios.filter(municipio => municipio.id.startsWith(this.cliente.provincia.id));
+            return this.municipios.filter(municipio => municipio.id.startsWith(this.usuario.provincia.id));
         }
 
     },
 
     methods: {
-        // Método para grabar el cliente
-        async grabarcliente() {
+        // Método para grabar el usuario
+        async grabarUsuario() {
 
             // Verificar si los campos requeridos están llenos
-            if (this.cliente.dni && this.cliente.apellidos) {
-                // Obtener los clientes existentes
-                const response = await fetch('http://localhost:3000/clientes');
+            if (this.usuario.dni && this.usuario.apellidos) {
+                // Obtener los usuarios existentes
+                const response = await fetch('http://localhost:3000/usuarios');
                 if (!response.ok) {
-                    throw new Error('Error al obtener los clientes: ' + response.statusText);
+                    throw new Error('Error al obtener los usuarios: ' + response.statusText);
                 }
 
-                const clientesExistentes = await response.json();
+                const usuariosExistentes = await response.json();
 
                 // Verificar si el DNI ya está registrado
-                const clienteExistente = clientesExistentes.find(cliente => cliente.dni === this.cliente.dni);
-                if (this.cliente.baja) {
+                const usuarioExistente = usuariosExistentes.find(usuario => usuario.dni === this.usuario.dni);
+                if (this.usuario.baja) {
                     try {
-                        if (clienteExistente) {
-                            clienteExistente.baja = "";
+                        if (usuarioExistente) {
+                            usuarioExistente.baja = "";
 
-                            await fetch(`http://localhost:3000/clientes/${clienteExistente.id}`, {
+                            await fetch(`http://localhost:3000/usuarios/${usuarioExistente.id}`, {
                                 method: 'PUT',
                                 headers: {
                                     'Content-Type': 'application/json'
                                 },
-                                body: JSON.stringify(clienteExistente)
+                                body: JSON.stringify(usuarioExistente)
                             });
 
-                            this.mostrarAlerta("Aviso", "Cliente dado de alta correctamente", "success")
-                            this.getClientes();
+                            this.mostrarAlerta("Aviso", "Usuario dado de alta correctamente", "success")
+                            this.getUsuarios();
                         } else {
-                            this.mostrarAlerta("Error", "Cliente no encontrado", "error")
+                            this.mostrarAlerta("Error", "Usuario no encontrado", "error")
                         }
                         this.limpiarFormCli()
                     } catch (error) {
                         console.error(error);
-                        this.mostrarAlerta('Error', 'No se pudo dar de alta el cliente.', 'error');
+                        this.mostrarAlerta('Error', 'No se pudo dar de alta el usuario.', 'error');
                     }
                 } else {
                     try {
-                        this.cliente.baja = ''
+                        this.usuario.baja = ''
 
-                        if (clienteExistente) {
+                        if (usuarioExistente) {
                             // Si el DNI ya existe, mostrar un mensaje de error
                             this.mostrarAlerta('Error', 'El DNI ya está registrado.', 'error');
                         } else {
-                            // Si el DNI no existe, agregar el cliente a la base de datos
-                            const crearResponse = await fetch('http://localhost:3000/clientes', {
+                            // Le añadimos el campo oculto al usuario.
+                            this.usuario.tipo = "usuario"; 
+
+                            // Si el DNI no existe, agregar el usuario a la base de datos
+                            const crearResponse = await fetch('http://localhost:3000/usuarios', {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json'
                                 },
-                                body: JSON.stringify(this.cliente)
+                                body: JSON.stringify(this.usuario)
                             });
 
                             if (!crearResponse.ok) {
-                                throw new Error('Error al guardar el cliente: ' + crearResponse.statusText);
+                                throw new Error('Error al guardar el usuario: ' + crearResponse.statusText);
                             }
 
-                            const nuevoCliente = await crearResponse.json();
-                            this.clientes.push(nuevoCliente); // Agregar cliente al array local
-                            this.mostrarAlerta('Aviso', 'Cliente Grabado', 'success');
-                            this.getClientes();
+                            const nuevousuario = await crearResponse.json();
+                            this.usuarios.push(nuevousuario); // Agregar usuario al array local
+                            this.mostrarAlerta('Aviso', 'Usuario Grabado', 'success');
+                            this.getUsuarios();
                         }
                         this.limpiarFormCli()
                     } catch (error) {
                         console.error(error);
-                        this.mostrarAlerta('Error', 'No se pudo grabar el cliente.', 'error');
+                        this.mostrarAlerta('Error', 'No se pudo grabar el usuario.', 'error');
                     }
                 }
             } else {
@@ -255,114 +261,114 @@ export default {
             }
         },
 
-        async seleccionaCliente(cliente) {
-            // Buscar el cliente por DNI en el archivo JSON
+        async seleccionaUsuario(usuario) {
+            // Buscar el usuario por DNI en el archivo JSON
             try {
                 this.limpiarFormCli()
-                const response = await fetch('http://localhost:3000/clientes');
+                const response = await fetch('http://localhost:3000/usuarios');
                 if (!response.ok) {
                     throw new Error('Error en la solicitud: ' + response.statusText);
                 }
-                const clientes = await response.json();
+                const usuarios = await response.json();
 
-                // Encontrar el cliente por su DNI
-                const clienteEncontrado = clientes.find(c => c.dni === cliente.dni);
+                // Encontrar el usuario por su DNI
+                const usuarioEncontrado = usuarios.find(c => c.dni === usuario.dni);
 
 
-                if (clienteEncontrado) {
+                if (usuarioEncontrado) {
                     // Convertir la fecha de alta al formato dd/mm/yyyy
                     // Asignar el objeto completo de provincia y municipio
-                    if (this.cliente.provincia) {
-                        this.cliente.provincia = this.provincias.find(p => p.nm === this.cliente.provincia).nm;
-                        if (this.cliente.provincia) {
-                            console.log("Provincia encontrada", this.cliente.provincia);
+                    if (this.usuario.provincia) {
+                        this.usuario.provincia = this.provincias.find(p => p.nm === this.usuario.provincia).nm;
+                        if (this.usuario.provincia) {
+                            console.log("Provincia encontrada", this.usuario.provincia);
 
                         }
                     }
 
-                    this.cliente = { ...clienteEncontrado };
+                    this.usuario = { ...usuarioEncontrado };
                     this.editDNI = true;
-                    console.log("Cliente encontrado", this.cliente.municipio);
-                    if (this.cliente.alta) {
-                        this.cliente.alta = this.cliente.alta.split('T')[0];  // Para asegurarse de que la fecha esté en formato YYYY-MM-DD
+                    console.log("usuario encontrado", this.usuario.municipio);
+                    if (this.usuario.alta) {
+                        this.usuario.alta = this.usuario.alta.split('T')[0];  // Para asegurarse de que la fecha esté en formato YYYY-MM-DD
                     }
                 } else {
-                    this.mostrarAlerta('Error', 'Cliente no encontrado en el servidor.', 'error');
+                    this.mostrarAlerta('Error', 'Usuario no encontrado en el servidor.', 'error');
                 }
             } catch (error) {
                 console.error(error);
-                this.mostrarAlerta('Error', 'No se pudo cargar el cliente desde el servidor.', 'error');
+                this.mostrarAlerta('Error', 'No se pudo cargar el usuario desde el servidor.', 'error');
             }
         },
 
-        async eliminarCliente() {
+        async eliminarUsuario() {
             try {
-                const response = await fetch('http://localhost:3000/clientes');
+                const response = await fetch('http://localhost:3000/usuarios');
                 if (!response.ok) {
-                    throw new Error('Error al obtener los clientes: ' + response.statusText);
+                    throw new Error('Error al obtener los usuarios: ' + response.statusText);
                 }
 
-                const clientesExistentes = await response.json();
+                const usuariosExistentes = await response.json();
 
                 // Verificar si el DNI ya está registrado
-                const clienteExistente = clientesExistentes.find(cliente => cliente.dni === this.cliente.dni);
+                const usuarioExistente = usuariosExistentes.find(usuario => usuario.dni === this.usuario.dni);
 
-                if (clienteExistente) {
+                if (usuarioExistente) {
                     const hoy = this.obtenerFechaHoy();
-                    clienteExistente.baja = hoy;
+                    usuarioExistente.baja = hoy;
 
-                    await fetch(`http://localhost:3000/clientes/${clienteExistente.id}`, {
+                    await fetch(`http://localhost:3000/usuarios/${usuarioExistente.id}`, {
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify(clienteExistente)
+                        body: JSON.stringify(usuarioExistente)
                     });
 
-                    this.mostrarAlerta("Aviso", "Cliente dado de baja correctamente", "success")
-                    this.getClientes();
+                    this.mostrarAlerta("Aviso", "Usuario dado de baja correctamente", "success")
+                    this.getUsuarios();
                 } else {
-                    this.mostrarAlerta("Error", "Cliente no encontrado", "error")
+                    this.mostrarAlerta("Error", "Usuario no encontrado", "error")
                 }
                 this.limpiarFormCli()
             } catch (error) {
                 console.error(error);
-                this.mostrarAlerta('Error', 'No se pudo dar de baja el cliente.', 'error');
+                this.mostrarAlerta('Error', 'No se pudo dar de baja el usuario.', 'error');
             }
         },
 
-        async modificarCliente() {
+        async modificarUsuario() {
             try {
-                const response = await fetch('http://localhost:3000/clientes');
+                const response = await fetch('http://localhost:3000/usuarios');
                 if (!response.ok) {
-                    throw new Error('Error al obtener los clientes: ' + response.statusText);
+                    throw new Error('Error al obtener los usuarios: ' + response.statusText);
                 }
 
-                const clientesExistentes = await response.json();
+                const usuariosExistentes = await response.json();
 
                 // Verificar si el DNI ya está registrado
-                let clienteExistente = clientesExistentes.find(cliente => cliente.dni === this.cliente.dni);
+                let usuarioExistente = usuariosExistentes.find(usuario => usuario.dni === this.usuario.dni);
 
-                if (clienteExistente) {
-                    clienteExistente = this.cliente;
+                if (usuarioExistente) {
+                    usuarioExistente = this.usuario;
 
-                    await fetch(`http://localhost:3000/clientes/${clienteExistente.id}`, {
+                    await fetch(`http://localhost:3000/usuarios/${usuarioExistente.id}`, {
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify(clienteExistente)
+                        body: JSON.stringify(usuarioExistente)
                     });
 
-                    this.mostrarAlerta("Aviso", "Cliente modificado correctamente", "success")
-                    this.getClientes();
+                    this.mostrarAlerta("Aviso", "Usuario modificado correctamente", "success")
+                    this.getUsuarios();
                 } else {
-                    this.mostrarAlerta("Error", "Cliente no encontrado", "error")
+                    this.mostrarAlerta("Error", "Usuario no encontrado", "error")
                 }
                 this.limpiarFormCli()
             } catch (error) {
                 console.error(error);
-                this.mostrarAlerta('Error', 'No se pudo modificar el cliente.', 'error');
+                this.mostrarAlerta('Error', 'No se pudo modificar el usuario.', 'error');
             }
         },
 
@@ -375,7 +381,7 @@ export default {
                 return true;
             }
             dni = dni.toUpperCase(); // Convertir a mayúsculas
-            this.cliente.dni = dni;
+            this.usuario.dni = dni;
             // Comprobar el formato del DNI/NIE
             const dniRegex = /^[XYZ0-9][0-9]{7}[A-Z]$/; // Formato 8 dígitos seguido de 1 letra
 
@@ -425,7 +431,7 @@ export default {
                 // Si el campo está vacío, no hace nada
                 return true;
             }
-            this.cliente.movil = movil;
+            this.usuario.movil = movil;
             // Comprobar el formato del DNI/NIE
             const movilRegex = /^[67]\d{8}$/; // Formato empieza por 6 o 7 seguido de 8 dígitos 
 
@@ -450,7 +456,7 @@ export default {
         },
 
         siguientePagina() {
-            if (this.currentPage * this.pageSize < this.clientes.length) {
+            if (this.currentPage * this.pageSize < this.usuarios.length) {
                 this.currentPage++;
             }
         },
@@ -461,13 +467,13 @@ export default {
             }
         },
 
-        async getClientes() {
+        async getUsuarios() {
             try {
-                const response = await fetch("http://localhost:3000/clientes")
+                const response = await fetch("http://localhost:3000/usuarios")
                 if (!response.ok) {
                     throw new Error("Error en la solicitud" + response.statusText)
                 }
-                this.clientes = (await response.json()).sort((a, b) => a.apellidos.localeCompare(b.apellidos) || a.nombre.localeCompare(b.nombre));
+                this.usuarios = (await response.json()).sort((a, b) => a.apellidos.localeCompare(b.apellidos) || a.nombre.localeCompare(b.nombre));
             } catch (error) {
                 console.error(error);
             }
@@ -498,7 +504,7 @@ export default {
         },
 
         limpiarFormCli() {
-            this.cliente = {
+            this.usuario = {
                 alta: "",
                 dni: "",
                 apellidos: "",
@@ -521,34 +527,34 @@ export default {
             return fechaFormateada;
         },
 
-        async buscarCliente(){
+        async buscarusuario(){
             try {
-                if (this.cliente.dni === ""){
+                if (this.usuario.dni === ""){
                     this.mostrarAlerta('Error', 'Debes introducir un DNI', 'error');
                 } else {
-                    // Primero, conseguimos el array de clientes para encontrar al cliente por su dni                 
-                    let response = await fetch("http://localhost:3000/clientes/"); 
+                    // Primero, conseguimos el array de usuarios para encontrar al usuario por su dni                 
+                    let response = await fetch("http://localhost:3000/usuarios/"); 
                     if (!response.ok){
                         throw new Error("Error en la solicitud" + response.statusText); 
                     }
                     
-                    let clientes = await response.json();
-                    let clienteExistente = clientes.filter(cliente => cliente.dni === this.cliente.dni)[0];
+                    let usuarios = await response.json();
+                    let usuarioExistente = usuarios.filter(usuario => usuario.dni === this.usuario.dni)[0];
                     
-                    if (!clienteExistente){
-                        this.mostrarAlerta('Error', `El cliente con dni ${this.cliente.dni} no existe`, 'error');
+                    if (!usuarioExistente){
+                        this.mostrarAlerta('Error', `El usuario con dni ${this.usuario.dni} no existe`, 'error');
                     } else {
-                        response = await fetch(`http://localhost:3000/clientes/${clienteExistente.id}`)
+                        response = await fetch(`http://localhost:3000/usuarios/${usuarioExistente.id}`)
                         if (!response.ok) {
                             throw new Error("Error en la solicitud" + response.statusText)
                         }
-                        this.cliente = await response.json()
+                        this.usuario = await response.json()
                     }
                 }
                 
             } catch (error) {
                 console.error(error);
-                this.mostrarAlerta('Error', 'No se pudo encontrar el cliente.', 'error');
+                this.mostrarAlerta('Error', 'No se pudo encontrar el usuario.', 'error');
 
             }
         }
