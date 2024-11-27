@@ -33077,5 +33077,15 @@
       "nombre": "Jurídico",
       "id": "66be"
     }
+  ], 
+  "tiposUsuario" : [
+    { 
+      "id" : "",
+      "nombre" : "admin"
+    },
+    {
+      "id" : "",
+      "nombre" : "usuario"
+    }
   ]
 }

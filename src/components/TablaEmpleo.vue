@@ -1,7 +1,10 @@
 <template>
     <div>
         <div class="row d-flex align-items-center">
-            <h5 class="text-center front-weight-bold text-primary p-3" >Trabaja con nosotros</h5>
+            <h5 class="text-center front-weight-bold text-primary p-3 underline-effect" >
+                Trabaja con nosotros <router-link to="/"><i class="bi bi-arrow-return-left me-2 black"></i></router-link> </h5>
+
+            
         </div>
     </div>
     <div class="container">

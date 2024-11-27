@@ -2,7 +2,7 @@
     <div>
         <div class="row d-flex align-items-center">
             <h5 class="text-center front-weight-bold p-3 text-primary">
-                <i class="bi bi-person-circle"></i> GESTIÓN USUARIOS</h5>
+                <i class="bi bi-person-circle underline-effect"></i> GESTIÓN USUARIOS <router-link to="/"><i class="bi bi-arrow-return-left me-2 black"></i></router-link> </h5>
         </div>
     </div>
 
