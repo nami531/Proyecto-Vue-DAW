@@ -149,6 +149,7 @@ export default {
             categorias: [],
             pageSize : 5, 
             currentPage: 1,
+            editEmail : true,
         }
     },
 
@@ -277,6 +278,42 @@ export default {
             } catch (error) {
                 console.error(error);
                 this.mostrarAlerta('Error', 'No se pudo dar de baja el candidato.', 'error');
+            }
+        },
+
+        async modificarUsuario() {
+            try {
+                this.editEmail = false; 
+                const response = await fetch('http://localhost:3000/candidatos');
+                if (!response.ok) {
+                    throw new Error('Error al obtener los candidatos: ' + response.statusText);
+                }
+
+                const candidatosExistentes = await response.json();
+
+                // Verificar si el DNI ya está registrado
+                let candidatoExistente = candidatosExistentes.find(c => c.email === this.candidato.email);
+
+                if (candidatoExistente) {
+                    candidatoExistente = this.candidato;
+
+                    await fetch(`http://localhost:3000/usuarios/${candidatoExistente.id}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(candidatoExistente)
+                    });
+
+                    this.mostrarAlerta("Aviso", "Candidato modificado correctamente", "success")
+                    this.getCandidatos();
+                } else {
+                    this.mostrarAlerta("Error", "Usuario no encontrado", "error")
+                }
+                this.limpiarFormCli()
+            } catch (error) {
+                console.error(error);
+                this.mostrarAlerta('Error', 'No se pudo modificar el usuario.', 'error');
             }
         },
 
