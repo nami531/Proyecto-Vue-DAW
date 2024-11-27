@@ -73,6 +73,53 @@
                     @click.prevent="grabarCandidato" value="Enviar">
             </form>
         </div>
+    
+    
+        <div class="container">
+            <h5 class="text-primary p-5">Gestión de Candidatos</h5>
+                <table class="table table-striped mt-2">
+                    <thead>
+                        <tr class="table-primary">
+                            <th scope="col" class="w-15 text-center align-middle">Apellidos</th>
+                            <th scope="col" class="w-25 text-start  align-middle">Nombre</th>
+                            <th scope="col" class="w-20 text-center align-middle">Email</th>
+                            <th scope="col" class="w-10 text-center align-middle">Móvil</th>
+                            <th scope="col" class="w-10 text-center align-middle">Categoría</th>
+                            <th scope="col" class="w-10 text-center align-middle">Modalidad</th>
+                            <th scope="col" class="table-info text-center align-middle">Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="empleado in candidatosPorPagina" :key="empleado.id">
+                            <td class="text-start align-middle">{{ empleado.apellidos }}</td>
+                            <td class="text-start align-middle">{{ empleado.nombre }}</td>
+                            <td class="text-center align-middle">{{ empleado.email }}</td>
+                            <td class="text-start align-middle">{{ empleado.movil }}</td>
+                            <td class="text-start align-middle">{{ empleado.categoria }}</td>
+                            <td class="text-start align-middle">{{ empleado.modalidad }}</td>
+                            <td class="text-center align-middle table-info">
+                                <div>
+                                    <button class="btn btn-warning m-2" @click="seleccionaCandidato(empleado)">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </button>
+                                    <button class="btn btn-danger m-2" @click="deleteCandidato(empleado)"><i class="bi bi-trash"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="d-flex justify-content-center my-3">
+                    <button class="btn btn-primary" :disabled="currentPage === 1" @click="paginaAnterior">
+                        <i class="bi bi-chevron-left"></i>
+                    </button>
+                    <span class="mx-3 align-self-center"> Página {{ currentPage }}</span>
+                    <button class="btn btn-primary" :disabled="currentPage * pageSize >= this.candidatos.length"
+                        @click="siguientePagina">
+                        <i class="bi bi-chevron-right"></i>
+                    </button>
+                </div>
+
+            </div>
     </div>
 </template>
 
@@ -100,11 +147,23 @@ export default {
             },
             candidatos: [],
             categorias: [],
+            pageSize : 5, 
+            currentPage: 1,
         }
     },
 
     mounted(){
         this.getDepartamentos(); 
+        this.getCandidatos(); 
+    },
+
+    computed: {
+        candidatosPorPagina() {
+            const indiceInicial = (this.currentPage - 1) * this.pageSize;
+            return this.candidatos.slice(indiceInicial, indiceInicial + this.pageSize);
+        },
+
+
     },
 
     methods: {
@@ -164,6 +223,62 @@ export default {
             }
         },
 
+
+        async seleccionaCandidato(candidato) {
+            // Buscar el usuario por email en el archivo JSON
+            try {
+                this.limpiarFormCli()
+                const response = await fetch('http://localhost:3000/candidatos');
+                if (!response.ok) {
+                    throw new Error('Error en la solicitud: ' + response.statusText);
+                }
+                const candidatos = await response.json();
+
+                // Encontrar el usuario por su email
+                const candidatoEncontrado = candidatos.find(c => c.email === candidato.email);
+
+
+                if (candidatoEncontrado) {
+                    this.empleado = candidato; 
+                } else {
+                    this.mostrarAlerta('Error', 'Candidato no encontrado en el servidor.', 'error');
+                }
+            } catch (error) {
+                console.error(error);
+                this.mostrarAlerta('Error', 'No se pudo cargar el candidato desde el servidor.', 'error');
+            }
+        },
+
+        async deleteCandidato(candidato) {
+            try {
+                const response = await fetch('http://localhost:3000/candidatos');
+                if (!response.ok) {
+                    throw new Error('Error al obtener los candidatos: ' + response.statusText);
+                }
+
+                const candidatosExistentes = await response.json();
+                // Verificar si el Email ya está registrado
+                const candidatoExistente = candidatosExistentes.find(c => c.email === candidato.email);
+                if (candidatoExistente) {
+                    await fetch(`http://localhost:3000/candidatos/${candidatoExistente.id}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(candidatoExistente)
+                    });
+
+                    this.mostrarAlerta("Aviso", "Candidato dado de baja correctamente", "success")
+                    this.getCandidatos();
+                } else {
+                    this.mostrarAlerta("Error", "Candidato no encontrado", "error")
+                }
+                this.limpiarFormCli()
+            } catch (error) {
+                console.error(error);
+                this.mostrarAlerta('Error', 'No se pudo dar de baja el candidato.', 'error');
+            }
+        },
 
         //Métodos auxiliares: 
 
@@ -237,6 +352,18 @@ export default {
                     throw new Error("Error en la solicitud" + response.statusText)
                 }
                 this.categorias = await response.json();
+            } catch (error) {
+                console.error(error);
+            }
+        },
+
+        async getCandidatos(){
+            try {
+                const response = await fetch("http://localhost:3000/candidatos")
+                if (!response.ok) {
+                    throw new Error("Error en la solicitud" + response.statusText)
+                }
+                this.candidatos = await response.json();
             } catch (error) {
                 console.error(error);
             }
