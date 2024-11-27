@@ -159,7 +159,7 @@ export default {
             editDNI: false,
             pageSize: 5, //Registros por página
             currentPage: 1,
-            tipos: ["usuario", "admin"]
+            tipos: [],
         }
     },
 
@@ -167,6 +167,7 @@ export default {
         this.getProvincias();
         this.getUsuarios();
         this.getMunicipios();
+        this.getTipos(); 
     },
 
     computed: {
@@ -503,6 +504,18 @@ export default {
                     throw new Error("Error en la solicitud" + response.statusText)
                 }
                 this.municipios = await response.json();
+            } catch (error) {
+                console.error(error);
+            }
+        },
+
+        async getTipos(){
+            try {
+                const response = await fetch("http://localhost:3000/tiposUsuario")
+                if (!response.ok) {
+                    throw new Error("Error en la solicitud" + response.statusText)
+                }
+                this.tipos = await response.json();
             } catch (error) {
                 console.error(error);
             }
