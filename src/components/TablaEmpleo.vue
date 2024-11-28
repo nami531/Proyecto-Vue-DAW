@@ -369,6 +369,19 @@ export default {
                 return false; 
             }
         },
+        // Métodos para la paginación
+        siguientePagina() {
+            if (this.currentPage * this.pageSize < this.candidatos.length) {
+                this.currentPage++;
+            }
+        },
+
+        paginaAnterior() {
+            if (this.currentPage > 1) {
+                this.currentPage--;
+            }
+        },
+
 
         // Método para mostrar alertas
         mostrarAlerta(titulo, mensaje, icono) {
