@@ -1,5 +1,5 @@
 <template>
-    <h5 class="p-5 text-primary">Panel de gestión</h5>
+    <h5 class="p-5 text-primary"><i class="bi bi-tools me-2"></i>Panel de gestión</h5>
     <div class="container">
         <div class="row mb-4">
         

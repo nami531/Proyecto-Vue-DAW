@@ -33042,6 +33042,30 @@
       "modalidad": "Presencial",
       "avisolegal": true,
       "comentarios": "Hola Caracola Me llamo CaraCola"
+    },
+    {
+      "id": "f01b",
+      "apellidos": "fgdgg",
+      "nombre": "dfgdfgfdg",
+      "email": "aeqserw@gmail.com",
+      "movil": "698121212",
+      "cv": "",
+      "categoria": "Logistíca",
+      "modalidad": "Remoto",
+      "avisolegal": true,
+      "comentarios": ""
+    },
+    {
+      "id": "948e",
+      "apellidos": "affdfsdf",
+      "nombre": "sdfsdfsdfsdf",
+      "email": "akajs@gmail.com",
+      "movil": "701212109",
+      "cv": "",
+      "categoria": "Ventas",
+      "modalidad": "Híbrido",
+      "avisolegal": true,
+      "comentarios": ""
     }
   ],
   "categorias": [

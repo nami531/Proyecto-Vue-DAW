@@ -391,7 +391,10 @@ export default {
                 email: "",
                 movil: "",
                 cv: "",
-                avisolegal : false,
+                categoria: "",
+                modalidad : "",
+                avisolegal : "",
+                comentarios: "",
             }
         },
 
