@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="row d-flex align-items-center">
-            <h5 class="text-center front-weight-bold text-primary p-3 underline-effect" >
+            <h5 class="text-center front-weight-bold text-primary p-3 underline-effect" ><i class="bi bi-person-workspace m-2"></i>
                 Trabaja con nosotros <router-link to="/"><i class="bi bi-arrow-return-left me-2 black"></i></router-link> </h5>
 
             
@@ -76,7 +76,7 @@
     
     
         <div class="container">
-            <h5 class="text-primary p-5">Gestión de Candidatos</h5>
+            <h5 class="text-primary p-5"><i class="bi bi-tools m-2"></i>Gestión de Candidatos</h5>
                 <table class="table table-striped mt-2">
                     <thead>
                         <tr class="table-primary">
@@ -251,33 +251,45 @@ export default {
         },
 
         async deleteCandidato(candidato) {
-            try {
-                const response = await fetch('http://localhost:3000/candidatos');
-                if (!response.ok) {
-                    throw new Error('Error al obtener los candidatos: ' + response.statusText);
-                }
+            const resp = await Swal.fire({
+                    title: "Are you sure?",
+                    html: `Desea Eliminar a <strong>${candidato.nombre} ${candidato.apellidos}</strong> <br><br>Esta accion no se puede deshacer`,
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Aceptar",
+                    cancelButtonText: "Cancelar"
+                })
+            if (resp.isConfirmed) {
+                try {
+                    const response = await fetch('http://localhost:3000/candidatos');
+                    if (!response.ok) {
+                        throw new Error('Error al obtener los candidatos: ' + response.statusText);
+                    }
 
-                const candidatosExistentes = await response.json();
-                // Verificar si el Email ya está registrado
-                const candidatoExistente = candidatosExistentes.find(c => c.email === candidato.email);
-                if (candidatoExistente) {
-                    await fetch(`http://localhost:3000/candidatos/${candidatoExistente.id}`, {
-                        method: 'DELETE',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(candidatoExistente)
-                    });
+                    const candidatosExistentes = await response.json();
+                    // Verificar si el Email ya está registrado
+                    const candidatoExistente = candidatosExistentes.find(c => c.email === candidato.email);
+                    if (candidatoExistente) {
+                        await fetch(`http://localhost:3000/candidatos/${candidatoExistente.id}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(candidatoExistente)
+                        });
 
-                    this.mostrarAlerta("Aviso", "Candidato dado de baja correctamente", "success")
-                    this.getCandidatos();
-                } else {
-                    this.mostrarAlerta("Error", "Candidato no encontrado", "error")
+                        this.mostrarAlerta("Aviso", "Candidato dado de baja correctamente", "success")
+                        this.getCandidatos();
+                    } else {
+                        this.mostrarAlerta("Error", "Candidato no encontrado", "error")
+                    }
+                    this.limpiarFormCli()
+                } catch (error) {
+                    console.error(error);
+                    this.mostrarAlerta('Error', 'No se pudo dar de baja el candidato.', 'error');
                 }
-                this.limpiarFormCli()
-            } catch (error) {
-                console.error(error);
-                this.mostrarAlerta('Error', 'No se pudo dar de baja el candidato.', 'error');
             }
         },
 
@@ -316,6 +328,8 @@ export default {
                 this.mostrarAlerta('Error', 'No se pudo modificar el usuario.', 'error');
             }
         },
+
+        
 
         //Métodos auxiliares: 
 
