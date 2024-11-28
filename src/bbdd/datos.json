@@ -33018,7 +33018,8 @@
       "cv": "",
       "categoria": "Ventas",
       "modalidad": "Remoto",
-      "avisolegal": true
+      "avisolegal": true,
+      "comentarios": ""
     },
     {
       "id": "4107",
@@ -33029,7 +33030,8 @@
       "cv": "",
       "categoria": "Ventas",
       "modalidad": "Remoto",
-      "avisolegal": true
+      "avisolegal": true,
+      "comentarios": ""
     },
     {
       "id": "4230",
@@ -33041,43 +33043,7 @@
       "categoria": "Compras",
       "modalidad": "Presencial",
       "avisolegal": true,
-      "comentarios": "Hola Caracola Me llamo CaraCola"
-    },
-    {
-      "id": "f01b",
-      "apellidos": "fgdgg",
-      "nombre": "dfgdfgfdg",
-      "email": "aeqserw@gmail.com",
-      "movil": "698121212",
-      "cv": "",
-      "categoria": "Logistíca",
-      "modalidad": "Remoto",
-      "avisolegal": true,
-      "comentarios": ""
-    },
-    {
-      "id": "948e",
-      "apellidos": "affdfsdf",
-      "nombre": "sdfsdfsdfsdf",
-      "email": "akajs@gmail.com",
-      "movil": "701212109",
-      "cv": "",
-      "categoria": "Ventas",
-      "modalidad": "Híbrido",
-      "avisolegal": true,
-      "comentarios": ""
-    },
-    {
-      "id": "b05d",
-      "apellidos": "vbcvbcvb",
-      "nombre": "vbcvbvcbvcb",
-      "email": "andia@gkna.jfd",
-      "movil": "774755444",
-      "cv": "",
-      "categoria": "IT",
-      "modalidad": "Presencial",
-      "avisolegal": true,
-      "comentarios": ""
+      "comentarios": "Hola Caracola Me llamo CaraCol"
     }
   ],
   "categorias": [

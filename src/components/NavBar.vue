@@ -20,10 +20,10 @@
                     <router-link to ="/usuarios" class="nav-link" active-class="router-link-exact-active">Usuarios</router-link>
                 </li>
                 <li class = "nav-item">
-                    <router-link to ="/contacto" class="nav-link" active-class="router-link-exact-active">Contacto</router-link>
+                    <router-link to ="/empleo" class="nav-link" active-class="router-link-exact-active">Empleo</router-link>
                 </li>
                 <li class = "nav-item">
-                    <router-link to ="/empleo" class="nav-link" active-class="router-link-exact-active">Empleo</router-link>
+                    <router-link to ="/contacto" class="nav-link" active-class="router-link-exact-active">Contacto</router-link>
                 </li>
             </ul>
             </div>

@@ -22,7 +22,7 @@
                 <div class="input-group-text mb-3">
                     <span class="input-group-text custom-span me-2">Email: </span>
                     <input type="text" class="form-control sm w-75" placeholder="Email" v-model="empleado.email"
-                        @blur="validarEmail(this.empleado.email)">
+                        @blur="validarEmail(this.empleado.email)" :disabled="this.cargado">
 
                     <span class="input-group-text custom-span mx-2 ms-2">Móvil: </span>
                     <input type="text" class="form-control sm w-25 " placeholder="Móvil" v-model="empleado.movil"
@@ -67,7 +67,7 @@
 
                 </div>
                 <div class="container text-center">
-                        <input type="checkbox" v-model="empleado.avisolegal"> He leído y acepto la <router-link to="/privacidad">Política de privacidad</router-link>
+                        <input type="checkbox" v-model="empleado.avisolegal" :disabled="this.cargado"> He leído y acepto la <router-link to="/privacidad">Política de privacidad</router-link>
                     </div>
                 <input class="btn btn-primary m-2 col-2 p-2 text-align-center" type="submit"
                     @click.prevent="grabarCandidato" value="Enviar">
@@ -149,7 +149,7 @@ export default {
             categorias: [],
             pageSize : 5, 
             currentPage: 1,
-            editEmail : true,
+            cargado : false,
         }
     },
 
@@ -189,7 +189,7 @@ export default {
 
                     if (candidatoExistente) {
                         // Si el email ya existe, mostrar un mensaje de error
-                        this.mostrarAlerta('Error', 'El email ya está registrado.', 'error');                    
+                       this.modificarCandidato()                   
                     } else {
                     // Si el DNI no existe, agregar el usuario a la base de datos
                     const crearResponse = await fetch('http://localhost:3000/candidatos', {
@@ -241,6 +241,7 @@ export default {
 
                 if (candidatoEncontrado) {
                     this.empleado = candidato; 
+                    this.cargado = true; 
                 } else {
                     this.mostrarAlerta('Error', 'Candidato no encontrado en el servidor.', 'error');
                 }
@@ -252,8 +253,8 @@ export default {
 
         async deleteCandidato(candidato) {
             const resp = await Swal.fire({
-                    title: "Are you sure?",
-                    html: `Desea Eliminar a <strong>${candidato.nombre} ${candidato.apellidos}</strong> <br><br>Esta accion no se puede deshacer`,
+                    title: "¿Estás seguro?",
+                    html: `Desea Eliminar a <strong>${candidato.nombre} ${candidato.apellidos}</strong> <br><br>Esta acción no se puede deshacer`,
                     icon: "warning",
                     showCancelButton: true,
                     confirmButtonColor: "#3085d6",
@@ -293,39 +294,52 @@ export default {
             }
         },
 
-        async modificarUsuario() {
-            try {
-                this.editEmail = false; 
-                const response = await fetch('http://localhost:3000/candidatos');
-                if (!response.ok) {
-                    throw new Error('Error al obtener los candidatos: ' + response.statusText);
-                }
+        async modificarCandidato() {
+            const resp = await Swal.fire({
+                    title: "¿Estás seguro?",
+                    html: `Desea Modificar a <strong>${this.empleado.nombre} ${this.empleado.apellidos}</strong> <br><br>Está a punto de modificarlo`,
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Aceptar",
+                    cancelButtonText: "Cancelar"
+                })
+            if (resp.isConfirmed){
+                try {
+                    this.editEmail = false; 
+                    const response = await fetch('http://localhost:3000/candidatos');
+                    if (!response.ok) {
+                        throw new Error('Error al obtener los candidatos: ' + response.statusText);
+                    }
 
-                const candidatosExistentes = await response.json();
+                    const candidatosExistentes = await response.json();
 
-                // Verificar si el DNI ya está registrado
-                let candidatoExistente = candidatosExistentes.find(c => c.email === this.candidato.email);
+                    // Verificar si el DNI ya está registrado
+                    let candidatoExistente = candidatosExistentes.find(c => c.email === this.empleado.email);
 
-                if (candidatoExistente) {
-                    candidatoExistente = this.candidato;
+                    if (candidatoExistente) {
+                        candidatoExistente = this.empleado;
 
-                    await fetch(`http://localhost:3000/usuarios/${candidatoExistente.id}`, {
-                        method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(candidatoExistente)
-                    });
+                        await fetch(`http://localhost:3000/candidatos/${candidatoExistente.id}`, {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(candidatoExistente)
+                        });
 
-                    this.mostrarAlerta("Aviso", "Candidato modificado correctamente", "success")
-                    this.getCandidatos();
-                } else {
-                    this.mostrarAlerta("Error", "Usuario no encontrado", "error")
-                }
-                this.limpiarFormCli()
-            } catch (error) {
-                console.error(error);
-                this.mostrarAlerta('Error', 'No se pudo modificar el usuario.', 'error');
+                        this.mostrarAlerta("Aviso", "Candidato modificado correctamente", "success")
+                        this.getCandidatos();
+
+                    } else {
+                        this.mostrarAlerta("Error", "Candidato no encontrado", "error")
+                    }
+                    this.limpiarFormCli()
+                } catch (error) {
+                    console.error(error);
+                    this.mostrarAlerta('Error', 'No se pudo modificar el candidato.', 'error');
+                } 
             }
         },
 
