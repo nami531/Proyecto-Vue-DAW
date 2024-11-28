@@ -8,7 +8,7 @@
         </div>
     </div>
     <div class="container">
-        <div class="col-10 col-m-10 col-lg-10 border p-4 mx-auto">
+        <div class="border p-4 mx-auto">
             <form @submit.prevent="grabarCandidato" class="d-inline">
 
                 <div class="input-group-text mb-3">

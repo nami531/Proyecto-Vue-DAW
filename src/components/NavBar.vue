@@ -14,16 +14,16 @@
             <div class = "collapse navbar-collapse" id = "navbarNav">
             <ul class = "navbar-nav">
                 <li class = "nav-item">
-                    <router-link to ="/" class="nav-link" v-bind:class="{ active: isActive}">Inicio</router-link>
+                    <router-link to ="/" class="nav-link" active-class="router-link-exact-active">Inicio</router-link>
                 </li>
                 <li class = "nav-item">
-                    <router-link to ="/usuarios" class="nav-link" >Usuarios</router-link>
+                    <router-link to ="/usuarios" class="nav-link" active-class="router-link-exact-active">Usuarios</router-link>
                 </li>
                 <li class = "nav-item">
-                    <router-link to ="/contacto" class="nav-link">Contacto</router-link>
+                    <router-link to ="/contacto" class="nav-link" active-class="router-link-exact-active">Contacto</router-link>
                 </li>
                 <li class = "nav-item">
-                    <router-link to ="/empleo" class="nav-link">Empleo</router-link>
+                    <router-link to ="/empleo" class="nav-link" active-class="router-link-exact-active">Empleo</router-link>
                 </li>
             </ul>
             </div>
@@ -39,8 +39,8 @@ export default{
 }
 </script>
 <style scoped>
-router-link:active {
-    color : #FAD02E !important
+.router-link-exact-active {
+    color: #FAD02E !important;
 }
 
 </style>
