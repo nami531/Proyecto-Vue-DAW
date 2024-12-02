@@ -185,10 +185,10 @@ export default {
                     const candidatosExistentes = await response.json();
 
                     // Verificar si el email ya está registrado
-                    const candidatoExistente = candidatosExistentes.find(c => c.email === this.empleado.email);
+                    const candidatoExistente = candidatosExistentes.find(c => c.email === this.empleado.email && c.categoria === this.empleado.categoria);
 
                     if (candidatoExistente) {
-                        // Si el email ya existe, mostrar un mensaje de error
+                        // Si el email ya existe y ya ha aplicado para el departamento
                        this.modificarCandidato()                   
                     } else {
                     // Si el DNI no existe, agregar el usuario a la base de datos
@@ -240,7 +240,7 @@ export default {
 
 
                 if (candidatoEncontrado) {
-                    this.empleado = candidato; 
+                    this.empleado = { ...candidatoEncontrado }; 
                     this.cargado = true; 
                 } else {
                     this.mostrarAlerta('Error', 'Candidato no encontrado en el servidor.', 'error');
@@ -336,6 +336,7 @@ export default {
                         this.mostrarAlerta("Error", "Candidato no encontrado", "error")
                     }
                     this.limpiarFormCli()
+                    this.cargado = false
                 } catch (error) {
                     console.error(error);
                     this.mostrarAlerta('Error', 'No se pudo modificar el candidato.', 'error');

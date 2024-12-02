@@ -33006,18 +33006,6 @@
   ],
   "candidatos": [
     {
-      "id": "f536",
-      "apellidos": "Rodriguez",
-      "nombre": "German",
-      "email": "grmarty@gmail.com",
-      "movil": "689121212",
-      "cv": "",
-      "categoria": "Ventas",
-      "modalidad": "Remoto",
-      "avisolegal": true,
-      "comentarios": ""
-    },
-    {
       "id": "4107",
       "apellidos": "Negro",
       "nombre": "Samuel",
@@ -33036,10 +33024,46 @@
       "email": "hola@example.com",
       "movil": "671121485",
       "cv": "",
-      "categoria": "Compras",
+      "categoria": "Ventas",
       "modalidad": "Presencial",
       "avisolegal": true,
       "comentarios": "Hola Caracola Me llamo CaraCol"
+    },
+    {
+      "id": "f536",
+      "apellidos": "Rodriguez",
+      "nombre": "German",
+      "email": "grmarty@gmail.com",
+      "movil": "689121212",
+      "cv": "",
+      "categoria": "Logistíca",
+      "modalidad": "Híbrido",
+      "avisolegal": true,
+      "comentarios": ""
+    },
+    {
+      "id": "4230",
+      "apellidos": "Hola",
+      "nombre": "CaraCola",
+      "email": "hola@example.com",
+      "movil": "671121485",
+      "cv": "",
+      "categoria": "Logistíca",
+      "modalidad": "Presencial",
+      "avisolegal": true,
+      "comentarios": "Hola Caracola Me llamo CaraCol"
+    },
+    {
+      "id": "f536",
+      "apellidos": "Rodriguez",
+      "nombre": "German",
+      "email": "grmarty@gmail.com",
+      "movil": "689121212",
+      "cv": "",
+      "categoria": "Compras",
+      "modalidad": "Remoto",
+      "avisolegal": true,
+      "comentarios": ""
     }
   ],
   "categorias": [
