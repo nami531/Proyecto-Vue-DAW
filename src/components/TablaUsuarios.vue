@@ -60,7 +60,7 @@
                     <span class="input-group-text custom-span ms-2 me-2">Tipo de usuario: </span>
                     <select name="municipio" id="municipio" class="form-select  " v-model="usuario.tipo">
                         <option value="" disabled>Tipo</option>
-                        <option v-for="tipo in tipos" :key="tipo" :value="tipo">{{ tipo }}</option>
+                        <option v-for="tipo in tipos" :key="tipo.id" :value="tipo.nombre">{{ tipo.nombre }}</option>
                     </select>
 
                     <input class="ms-3" type="checkbox" name="historico" id="historico" v-model="isChecked">
@@ -567,6 +567,7 @@ export default {
                             throw new Error("Error en la solicitud" + response.statusText)
                         }
                         this.usuario = await response.json()
+                        this.editDNI = true
                     }
                 }
                 

@@ -32784,8 +32784,7 @@
         "nm": "Blancos, Os"
       },
       "baja": "13/11/2024",
-      "movil": "698417811",
-      "tipo": "admin"
+      "movil": "698417811"
     },
     {
       "id": "0c14",
@@ -32813,7 +32812,7 @@
       "dni": "X9561954A",
       "apellidos": "Alonso",
       "nombre": "Javier",
-      "direccion": "España",
+      "direccion": "Vigo",
       "email": "aaron@gmail.com",
       "provincia": {
         "id": "25",
@@ -32825,7 +32824,7 @@
       },
       "baja": "",
       "movil": "789451212",
-      "tipo": "admin"
+      "tipo": "usuario"
     },
     {
       "id": "8742",
@@ -32865,7 +32864,7 @@
       },
       "baja": "",
       "movil": "698172345",
-      "tipo": "usuario"
+      "tipo": "admin"
     },
     {
       "id": "7322",
@@ -32884,8 +32883,7 @@
         "nm": "Barbadillo"
       },
       "baja": "21/11/2024",
-      "movil": "789121212",
-      "tipo": "usuario"
+      "movil": "789121212"
     },
     {
       "id": "0ce6",
@@ -32924,8 +32922,7 @@
         "nm": "Arrasate/Mondragón"
       },
       "baja": "21/11/2024",
-      "movil": "789454545",
-      "tipo": "usuario"
+      "movil": "789454545"
     },
     {
       "id": "b862",
@@ -32984,8 +32981,7 @@
         "nm": "Cevico de la Torre"
       },
       "baja": "26/11/2024",
-      "movil": "741859685",
-      "tipo": "usuario"
+      "movil": "741859685"
     },
     {
       "id": "43d0",
@@ -33005,7 +33001,7 @@
       },
       "baja": "",
       "movil": "681894717",
-      "tipo": "usuario"
+      "tipo": "admin"
     }
   ],
   "candidatos": [
@@ -33028,7 +33024,7 @@
       "email": "samu@example.com",
       "movil": "656111112",
       "cv": "",
-      "categoria": "Ventas",
+      "categoria": "IT",
       "modalidad": "Remoto",
       "avisolegal": true,
       "comentarios": ""
