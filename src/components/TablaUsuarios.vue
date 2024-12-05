@@ -6,78 +6,80 @@
         </div>
     </div>
 
-    <div class="container-fluid border p-4">
-        <div class="col-10 col-m-6 col-lg-8 mx-auto">
-            <form @submit.prevent="grabarUsuario" class="form-in-line">
+    <div class="container">
+            <div class="container border p-4 mx-auto">
+                <form @submit.prevent="grabarUsuario" class="form-in-line">
             
-                <div class="input-group-text mb-3">
-                    <div class="input-group">
-                        <div class="input-group d-flex flex-row ">
-                            <div class="input-group w-50" >
-                                <span class="input-group-text custom-span me-2">DNI/NIE</span>
-                                <input type="text" class="form-control sm w-25" placeholder="DNI/NIE" v-model="usuario.dni"
-                                @blur="validarDNI(this.usuario.dni)" :disabled="editDNI">
-                                <button class="input-group-text" id="basic-addon1" @click.prevent="buscarusuario()">
-                                    <i class="bi bi-search"></i>
-                                </button>
+                    <div class="input-group-text mb-3">
+                        <div class="input-group">
+                            <div class="input-group d-flex flex-row ">
+                                <div class="input-group w-50" >
+                                    <span class="input-group-text custom-span me-2">DNI/NIE</span>
+                                    <input type="text" class="form-control sm w-25" placeholder="DNI/NIE" v-model="usuario.dni"
+                                    @blur="validarDNI(this.usuario.dni)" :disabled="editDNI">
+                                    <button class="input-group-text" id="basic-addon1" @click.prevent="buscarusuario()">
+                                        <i class="bi bi-search"></i>
+                                    </button>
+                                </div>
+                                <p class="me-2" :hidden="this.usuario.baja===''">El usuario está dado de baja</p>
                             </div>
-                            <p class="me-2" :hidden="this.usuario.baja===''">El usuario está dado de baja</p>
                         </div>
+                        <span class="input-group-text custom-span ms-auto me-2">Fecha alta</span>
+                        <input type="date" class="form-control sm w-25" v-model="usuario.alta">
                     </div>
-                    <span class="input-group-text custom-span ms-auto me-2">Fecha alta</span>
-                    <input type="date" class="form-control sm w-25" v-model="usuario.alta">
-                </div>
-                
-                
-                <div class="input-group-text mb-3">
-                    <span class="input-group-text custom-span me-2">Apellidos</span>
-                    <input type="text" class="form-control sm w-50" placeholder="Apellidos" v-model="usuario.apellidos">
-                    <span class="input-group-text custom-span me-2 ms-2">Nombre</span>
-                    <input type="text" class="form-control sm w-50 ms-2" placeholder="Nombre" v-model="usuario.nombre">
-                </div>
-                <div class="input-group-text mb-3">
-                    <span class="input-group-text custom-span ms-auto me-2">Dirección</span>
-                    <input type="text" class="form-control sm w-75" placeholder="Dirección" v-model="usuario.direccion">
-                    <span class="input-group-text custom-span ms-2 me-2">Email</span>
-                    <input type="text" class="form-control sm w-25" placeholder="Correo electrónico"
-                        v-model="usuario.email" @blur="validarEmail(usuario.email)">
-                    <span class="input-group-text custom-span ms-2">Móvil</span>
-                    <input type="text" class="form-control sm w-25 ms-2" placeholder="Móvil" v-model="usuario.movil"
-                        @blur="validarMovil(this.usuario.movil)">
-                </div>
-                <div class="input-group-text mb-3">
-                    <span class="input-group-text custom-span ms-auto me-2">Provincia</span>
-                    <select name="provincia" id="provincia" class="form-select w-50" v-model="usuario.provincia">
-                        <option value="" disabled>Provincia</option>
-                        <option v-for="provincia in provincias" :key="provincia.id" :value="provincia">{{ provincia.nm }}</option>
-                    </select>
-                    <span class="input-group-text custom-span ms-2 me-2">Municipio</span>
-                    <select name="municipio" id="municipio" class="form-select  " v-model="usuario.municipio">
-                        <option value="" disabled>Municipio</option>
-                        <option v-for="municipio in filtroMunicipios" :key="municipio.id" :value="municipio">{{ municipio.nm }}</option>
-                    </select>
+                    
+                    
+                    <div class="input-group-text mb-3">
+                        <span class="input-group-text custom-span me-2">Apellidos</span>
+                        <input type="text" class="form-control sm w-50" placeholder="Apellidos" v-model="usuario.apellidos">
+                        <span class="input-group-text custom-span me-2 ms-2">Nombre</span>
+                        <input type="text" class="form-control sm w-50 ms-2" placeholder="Nombre" v-model="usuario.nombre">
+                    </div>
+                    <div class="input-group-text mb-3">
+                        <span class="input-group-text custom-span ms-auto me-2">Dirección</span>
+                        <input type="text" class="form-control sm w-75" placeholder="Dirección" v-model="usuario.direccion">
+                        <span class="input-group-text custom-span ms-2 me-2">Email</span>
+                        <input type="text" class="form-control sm w-25" placeholder="Correo electrónico"
+                            v-model="usuario.email" @blur="validarEmail(usuario.email)">
+                        <span class="input-group-text custom-span ms-2">Móvil</span>
+                        <input type="text" class="form-control sm w-25 ms-2" placeholder="Móvil" v-model="usuario.movil"
+                            @blur="validarMovil(this.usuario.movil)">
+                    </div>
+                    <div class="input-group-text mb-3">
+                        <span class="input-group-text custom-span ms-auto me-2">Provincia</span>
+                        <select name="provincia" id="provincia" class="form-select w-50" v-model="usuario.provincia">
+                            <option value="" disabled>Provincia</option>
+                            <option v-for="provincia in provincias" :key="provincia.id" :value="provincia">{{ provincia.nm }}</option>
+                        </select>
+                        <span class="input-group-text custom-span ms-2 me-2">Municipio</span>
+                        <select name="municipio" id="municipio" class="form-select  " v-model="usuario.municipio">
+                            <option value="" disabled>Municipio</option>
+                            <option v-for="municipio in filtroMunicipios" :key="municipio.id" :value="municipio">{{ municipio.nm }}</option>
+                        </select>
 
-                    <span class="input-group-text custom-span ms-2 me-2">Tipo de usuario: </span>
-                    <select name="municipio" id="municipio" class="form-select  " v-model="usuario.tipo">
-                        <option value="" disabled>Tipo</option>
-                        <option v-for="tipo in tipos" :key="tipo.id" :value="tipo.nombre">{{ tipo.nombre }}</option>
-                    </select>
+                        <span class="input-group-text custom-span ms-2 me-2">Tipo de usuario: </span>
+                        <select name="municipio" id="municipio" class="form-select  " v-model="usuario.tipo">
+                            <option value="" disabled>Tipo</option>
+                            <option v-for="tipo in tipos" :key="tipo.id" :value="tipo.nombre">{{ tipo.nombre }}</option>
+                        </select>
 
-                    <input class="ms-3" type="checkbox" name="historico" id="historico" v-model="isChecked">
-                    <label class="input-group-text custom-span mx-2" for="historico">Historico</label>
-                    <button class="btn btn-secondary">
-                        <i class="bi bi-eraser-fill fs-5" @click="limpiarFormCli"></i>
-                    </button>
-                </div>
+                        <input class="ms-3" type="checkbox" name="historico" id="historico" v-model="isChecked">
+                        <label class="input-group-text custom-span mx-2" for="historico">Historico</label>
+                        <button class="btn btn-secondary">
+                            <i class="bi bi-eraser-fill fs-5" @click="limpiarFormCli"></i>
+                        </button>
+                    </div>
 
-                <div class="d-flex justify-content-center flex-sm-wrap row">
-                    <input class="btn btn-primary m-2 col-1" type="submit" @click.prevent="grabarUsuario" value="Alta">
-                    <input class="btn btn-primary m-2 col-1" type="submit" @click.prevent="modificarUsuario"
-                        value="Modificar">
-                    <input class="btn btn-primary m-2 col-1" type="submit" @click.prevent="eliminarUsuario"
-                        value="Eliminar">
-                </div>
-            </form>
+                    <div class="d-flex justify-content-center flex-sm-wrap row">
+                        <input class="btn btn-primary m-2 col-1" type="submit" @click.prevent="grabarUsuario" value="Alta">
+                        <input class="btn btn-primary m-2 col-1" type="submit" @click.prevent="modificarUsuario"
+                            value="Modificar">
+                        <input class="btn btn-primary m-2 col-1" type="submit" @click.prevent="eliminarUsuario"
+                            value="Eliminar">
+                    </div>
+                </form>
+            </div>
+            
             <table class="table table-striped mt-2">
                 <thead>
                     <tr class="table-primary">
@@ -121,7 +123,6 @@
                 </button>
             </div>
 
-        </div>
     </div>
 </template>
 

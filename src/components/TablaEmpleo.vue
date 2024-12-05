@@ -145,7 +145,6 @@ export default {
     data() {
         return {
             empleado: {
-                id : "",
                 apellidos: "",
                 nombre: "",
                 email: "",
