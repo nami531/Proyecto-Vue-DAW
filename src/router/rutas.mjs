@@ -1,15 +1,19 @@
-import express from 'express'; 
-import { Articulo } from 'src/modelos/modelos.mjs'
+import express from 'express';
+import Articulo from '../modelos/modelos.js';
 
-const rutas = express.Router(); 
+const rutas = express.Router();
 
+// como establecer una ruta
 
-// Establecer una ruta
 rutas.get('/articulos', async (req, res) => {
-    try {
-        const articulos = await Articulo.find({}); 
-        res.json(articulos)
-    } catch (error) {
-        res.status(500).json({message : error.message})
+    try{
+        const articulos = await  Articulo.find({});
+        res.json(articulos);
+
+    } catch(error){
+        res.status(500).json({message: error.message});
     }
 });
+
+export default rutas;
+
