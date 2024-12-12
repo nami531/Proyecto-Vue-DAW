@@ -66,7 +66,7 @@
                         <input class="ms-3" type="checkbox" name="historico" id="historico" v-model="isChecked">
                         <label class="input-group-text custom-span mx-2" for="historico">Historico</label>
                         <button class="btn btn-secondary">
-                            <i class="bi bi-eraser-fill fs-5" @click="limpiarFormCli"></i>
+                            <i class="bi bi-eraser-fill fs-5" @click.prevent="limpiarFormCli"></i>
                         </button>
                     </div>
 
