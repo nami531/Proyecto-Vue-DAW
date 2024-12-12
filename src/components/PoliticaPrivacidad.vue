@@ -91,7 +91,7 @@
             <p>Si tiene alguna pregunta o desea más información sobre nuestra Política de Privacidad, no dude en
                 contactarnos en <a>info@importexportteis.com</a>.</p>
         </section>
-
+        <p>Para más información, consulte nuestro <router-link to="/avisos-legales">Aviso legal</router-link>.</p>
         <strong>Fecha de última actualización: 12/09/2024</strong>
     </div>
 </template>

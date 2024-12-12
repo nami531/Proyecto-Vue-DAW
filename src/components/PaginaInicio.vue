@@ -14,8 +14,8 @@
         </div>
 
         <div class="row mb-4">
-            <router-link to="/"  class="col bg-secondary me-4 rounded containerAltura d-flex justify-content-center align-items-center text-decoration-none" >
-                <div class="text-white d-flex justify-content-center align-items-center text-decoration-none" >En construcción</div>
+            <router-link to="/comentarios"  class="col bg-primary me-4 rounded containerAltura d-flex justify-content-center align-items-center text-decoration-none" >
+                <div class="text-white d-flex justify-content-center align-items-center text-decoration-none" >Gestión de comentarios</div>
             </router-link>
         
             <router-link to="/"  class="col bg-secondary me-4 rounded containerAltura d-flex justify-content-center align-items-center text-decoration-none">

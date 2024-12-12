@@ -6,6 +6,7 @@ import NotFound from '@/components/NotFound.vue'
 import TablaEmpleo from '@/components/TablaEmpleo.vue'
 import PoliticaPrivacidad from '@/components/PoliticaPrivacidad.vue'
 import AvisoLegal from '@/components/AvisoLegal.vue'
+import TablaComentarios from '@/components/TablaComentarios.vue'
 
 const routes = [
   {
@@ -43,6 +44,12 @@ const routes = [
     name : "avisoLegal", 
     component : AvisoLegal
   },
+  {
+    path : "/comentarios", 
+    name : "TablaComentarios", 
+    component : TablaComentarios
+  },
+
 
 ]
 
