@@ -8,7 +8,8 @@
     "lint": "vue-cli-service lint",
     "json-server": "npx json-server --watch \"./src/bbdd/datos.json\" --port 3000",
     "mongo-server": "node --experimental-specifier-resolution=node src/server.mjs",
-    "dev": "nodemon src/server.mjs --watch src --exec babel-node"
+    "dev": "nodemon src/server.mjs --watch src --exec babel-node",
+    "start": "concurrently \"npm run dev\" \"npm run serve\" \"npm run json-server\""
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.6.0",
@@ -34,6 +35,7 @@
     "@vue/cli-plugin-router": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
     "babel-plugin-module-resolver": "^5.0.2",
+    "concurrently": "^9.1.0",
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.0.3"
   },

@@ -70,12 +70,10 @@
                         </button>
                     </div>
 
-                    <div class="d-flex justify-content-center flex-sm-wrap row">
-                        <input class="btn btn-primary m-2 col-1" type="submit" @click.prevent="grabarUsuario" value="Alta">
-                        <input class="btn btn-primary m-2 col-1" type="submit" @click.prevent="modificarUsuario"
-                            value="Modificar">
-                        <input class="btn btn-primary m-2 col-1" type="submit" @click.prevent="eliminarUsuario"
-                            value="Eliminar">
+                    <div id="botones" class="d-flex justify-content-center flex-wrap row">
+                        <input class="btn btn-primary m-2 col-3 col-sm-3 col-md-1 text-truncate" type="submit" @click.prevent="grabarUsuario" value="Alta">
+                        <input class="btn btn-primary m-2 col-3 col-sm-3 col-md-1 text-truncate" type="submit" @click.prevent="modificarUsuario" value="Modificar">
+                        <input class="btn btn-primary m-2 col-3 col-sm-3 col-md-1 text-truncate" type="submit" @click.prevent="eliminarUsuario" value="Eliminar">
                     </div>
                 </form>
             </div>
@@ -599,5 +597,9 @@ thead {
 
 tbody {
     height: 350px !important;
+}
+
+#botones > .btn {
+    min-width: 100px !important; 
 }
 </style>
