@@ -47,8 +47,8 @@
                         <span class="input-group-text custom-span ms-auto me-2">Fecha Alta</span>
                         <input type="date" class="form-control sm w-25"  v-model="articulo.fAlta">
 
-                        <button class="btn btn-secondary">
-                            <i class="bi bi-eraser-fill fs-5" @click.prevent="limpiarFormCli"></i>
+                        <button class="btn btn-secondary" type="button" @click.prevent="limpiarFormCli">
+                            <i class="bi bi-eraser-fill fs-5" ></i>
                         </button>
                     </div>
 
@@ -189,9 +189,10 @@ export default {
                     } else {
                         delete this.articulo.id; 
 
-                        if (this.articulo.fAlta){
+                        if (!this.articulo.fAlta){
                             this.articulo.fAlta = new Date(); 
                         }
+
                         await fetch(`http://localhost:3000/articulos`, {
                             method: 'POST',
                             headers: {
@@ -199,6 +200,7 @@ export default {
                             },
                             body: JSON.stringify(this.articulo)
                         });
+
                         this.mostrarAlerta("Aviso", "Artículo dado de alta correctamente", "success")
                         this.getArticulos();
                     }
@@ -242,43 +244,52 @@ export default {
             },
 
 
-            async eliminarArticulo() {
-            try {
-                const response = await fetch('http://localhost:3000/articulos');
-                if (!response.ok) {
-                    throw new Error('Error al obtener los articulos: ' + response.statusText);
+            async eliminarArticulo(articulo) {
+                const resp = await Swal.fire({
+                    title: "¿Estás seguro?",
+                    html: `Desea Eliminar a <strong>${articulo.nombre}</strong> <br><br>Esta acción no se puede deshacer`,
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Aceptar",
+                    cancelButtonText: "Cancelar"
+                })
+                if (resp.isConfirmed) {
+                    try {
+                        const response = await fetch('http://localhost:3000/articulos');
+                        if (!response.ok) {
+                            throw new Error('Error al obtener los articulos: ' + response.statusText);
+                        }
+
+                        const articulosExistentes = await response.json();
+                        // Verificar si el Email ya está registrado
+                        const articuloExistente = articulosExistentes.find(c => c.id === articulo.id);
+                        if (articuloExistente) {
+                            await fetch(`http://localhost:3000/articulos/${articuloExistente.id}`, {
+                                method: 'DELETE',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(articuloExistente)
+                            });
+
+                            this.mostrarAlerta("Aviso", "Artículo dado de baja correctamente", "success")
+                            this.getArticulos();
+                        } else {
+                            this.mostrarAlerta("Error", "Artículo no encontrado", "error")
+                        }
+                        this.limpiarFormCli()
+                    } catch (error) {
+                        console.error(error);
+                        this.mostrarAlerta('Error', 'No se pudo dar de baja el articulo.', 'error');
+                    }
                 }
-
-                const articulosExistentes = await response.json();
-
-                // Verificar si el DNI ya está registrado
-                const articuloExistente = articulosExistentes.find(articulo => articulo.id === this.articulo.id);
-
-                if (articuloExistente) {
-
-                    await fetch(`http://localhost:3000/articulos/${articuloExistente.id}`, {
-                        method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(articuloExistente)
-                    });
-
-                    this.mostrarAlerta("Aviso", "Artículo dado de baja correctamente", "success")
-                    this.getArticulos();
-                } else {
-                    this.mostrarAlerta("Error", "Artículo no encontrado", "error")
-                }
-                this.limpiarFormCli()
-            } catch (error) {
-                console.error(error);
-                this.mostrarAlerta('Error', 'No se pudo dar de baja el artículo.', 'error');
-            }
             },
 
         // Métodos para la paginación
         siguientePagina() {
-            if (this.currentPage * this.pageSize < this.candidatos.length) {
+            if (this.currentPage * this.pageSize < this.articulos.length) {
                 this.currentPage++;
             }
         },
@@ -321,7 +332,7 @@ export default {
         },
 
         limpiarFormCli() {
-            this.empleado =  {
+            this.articulo =  {
                 nombre : "", 
                 categoria : "", 
                 descripcion : "", 

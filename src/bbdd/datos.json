@@ -33221,10 +33221,11 @@
   ],
   "articulos": [
     {
-      "id": "",
+      "id": "9ec4",
       "nombre": "Bolígrafos",
       "categoria": {
-        "nombre": "Informática"
+        "nombre": "Informática",
+        "id": "fd56"
       },
       "descripcion": "Bolígrafos de promoción personalizables",
       "precio": "1.25",
@@ -33232,34 +33233,6 @@
       "personalizacion": "Grabar la palabra Terracota",
       "urlimg": "",
       "fAlta": "2025-01-09"
-    },
-    {
-      "id": "",
-      "nombre": "Hola",
-      "categoria": {
-        "nombre": "Hogar",
-        "id": "5453"
-      },
-      "descripcion": "",
-      "precio": "500",
-      "stock": 2,
-      "personalizacion": "",
-      "urlimg": "",
-      "fAlta": ""
-    },
-    {
-      "id": "e2b2",
-      "nombre": "hgfhfgh",
-      "categoria": {
-        "nombre": "Electrónica",
-        "id": "2299"
-      },
-      "descripcion": "fdfsd hola fgfg",
-      "precio": "12",
-      "stock": 4,
-      "personalizacion": "",
-      "urlimg": "",
-      "fAlta": ""
     }
   ]
 }
