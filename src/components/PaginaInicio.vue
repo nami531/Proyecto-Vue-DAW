@@ -18,8 +18,8 @@
                 <div class="text-white d-flex justify-content-center align-items-center text-decoration-none" >Gestión de comentarios</div>
             </router-link>
         
-            <router-link to="/"  class="col bg-secondary me-4 rounded containerAltura d-flex justify-content-center align-items-center text-decoration-none">
-                <div class="text-white   d-flex justify-content-center align-items-center construccion" >En construcción</div>
+            <router-link to="/articulos"  class="col bg-secondary me-4 rounded containerAltura d-flex justify-content-center align-items-center text-decoration-none">
+                <div class="text-white   d-flex justify-content-center align-items-center construccion" >Artículos</div>
             </router-link>
         </div>
 

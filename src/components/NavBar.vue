@@ -23,6 +23,9 @@
                     <router-link to ="/empleo" class="nav-link" active-class="router-link-exact-active">Empleo</router-link>
                 </li>
                 <li class = "nav-item">
+                    <router-link to ="/articulos" class="nav-link" active-class="router-link-exact-active">Artículos</router-link>
+                </li>
+                <li class = "nav-item">
                     <router-link to ="/comentarios" class="nav-link" active-class="router-link-exact-active">Comentarios</router-link>
                 </li>
                 <li class = "nav-item">

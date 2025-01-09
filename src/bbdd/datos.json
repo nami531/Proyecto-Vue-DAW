@@ -33192,5 +33192,74 @@
       "clienteValor": 5,
       "lopd": true
     }
+  ],
+  "categoriasArticulo": [
+    {
+      "nombre": "Electrónica",
+      "id": "2299"
+    },
+    {
+      "nombre": "Hogar",
+      "id": "5453"
+    },
+    {
+      "nombre": "Informática",
+      "id": "fd56"
+    },
+    {
+      "nombre": "Deporte",
+      "id": "f61b"
+    },
+    {
+      "nombre": "Libros",
+      "id": "37c7"
+    },
+    {
+      "nombre": "Otros",
+      "id": "f49e"
+    }
+  ],
+  "articulos": [
+    {
+      "id": "",
+      "nombre": "Bolígrafos",
+      "categoria": {
+        "nombre": "Informática"
+      },
+      "descripcion": "Bolígrafos de promoción personalizables",
+      "precio": "1.25",
+      "stock": 500,
+      "personalizacion": "Grabar la palabra Terracota",
+      "urlimg": "",
+      "fAlta": "2025-01-09"
+    },
+    {
+      "id": "",
+      "nombre": "Hola",
+      "categoria": {
+        "nombre": "Hogar",
+        "id": "5453"
+      },
+      "descripcion": "",
+      "precio": "500",
+      "stock": 2,
+      "personalizacion": "",
+      "urlimg": "",
+      "fAlta": ""
+    },
+    {
+      "id": "e2b2",
+      "nombre": "hgfhfgh",
+      "categoria": {
+        "nombre": "Electrónica",
+        "id": "2299"
+      },
+      "descripcion": "fdfsd hola fgfg",
+      "precio": "12",
+      "stock": 4,
+      "personalizacion": "",
+      "urlimg": "",
+      "fAlta": ""
+    }
   ]
 }
