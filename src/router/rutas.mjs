@@ -8,7 +8,7 @@ const rutas = express.Router();
 
 rutas.get('/articulos', async (req, res) => {
     try{
-        const articulos = await Articulo.find({});
+        const articulos = await Articulo.default.find({});
         res.json(articulos);
 
     } catch(error){
@@ -19,7 +19,7 @@ rutas.get('/articulos', async (req, res) => {
 
 rutas.post('/articulos', async (req, res) => {
     try{
-        const articulo = new Articulo(req.body);
+        const articulo = new Articulo.default(req.body);
         await articulo.save();
         res.status(201).json(articulo);
         console.log("Artículo guardado correctamente");
@@ -42,7 +42,7 @@ rutas.put('/articulos/:id', async (req, res) => {
         }
 
         // Intentar encontrar y actualizar el artículo
-        const articulo = await Articulo.findByIdAndUpdate(id, req.body, { new: true });
+        const articulo = await Articulo.default.findByIdAndUpdate(id, req.body, { new: true });
 
         // Si no se encuentra el artículo
         if (!articulo) {
@@ -69,7 +69,7 @@ rutas.delete('/articulos/:id', async (req, res) => {
         }
 
         // Intentar encontrar y eliminar el artículo
-        const articulo = await Articulo.findByIdAndDelete(id);
+        const articulo = await Articulo.default.findByIdAndDelete(id);
 
         // Si no se encuentra el artículo
         if (!articulo) {
