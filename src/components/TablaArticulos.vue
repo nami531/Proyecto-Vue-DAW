@@ -78,7 +78,7 @@
                 </thead>
                 <tbody>
                     <tr v-for="articulo in articulosPorPagina" :key="articulo.id">
-                        <td class="text-start align-middle">{{ articulo.id.slice(-8) }}</td>
+                        <td class="text-start align-middle">{{ articulo._id.slice(-8) }}</td>
                         <td class="text-start align-middle">{{ articulo.nombre }}</td>
                         <td class="text-start align-middle">{{ articulo.categoria.nombre }}</td>
                         <td class="text-center align-middle">{{ articulo.descripcion }}</td>
@@ -115,7 +115,7 @@
 </template>
 
 <script>
-import { agregarArticulo } from '@/js/articuloServicios';
+import { actualizarArticulo, agregarArticulo, obtenerArticulos } from '@/js/articuloServicios';
 import Swal from 'sweetalert2';
 
 export default {
@@ -127,7 +127,7 @@ export default {
     data() {
         return {
             articulo : {
-                id : "",
+                _id : "",
                 nombre : "", 
                 categoria : "", 
                 descripcion : "", 
@@ -165,22 +165,17 @@ export default {
             
             try {
                 // Si existe el  articulo se modifica
-                if (this.articulo.id) {
+                if (this.articulo._id) {
 
-                    await fetch(`http://localhost:3000/articulos/${this.articulo.id}`, {
-                        method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(this.articulo)
-                    });
+                    actualizarArticulo(this.articulo._id, this.articulo)
 
                     this.mostrarAlerta("Aviso", "Artículo modificado correctamente", "success")
                     this.getArticulos();
                 } else {
                     // Borramos el id para que no de problemas
                     delete this.articulo.id; 
-                    agregarArticulo(); 
+                    this.articulo.categoria = this.articulo.categoria.nombre; 
+                    agregarArticulo(this.articulo); 
 
                     this.mostrarAlerta("Aviso", "Artículo dado de alta correctamente", "success")
                     this.getArticulos();
@@ -327,11 +322,8 @@ export default {
 
         async getArticulos() {
             try {
-                const response = await fetch("http://localhost:3000/articulos")
-                if (!response.ok) {
-                    throw new Error("Error en la solicitud" + response.statusText)
-                }
-                this.articulos = await response.json();
+                this.articulos = await obtenerArticulos(); 
+
             } catch (error) {
                 console.error(error);
             }
