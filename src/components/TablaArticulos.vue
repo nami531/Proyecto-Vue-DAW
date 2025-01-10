@@ -22,7 +22,7 @@
                         <span class="input-group-text custom-span ms-auto me-2">Categoría</span>
                         <select name="categoria" id="categoria" class="form-select w-50" v-model="articulo.categoria">
                             <option value="" disabled>Seleccionar categoría</option>
-                            <option v-for="categoria in categorias" :key="categoria.id" :value="categoria">{{ categoria.nombre }}</option>
+                            <option v-for="categoria in categorias" :key="categoria" :value="categoria">{{ categoria }}</option>
                         </select>
                     </div>
                     
@@ -80,7 +80,7 @@
                     <tr v-for="articulo in articulosPorPagina" :key="articulo.id">
                         <td class="text-start align-middle">{{ articulo._id.slice(-8) }}</td>
                         <td class="text-start align-middle">{{ articulo.nombre }}</td>
-                        <td class="text-start align-middle">{{ articulo.categoria.nombre }}</td>
+                        <td class="text-start align-middle">{{ articulo.categoria }}</td>
                         <td class="text-center align-middle">{{ articulo.descripcion }}</td>
                         <td class="text-start align-middle">{{ articulo.precio }}</td>
                         <td class="text-start align-middle">{{ articulo.stock }}</td>
@@ -138,14 +138,14 @@ export default {
                 fAlta : "",
             },
             articulos : [],
-            categorias : [], 
+            categorias : ["Electrónica", "Hogar",  "Informática","Deporte","Libros","Otros"], 
             pageSize: 5,
             currentPage: 1,
         }
     },
 
     mounted()  {
-        this.getCategorias(); 
+        // this.getCategorias(); 
         this.getArticulos();
     },
 
@@ -173,8 +173,8 @@ export default {
                     this.getArticulos();
                 } else {
                     // Borramos el id para que no de problemas
-                    delete this.articulo.id; 
-                    this.articulo.categoria = this.articulo.categoria.nombre; 
+                    delete this.articulo._id; 
+                    // this.articulo.categoria = this.articulo.categoria.nombre; 
                     agregarArticulo(this.articulo); 
 
                     this.mostrarAlerta("Aviso", "Artículo dado de alta correctamente", "success")
@@ -191,19 +191,14 @@ export default {
             this.mostrarAlerta('Error', 'Por favor, completa todos los campos requeridos.', 'error');
         }
     },
-
         async seleccionaArticulo(articulo) {
             // Buscar el articulo por DNI en el archivo JSON
             try {
                 this.limpiarFormCli()
-                const response = await fetch('http://localhost:3000/articulos');
-                if (!response.ok) {
-                    throw new Error('Error en la solicitud: ' + response.statusText);
-                }
-                const articulos = await response.json();
+                const articulos = await obtenerArticulos();
 
                 // Encontrar el articulo por su DNI
-                const articuloEncontrado = articulos.find(c => c.id === articulo.id);
+                const articuloEncontrado = articulos.find(c => c._id === articulo._id);
 
                 if (articuloEncontrado) {
 
@@ -291,21 +286,21 @@ export default {
             });
         },
 
-        async getCategorias() {
-            try {
-                console.log(1)
-                const response = await fetch("http://localhost:3000/categoriasArticulo")
-                if (!response.ok) {
-                    throw new Error("Error en la solicitud" + response.statusText)
-                }
-                console.log(this.categorias)
-                this.categorias = await response.json();
-                console.log(this.categorias)
+        // async getCategorias() {
+        //     try {
+        //         console.log(1)
+        //         const response = await fetch("http://localhost:3000/categoriasArticulo")
+        //         if (!response.ok) {
+        //             throw new Error("Error en la solicitud" + response.statusText)
+        //         }
+        //         console.log(this.categorias)
+        //         this.categorias = await response.json();
+        //         console.log(this.categorias)
 
-            } catch (error) {
-                console.error(error);
-            }
-        },
+        //     } catch (error) {
+        //         console.error(error);
+        //     }
+        // },
 
         limpiarFormCli() {
             this.articulo =  {
