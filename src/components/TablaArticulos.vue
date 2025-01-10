@@ -158,135 +158,115 @@ export default {
     },
 
     methods: {
-        // async grabarArticulo() {
+    async grabarArticulo() {
 
-        //     // Verificar si los campos requeridos están llenos
-        //     if (this.articulo.nombre && this.articulo.categoria && this.articulo.precio && this.articulo.stock) {
-        //         // Obtener los articulos existentes
-        //         const response = await fetch('http://localhost:3000/articulos');
-        //         if (!response.ok) {
-        //             throw new Error('Error al obtener los articulos: ' + response.statusText);
-        //         }
+        // Verificar si los campos requeridos están llenos
+        if (this.articulo.nombre && this.articulo.categoria && this.articulo.precio && this.articulo.stock) {
+            
+            try {
+                // Si existe el  articulo se modifica
+                if (this.articulo.id) {
 
-        //         const articulosExistentes = await response.json();
+                    await fetch(`http://localhost:3000/articulos/${this.articulo.id}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(this.articulo)
+                    });
 
-        //         // Verificar si el DNI ya está registrado
-        //         const articuloExistente = articulosExistentes.find(articulo => articulo.nombre === this.articulo.nombre);
+                    this.mostrarAlerta("Aviso", "Artículo modificado correctamente", "success")
+                    this.getArticulos();
+                } else {
+                    // Borramos el id para que no de problemas
+                    delete this.articulo.id; 
+                    agregarArticulo(); 
+
+                    this.mostrarAlerta("Aviso", "Artículo dado de alta correctamente", "success")
+                    this.getArticulos();
+                }
                 
-        //         try {
-        //             // Si existe el  articulo se modifica
-        //             if (articuloExistente) {
+                this.limpiarFormCli()
+            } catch (error) {
+                console.error(error);
+                this.mostrarAlerta('Error', 'No se pudo guardar el artículo.', 'error');
+            }
+            
+        } else {
+            this.mostrarAlerta('Error', 'Por favor, completa todos los campos requeridos.', 'error');
+        }
+    },
 
-        //                 await fetch(`http://localhost:3000/articulos/${articuloExistente.id}`, {
-        //                     method: 'PUT',
-        //                     headers: {
-        //                         'Content-Type': 'application/json'
-        //                     },
-        //                     body: JSON.stringify(this.articulo)
-        //                 });
+        async seleccionaArticulo(articulo) {
+            // Buscar el articulo por DNI en el archivo JSON
+            try {
+                this.limpiarFormCli()
+                const response = await fetch('http://localhost:3000/articulos');
+                if (!response.ok) {
+                    throw new Error('Error en la solicitud: ' + response.statusText);
+                }
+                const articulos = await response.json();
 
-        //                 this.mostrarAlerta("Aviso", "Artículo modificado correctamente", "success")
-        //                 this.getArticulos();
-        //             } else {
-        //                 delete this.articulo.id; 
+                // Encontrar el articulo por su DNI
+                const articuloEncontrado = articulos.find(c => c.id === articulo.id);
 
+                if (articuloEncontrado) {
 
-        //                 await fetch(`http://localhost:3000/articulos`, {
-        //                     method: 'POST',
-        //                     headers: {
-        //                         'Content-Type': 'application/json'
-        //                     },
-        //                     body: JSON.stringify(this.articulo)
-        //                 });
-
-        //                 this.mostrarAlerta("Aviso", "Artículo dado de alta correctamente", "success")
-        //                 this.getArticulos();
-        //             }
+                    this.articulo = { ...articuloEncontrado };                    
+                    this.articulo.fAlta = this.articulo.fAlta.split('T')[0];  // Para asegurarse de que la fecha esté en formato YYYY-MM-DD
                     
-        //             this.limpiarFormCli()
-        //         } catch (error) {
-        //             console.error(error);
-        //             this.mostrarAlerta('Error', 'No se pudo guardar el artículo.', 'error');
-        //         }
-                
-        //     } else {
-        //         this.mostrarAlerta('Error', 'Por favor, completa todos los campos requeridos.', 'error');
-        //     }
-        // },
-        async grabarArticulo(){
-            agregarArticulo(this.articulo); 
+                } else {
+                    this.mostrarAlerta('Error', 'Artículo no encontrado en el servidor.', 'error');
+                }
+            } catch (error) {
+                console.error(error);
+                this.mostrarAlerta('Error', 'No se pudo cargar el artículo desde el servidor.', 'error');
+            }
         },
 
-            async seleccionaArticulo(articulo) {
-                // Buscar el articulo por DNI en el archivo JSON
+
+        async eliminarArticulo(articulo) {
+            const resp = await Swal.fire({
+                title: "¿Estás seguro?",
+                html: `Desea Eliminar a <strong>${articulo.nombre}</strong> <br><br>Esta acción no se puede deshacer`,
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Aceptar",
+                cancelButtonText: "Cancelar"
+            })
+            if (resp.isConfirmed) {
                 try {
-                    this.limpiarFormCli()
                     const response = await fetch('http://localhost:3000/articulos');
                     if (!response.ok) {
-                        throw new Error('Error en la solicitud: ' + response.statusText);
+                        throw new Error('Error al obtener los articulos: ' + response.statusText);
                     }
-                    const articulos = await response.json();
 
-                    // Encontrar el articulo por su DNI
-                    const articuloEncontrado = articulos.find(c => c.id === articulo.id);
+                    const articulosExistentes = await response.json();
+                    // Verificar si el Email ya está registrado
+                    const articuloExistente = articulosExistentes.find(c => c.id === articulo.id);
+                    if (articuloExistente) {
+                        await fetch(`http://localhost:3000/articulos/${articuloExistente.id}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(articuloExistente)
+                        });
 
-                    if (articuloEncontrado) {
-
-                        this.articulo = { ...articuloEncontrado };                    
-                        this.articulo.fAlta = this.articulo.fAlta.split('T')[0];  // Para asegurarse de que la fecha esté en formato YYYY-MM-DD
-                        
+                        this.mostrarAlerta("Aviso", "Artículo dado de baja correctamente", "success")
+                        this.getArticulos();
                     } else {
-                        this.mostrarAlerta('Error', 'Artículo no encontrado en el servidor.', 'error');
+                        this.mostrarAlerta("Error", "Artículo no encontrado", "error")
                     }
+                    this.limpiarFormCli()
                 } catch (error) {
                     console.error(error);
-                    this.mostrarAlerta('Error', 'No se pudo cargar el artículo desde el servidor.', 'error');
+                    this.mostrarAlerta('Error', 'No se pudo dar de baja el articulo.', 'error');
                 }
-            },
-
-
-            async eliminarArticulo(articulo) {
-                const resp = await Swal.fire({
-                    title: "¿Estás seguro?",
-                    html: `Desea Eliminar a <strong>${articulo.nombre}</strong> <br><br>Esta acción no se puede deshacer`,
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Aceptar",
-                    cancelButtonText: "Cancelar"
-                })
-                if (resp.isConfirmed) {
-                    try {
-                        const response = await fetch('http://localhost:3000/articulos');
-                        if (!response.ok) {
-                            throw new Error('Error al obtener los articulos: ' + response.statusText);
-                        }
-
-                        const articulosExistentes = await response.json();
-                        // Verificar si el Email ya está registrado
-                        const articuloExistente = articulosExistentes.find(c => c.id === articulo.id);
-                        if (articuloExistente) {
-                            await fetch(`http://localhost:3000/articulos/${articuloExistente.id}`, {
-                                method: 'DELETE',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify(articuloExistente)
-                            });
-
-                            this.mostrarAlerta("Aviso", "Artículo dado de baja correctamente", "success")
-                            this.getArticulos();
-                        } else {
-                            this.mostrarAlerta("Error", "Artículo no encontrado", "error")
-                        }
-                        this.limpiarFormCli()
-                    } catch (error) {
-                        console.error(error);
-                        this.mostrarAlerta('Error', 'No se pudo dar de baja el articulo.', 'error');
-                    }
-                }
-            },
+            }
+        },
 
         // Métodos para la paginación
         siguientePagina() {
