@@ -17,6 +17,7 @@
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
     "core-js": "^3.8.3",
+    "cors": "^2.8.5",
     "express": "^4.21.2",
     "json-server": "^1.0.0-beta.3",
     "marqueznadia": "file:",

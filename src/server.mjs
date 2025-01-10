@@ -4,7 +4,7 @@ import http from 'http';
 import morgan from 'morgan';
 import rutas from "../src/router/rutas.mjs";
 import mongoose from 'mongoose';
-
+import cors from 'cors'; 
 // Creación del servidor
 const app = express();
 const server = http.createServer(app); 

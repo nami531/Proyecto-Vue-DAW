@@ -8,7 +8,7 @@
 
     <div class="container">
             <div class="container border p-4 mx-auto">
-                <form @submit.prevent="grabarArticulo" class="form-in-line">
+                <form @submit.prevent="g" class="form-in-line">
             
                     <div class="input-group-text mb-3">
                         <div class="input-group">
@@ -78,7 +78,7 @@
                 </thead>
                 <tbody>
                     <tr v-for="articulo in articulosPorPagina" :key="articulo.id">
-                        <td class="text-start align-middle">{{ articulo.id }}</td>
+                        <td class="text-start align-middle">{{ articulo.id.slice(-8) }}</td>
                         <td class="text-start align-middle">{{ articulo.nombre }}</td>
                         <td class="text-start align-middle">{{ articulo.categoria.nombre }}</td>
                         <td class="text-center align-middle">{{ articulo.descripcion }}</td>
@@ -115,6 +115,7 @@
 </template>
 
 <script>
+import { agregarArticulo } from '@/js/articuloServicios';
 import Swal from 'sweetalert2';
 
 export default {
@@ -157,64 +158,64 @@ export default {
     },
 
     methods: {
-        async grabarArticulo() {
+        // async grabarArticulo() {
 
-            // Verificar si los campos requeridos están llenos
-            if (this.articulo.nombre && this.articulo.categoria && this.articulo.precio && this.articulo.stock) {
-                // Obtener los articulos existentes
-                const response = await fetch('http://localhost:3000/articulos');
-                if (!response.ok) {
-                    throw new Error('Error al obtener los articulos: ' + response.statusText);
-                }
+        //     // Verificar si los campos requeridos están llenos
+        //     if (this.articulo.nombre && this.articulo.categoria && this.articulo.precio && this.articulo.stock) {
+        //         // Obtener los articulos existentes
+        //         const response = await fetch('http://localhost:3000/articulos');
+        //         if (!response.ok) {
+        //             throw new Error('Error al obtener los articulos: ' + response.statusText);
+        //         }
 
-                const articulosExistentes = await response.json();
+        //         const articulosExistentes = await response.json();
 
-                // Verificar si el DNI ya está registrado
-                const articuloExistente = articulosExistentes.find(articulo => articulo.nombre === this.articulo.nombre);
+        //         // Verificar si el DNI ya está registrado
+        //         const articuloExistente = articulosExistentes.find(articulo => articulo.nombre === this.articulo.nombre);
                 
-                try {
-                    // Si existe el  articulo se modifica
-                    if (articuloExistente) {
+        //         try {
+        //             // Si existe el  articulo se modifica
+        //             if (articuloExistente) {
 
-                        await fetch(`http://localhost:3000/articulos/${articuloExistente.id}`, {
-                            method: 'PUT',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify(this.articulo)
-                        });
+        //                 await fetch(`http://localhost:3000/articulos/${articuloExistente.id}`, {
+        //                     method: 'PUT',
+        //                     headers: {
+        //                         'Content-Type': 'application/json'
+        //                     },
+        //                     body: JSON.stringify(this.articulo)
+        //                 });
 
-                        this.mostrarAlerta("Aviso", "Artículo modificado correctamente", "success")
-                        this.getArticulos();
-                    } else {
-                        delete this.articulo.id; 
+        //                 this.mostrarAlerta("Aviso", "Artículo modificado correctamente", "success")
+        //                 this.getArticulos();
+        //             } else {
+        //                 delete this.articulo.id; 
 
-                        if (!this.articulo.fAlta){
-                            this.articulo.fAlta = new Date(); 
-                        }
 
-                        await fetch(`http://localhost:3000/articulos`, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify(this.articulo)
-                        });
+        //                 await fetch(`http://localhost:3000/articulos`, {
+        //                     method: 'POST',
+        //                     headers: {
+        //                         'Content-Type': 'application/json'
+        //                     },
+        //                     body: JSON.stringify(this.articulo)
+        //                 });
 
-                        this.mostrarAlerta("Aviso", "Artículo dado de alta correctamente", "success")
-                        this.getArticulos();
-                    }
+        //                 this.mostrarAlerta("Aviso", "Artículo dado de alta correctamente", "success")
+        //                 this.getArticulos();
+        //             }
                     
-                    this.limpiarFormCli()
-                } catch (error) {
-                    console.error(error);
-                    this.mostrarAlerta('Error', 'No se pudo guardar el artículo.', 'error');
-                }
+        //             this.limpiarFormCli()
+        //         } catch (error) {
+        //             console.error(error);
+        //             this.mostrarAlerta('Error', 'No se pudo guardar el artículo.', 'error');
+        //         }
                 
-            } else {
-                this.mostrarAlerta('Error', 'Por favor, completa todos los campos requeridos.', 'error');
-            }
-            },
+        //     } else {
+        //         this.mostrarAlerta('Error', 'Por favor, completa todos los campos requeridos.', 'error');
+        //     }
+        // },
+        async grabarArticulo(){
+            agregarArticulo(this.articulo); 
+        },
 
             async seleccionaArticulo(articulo) {
                 // Buscar el articulo por DNI en el archivo JSON
