@@ -84,7 +84,7 @@
                         <td class="text-center align-middle">{{ articulo.descripcion }}</td>
                         <td class="text-start align-middle">{{ articulo.precio }}</td>
                         <td class="text-start align-middle">{{ articulo.stock }}</td>
-                        <td class="text-start align-middle">{{ articulo.fAlta }}</td>
+                        <td class="text-start align-middle">{{ articulo.fAlta.split("T")[0] }}</td>
                         <td class="text-center align-middle table-info">
                             <div>
                                 <button class="btn btn-warning m-2" @click="seleccionaArticulo(articulo)">
@@ -115,7 +115,7 @@
 </template>
 
 <script>
-import { actualizarArticulo, agregarArticulo, obtenerArticulos } from '@/js/articuloServicios';
+import { actualizarArticulo, agregarArticulo, obtenerArticulos, eliminarArticulo } from '@/js/articuloServicios';
 import Swal from 'sweetalert2';
 
 export default {
@@ -228,22 +228,8 @@ export default {
             })
             if (resp.isConfirmed) {
                 try {
-                    const response = await fetch('http://localhost:3000/articulos');
-                    if (!response.ok) {
-                        throw new Error('Error al obtener los articulos: ' + response.statusText);
-                    }
-
-                    const articulosExistentes = await response.json();
-                    // Verificar si el Email ya está registrado
-                    const articuloExistente = articulosExistentes.find(c => c.id === articulo.id);
-                    if (articuloExistente) {
-                        await fetch(`http://localhost:3000/articulos/${articuloExistente.id}`, {
-                            method: 'DELETE',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify(articuloExistente)
-                        });
+                    if (articulo._id) {
+                        eliminarArticulo(articulo._id)
 
                         this.mostrarAlerta("Aviso", "Artículo dado de baja correctamente", "success")
                         this.getArticulos();
