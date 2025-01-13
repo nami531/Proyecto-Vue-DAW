@@ -53,7 +53,7 @@
                     </div>
 
                     <div id="botones" class="d-flex justify-content-center flex-wrap row">
-                        <button class="btn btn-primary m-2 col-3 col-sm-3 col-md-1 text-truncate" @click.prevent="grabarArticulo">
+                        <button class="btn btn-primary m-2 col-2 col-sm-4 col-md-2" @click.prevent="grabarArticulo">
                             <i class="bi bi-floppy"></i>
                             Guardar
                         </button>
@@ -89,11 +89,9 @@
                             <div>
                                 <button class="btn btn-warning m-2" @click="seleccionaArticulo(articulo)">
                                     <i class="fas fa-pencil-alt"></i>
-                                    Editar
                                 </button>
                                 <button class="btn btn-danger m-2" @click="eliminarArticulo(articulo)">
                                     <i class="bi bi-trash"></i>
-                                    Eliminar
                                 </button>
                             </div>
                         </td>
@@ -105,7 +103,7 @@
                     <i class="bi bi-chevron-left"></i>
                 </button>
                 <span class="mx-3 align-self-center"> Página {{ currentPage }}</span>
-                <button class="btn btn-primary" :disabled="currentPage * pageSize > articulosPorPagina.length"
+                <button class="btn btn-primary" :disabled="currentPage * pageSize >= this.articulos.length"
                     @click="siguientePagina">
                     <i class="bi bi-chevron-right"></i>
                 </button>
@@ -152,7 +150,7 @@ export default {
     computed: {
         articulosPorPagina() {
             const indiceInicial = (this.currentPage - 1) * this.pageSize;
-
+            console.log(this.articulos.slice(indiceInicial, indiceInicial + this.pageSize)); 
             return this.articulos.slice(indiceInicial, indiceInicial + this.pageSize);
         }
     },
