@@ -39,10 +39,10 @@
                 </button>
                 <ul class="dropdown-menu">
                     <li class="dropdown-item">
-                        <router-link to="/login">Acceso</router-link>
+                        <router-link to="/login" class="dropdown-item">Acceso</router-link>
                     </li>
                     <li class="dropdown-item">
-                        <router-link to="/signup">Registro</router-link>
+                        <router-link to="/signup" class="dropdown-item">Registro</router-link>
                     </li>
                 </ul>
                 
