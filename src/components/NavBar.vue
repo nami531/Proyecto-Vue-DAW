@@ -1,7 +1,7 @@
 <template>
     <div id="navbar" class = 'container'>
         <nav class = "navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class = "container-fluid">
+        <div class = "container-fluid d-flex justify-content-evenly">
           <button class = "navbar-toggler" 
           type = "button" 
           data-bs-toggle = "collapse" 
@@ -32,6 +32,20 @@
                     <router-link to ="/contacto" class="nav-link" active-class="router-link-exact-active">Contacto</router-link>
                 </li>
             </ul>
+            </div>
+            <div class="dropdown ms-auto">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-person-circle"></i>
+                </button>
+                <ul class="dropdown-menu">
+                    <li class="dropdown-item">
+                        <router-link to="/login">Acceso</router-link>
+                    </li>
+                    <li class="dropdown-item">
+                        <router-link to="/signup">Registro</router-link>
+                    </li>
+                </ul>
+                
             </div>
         </div>
         </nav>
