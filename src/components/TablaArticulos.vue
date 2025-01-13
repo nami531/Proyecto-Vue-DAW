@@ -84,7 +84,7 @@
                         <td class="text-center align-middle">{{ articulo.descripcion }}</td>
                         <td class="text-start align-middle">{{ articulo.precio }}</td>
                         <td class="text-start align-middle">{{ articulo.stock }}</td>
-                        <td class="text-start align-middle">{{ articulo.fAlta.split("T")[0] }}</td>
+                        <td class="text-start align-middle">{{ articulo.fAlta }}</td>
                         <td class="text-center align-middle table-info">
                             <div>
                                 <button class="btn btn-warning m-2" @click="seleccionaArticulo(articulo)">

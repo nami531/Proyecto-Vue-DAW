@@ -28,14 +28,14 @@ server.listen(app.get("port"), () => {
 });
 
 // En clase: 
-// mongoose.connect('mongodb://localhost:27017/bbdd')
-//     .then(() => console.log("Conectado a MongoDB"))
-//     .catch(err => console.log("Error Conexion", err))
+mongoose.connect('mongodb://localhost:27017/BBDD')
+    .then(() => console.log("Conectado a MongoDB"))
+    .catch(err => console.log("Error Conexion", err))
 
 
 // No debería de hacer falta, pero para que funcione en el docker tiene que estar así
-mongoose.connect('mongodb://root:root@localhost:27017/bbdd', {
-    authSource: "admin", // Autenticar contra la base de datos admin
-  })
-    .then(() => console.log("Conectado a MongoDB"))
-    .catch(err => console.log("Error Conexion", err))
+// mongoose.connect('mongodb://root:root@localhost:27017/bbdd', {
+//     authSource: "admin", // Autenticar contra la base de datos admin
+//   })
+//     .then(() => console.log("Conectado a MongoDB"))
+//     .catch(err => console.log("Error Conexion", err))
