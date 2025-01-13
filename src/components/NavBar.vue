@@ -34,8 +34,8 @@
             </ul>
             </div>
             <div class="dropdown ms-auto">
-                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="bi bi-person-circle"></i>
+                <button class="btn btn-primary" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-person-circle fs-3"></i>
                 </button>
                 <ul class="dropdown-menu">
                     <li class="dropdown-item">
