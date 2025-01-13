@@ -105,7 +105,7 @@
                     <i class="bi bi-chevron-left"></i>
                 </button>
                 <span class="mx-3 align-self-center"> Página {{ currentPage }}</span>
-                <button class="btn btn-primary" :disabled="currentPage * pageSize >= articulosPorPagina.length"
+                <button class="btn btn-primary" :disabled="currentPage * pageSize > articulosPorPagina.length"
                     @click="siguientePagina">
                     <i class="bi bi-chevron-right"></i>
                 </button>
