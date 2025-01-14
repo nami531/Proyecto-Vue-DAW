@@ -62,5 +62,9 @@ export default{
 .router-link-exact-active {
     color: #FAD02E !important;
 }
-
+.dropdown-menu{
+    background-color: transparent !important;
+    border: none;
+    margin: 1px 0px; 
+}
 </style>
