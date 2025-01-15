@@ -36,14 +36,21 @@
                         <input type="text" class="form-control sm w-50 ms-2" placeholder="Nombre" v-model="usuario.nombre">
                     </div>
                     <div class="input-group-text mb-3">
-                        <span class="input-group-text custom-span ms-auto me-2">Dirección</span>
-                        <input type="text" class="form-control sm w-75" placeholder="Dirección" v-model="usuario.direccion">
                         <span class="input-group-text custom-span ms-2 me-2">Email</span>
                         <input type="text" class="form-control sm w-25" placeholder="Correo electrónico"
                             v-model="usuario.email" @blur="validarEmail(usuario.email)">
+                        <span class="input-group-text custom-span ms-2 me-2">Email</span>
+                        <input type="text" class="form-control sm w-25" placeholder="Repite el correo electrónico"
+                            v-model="usuario.emailComprobacion" 
+                            :class="[comprobarVerificacion(usuario.emailComprobacion) === null ? '' : comprobarVerificacion(usuario.emailComprobacion) ? 'border-success' : 'border-danger']"
+                            @blur="validarEmail(usuario.emailComprobacion)">
                         <span class="input-group-text custom-span ms-2">Móvil</span>
                         <input type="text" class="form-control sm w-25 ms-2" placeholder="Móvil" v-model="usuario.movil"
                             @blur="validarMovil(this.usuario.movil)">
+                    </div>
+                    <div class="input-group-text mb-3">
+                        <span class="input-group-text custom-span me-2">Dirección</span>
+                        <input type="text" class="form-control sm w-75" placeholder="Dirección" v-model="usuario.direccion">
                     </div>
                     <div class="input-group-text mb-3">
                         <span class="input-group-text custom-span ms-auto me-2">Provincia</span>
@@ -55,12 +62,6 @@
                         <select name="municipio" id="municipio" class="form-select  " v-model="usuario.municipio">
                             <option value="" disabled>Municipio</option>
                             <option v-for="municipio in filtroMunicipios" :key="municipio.id" :value="municipio">{{ municipio.nm }}</option>
-                        </select>
-
-                        <span class="input-group-text custom-span ms-2 me-2">Tipo de usuario: </span>
-                        <select name="municipio" id="municipio" class="form-select  " v-model="usuario.tipo">
-                            <option value="" disabled>Tipo</option>
-                            <option v-for="tipo in tipos" :key="tipo.id" :value="tipo.nombre">{{ tipo.nombre }}</option>
                         </select>
 
                         <input class="ms-3" type="checkbox" name="historico" id="historico" v-model="isChecked">
@@ -149,6 +150,7 @@ export default {
                 baja: "",
                 movil: "",
                 tipo : "",
+                emailComprobacion : "",
             },
             usuarios: [],
             provincias: [],
@@ -429,6 +431,11 @@ export default {
             } else {
                 return true;
             }
+        },
+
+        comprobarVerificacion(email){ 
+            if (email==="") return null; 
+            return email === this.usuario.email;            
         },
 
         validarMovil(movil) {
