@@ -251,7 +251,7 @@ export default {
 
                         if (usuarioExistente) {
                             // Si el DNI ya existe, mostrar un mensaje de error
-                            this.mostrarAlerta('Error', 'El DNI ya está registrado.', 'error');
+                            this.mostrarAlerta('Aviso', `El dni <strong>${usuarioExistente.dni}</strong>  ya está registrado, contacte con el administrador si necesita más ayuda`, 'warning');
                         } else {
                             // Le añadimos el campo oculto al usuario.
                             if (this.usuario.tipo === "") this.usuario.tipo = "usuario"; 
@@ -535,7 +535,7 @@ export default {
         mostrarAlerta(titulo, mensaje, icono) {
             Swal.fire({
                 title: titulo,
-                text: mensaje,
+                html: mensaje,
                 icon: icono,
                 customClass: {
                     container: 'custom-alert-container',
