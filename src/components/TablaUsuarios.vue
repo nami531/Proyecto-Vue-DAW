@@ -1,3 +1,4 @@
+<!-- Problema: Tal y como gestionamos las validaciones si introducimos un valor menor que lo establecido no lo marca como error pero si da el aviso -->
 <template>
     <div>
         <div class="row d-flex align-items-center">
@@ -15,8 +16,12 @@
                             <div class="input-group d-flex flex-row ">
                                 <div class="input-group w-50" >
                                     <span class="input-group-text custom-span me-2">DNI/NIE</span>
-                                    <input type="text" class="form-control sm w-25" placeholder="DNI/NIE" v-model="usuario.dni"
-                                    @blur="validarDNI(this.usuario.dni)" :disabled="editDNI">
+                                    <input type="text" class="form-control sm w-25" placeholder="DNI/NIE" 
+                                    v-model="usuario.dni"
+                                    @blur="validarDNI(this.usuario.dni)" 
+                                    :disabled="editDNI"
+                                    :class="[isDNI(usuario.dni) ? '' : 'bg-danger  bg-opacity-10  border-danger']">
+
                                     <button class="input-group-text" id="basic-addon1" @click.prevent="buscarusuario()">
                                         <i class="bi bi-search"></i>
                                     </button>
@@ -38,20 +43,31 @@
                     <div class="input-group-text mb-3">
                         <span class="input-group-text custom-span ms-2 me-2">Email</span>
                         <input type="text" class="form-control sm w-25" placeholder="Correo electrónico"
-                            v-model="usuario.email" @blur="validarEmail(usuario.email)">
+                            v-model="usuario.email" 
+                            @blur="validarEmail(usuario.email)"
+                            :class="isEmail(usuario.email)  ? '' : 'bg-danger  bg-opacity-10  border-danger'"
+                            >
+
+                            
                         <span class="input-group-text custom-span ms-2 me-2">Email</span>
                         <input type="text" class="form-control sm w-25" placeholder="Repite el correo electrónico"
                             v-model="usuario.emailComprobacion" 
-                            :class="[comprobarVerificacion(usuario.emailComprobacion) === null ? '' : comprobarVerificacion(usuario.emailComprobacion) ? 'border-success' : 'border-danger']"
+                            :class="[comprobarVerificacion(usuario.emailComprobacion) === null ? '' : comprobarVerificacion(usuario.emailComprobacion) ? 'bg-success  bg-opacity-10 border-success' : 'bg-danger  bg-opacity-10  border-danger']"
                             @blur="validarEmail(usuario.emailComprobacion)">
+
                         <span class="input-group-text custom-span ms-2">Móvil</span>
-                        <input type="text" class="form-control sm w-25 ms-2" placeholder="Móvil" v-model="usuario.movil"
-                            @blur="validarMovil(this.usuario.movil)">
+                        <input type="text" class="form-control sm w-25 ms-2" placeholder="Móvil" 
+                            v-model="usuario.movil"
+                            @blur="validarMovil(this.usuario.movil)"
+                            @input="movilModificado"
+                            :class="isMovil(usuario.movil)  ? '' : 'bg-danger  bg-opacity-10  border-danger'">
                     </div>
+                    
                     <div class="input-group-text mb-3">
                         <span class="input-group-text custom-span me-2">Dirección</span>
                         <input type="text" class="form-control sm w-75" placeholder="Dirección" v-model="usuario.direccion">
                     </div>
+
                     <div class="input-group-text mb-3">
                         <span class="input-group-text custom-span ms-auto me-2">Provincia</span>
                         <select name="provincia" id="provincia" class="form-select w-50" v-model="usuario.provincia">
@@ -205,6 +221,7 @@ export default {
 
                 // Verificar si el DNI ya está registrado
                 const usuarioExistente = usuariosExistentes.find(usuario => usuario.dni === this.usuario.dni);
+                // Si el usuario tiene una fecha de baja, significa que ya se ha metido alguna vez y está cargado en el formulario
                 if (this.usuario.baja) {
                     try {
                         if (usuarioExistente) {
@@ -383,9 +400,9 @@ export default {
         // Métodos auxiliares
         // Método para validar el dni
         validarDNI(dni) {
-            if (dni === '') {
+            if (dni === '' || dni.length !== 9) {
                 // Si el campo está vacío, no hace nada
-                return true;
+                return null;
             }
             dni = dni.toUpperCase(); // Convertir a mayúsculas
             this.usuario.dni = dni;
@@ -434,14 +451,18 @@ export default {
         },
 
         comprobarVerificacion(email){ 
+            if (this.isEmail(this.usuario.email)){
+                if (email==="") return null; 
+                return email === this.usuario.email;  
+            } 
             if (email==="") return null; 
-            return email === this.usuario.email;            
+            return false;  
         },
 
         validarMovil(movil) {
             if (movil === '') {
                 // Si el campo está vacío, no hace nada
-                return true;
+                return null;
             }
             this.usuario.movil = movil;
             // Comprobar el formato del DNI/NIE
@@ -453,6 +474,63 @@ export default {
             }
 
         },
+
+        isDNI(dni) {
+            if (dni === '') {
+                // Si el campo está vacío, no hace nada
+                return true;
+            }
+            const dniRegex = /^[XYZ0-9][0-9]{7}[A-Z]$/; // Formato 8 dígitos seguido de 1 letra
+
+            if (!dniRegex.test(dni)) {
+                return false;
+            }
+
+            // Inicializar variables para el cálculo
+            let dniNum = dni.substring(0, 8); // Extraer los números
+            const letra = dni.charAt(8); // Obtener la letra en la posición 8
+            // Identificación del NIE y sustitución
+            if (dniNum.charAt(0) === 'X') {
+                dniNum = dniNum.substring(1, 8)
+                dniNum = '0' + dniNum; // Sustituir X por 0
+            } else if (dniNum.charAt(0) === 'Y') {
+                dniNum = dniNum.substring(1, 8)
+                dniNum = '1' + dniNum; // Sustituir Y por 1
+            } else if (dni.charAt(0) === 'Z') {
+                dniNum = dniNum.substring(1, 8)
+                dniNum = '2' + dniNum; // Sustituir Z por 2
+            }
+
+            // Comprobar la letra esperada
+            const letras = 'TRWAGMYFPDXBNJZSQVHLCKE'; // Letras válidas para el DNI
+            const letraCalculada = letras[dniNum % 23]; // Calcular la letra esperada
+            if (letra !== letraCalculada) {
+                return false;
+            }
+
+            return true; // DNI/NIE válido
+        },
+        
+        isMovil(movil){
+            if (movil === '') {
+                // Si el campo está vacío, no hace nada
+                return true;
+            }
+            this.usuario.movil = movil;
+            // Comprobar el formato del DNI/NIE
+            const movilRegex = /^[67]\d{8}$/; // Formato empieza por 6 o 7 seguido de 8 dígitos 
+
+            return movilRegex.test(movil); 
+        },
+
+        isEmail(email) {
+            if (email === ''){
+                return true; 
+            }
+            const emailPattern = /^[a-zA-Z0-9]+([._-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z]{2,})+$/;
+            return emailPattern.test(email)
+        },
+
         // Método para mostrar alertas
         mostrarAlerta(titulo, mensaje, icono) {
             Swal.fire({
