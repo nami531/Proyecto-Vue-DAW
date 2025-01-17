@@ -55,12 +55,27 @@
                             :class="[comprobarVerificacion(usuario.emailComprobacion) === null ? '' : comprobarVerificacion(usuario.emailComprobacion) ? 'bg-success  bg-opacity-10 border-success' : 'bg-danger  bg-opacity-10  border-danger']"
                             @blur="validarEmail(usuario.emailComprobacion)">
 
-                        <span class="input-group-text custom-span ms-2">Móvil</span>
+                            <span class="input-group-text custom-span ms-2">Móvil</span>
                         <input type="text" class="form-control sm w-25 ms-2" placeholder="Móvil" 
                             v-model="usuario.movil"
                             @blur="validarMovil(this.usuario.movil)"
                             @input="movilModificado"
                             :class="isMovil(usuario.movil)  ? '' : 'bg-danger  bg-opacity-10  border-danger'">
+                    
+                    </div>
+
+                    <div class="input-group-text mb-3">
+                        <span class="input-group-text custom-span ms-2 me-2">Contraseña</span>
+                        <input type="text" class="form-control sm w-25" placeholder="Contraseña"
+                            v-model="usuario.pswd"                             >
+
+                            
+                        <span class="input-group-text custom-span ms-2 me-2">Repita la contraseña</span>
+                        <input type="text" class="form-control sm w-25" placeholder="Repite la contraseña"
+                            v-model="usuario.pswdComprobacion" 
+                            :class="[comprobarVerificacionPswd(usuario.pswdComprobacion) === null  ? '' : comprobarVerificacionPswd(usuario.pswdComprobacion) ?  'bg-success  bg-opacity-10 border-success' : 'bg-danger  bg-opacity-10  border-danger']">
+
+                        
                     </div>
                     
                     <div class="input-group-text mb-3">
@@ -167,6 +182,8 @@ export default {
                 movil: "",
                 tipo : "",
                 emailComprobacion : "",
+                pswd: "", 
+                pswdComprobacion : "",
             },
             usuarios: [],
             provincias: [],
@@ -457,6 +474,12 @@ export default {
             } 
             if (email==="") return null; 
             return false;  
+        },
+
+        comprobarVerificacionPswd(pswd){ 
+            if (pswd ==="") return null; 
+            return pswd === this.usuario.pswd;        
+            
         },
 
         validarMovil(movil) {

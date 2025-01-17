@@ -33002,6 +33002,49 @@
       "baja": "",
       "movil": "681894717",
       "tipo": "admin"
+    },
+    {
+      "id": "4924",
+      "alta": "2025-01-15",
+      "dni": "38437028A",
+      "apellidos": "Prueba1",
+      "nombre": "Prueba1",
+      "direccion": "España",
+      "email": "prueba1@gmail.com",
+      "provincia": {
+        "id": "17",
+        "nm": "Girona"
+      },
+      "municipio": {
+        "id": "17007",
+        "nm": "Amer"
+      },
+      "baja": "",
+      "movil": "698111122",
+      "emailComprobacion": "prueba1@gmail.com"
+    },
+    {
+      "id": "513f",
+      "dni": "88195037L",
+      "alta": "2024-12-31",
+      "apellidos": "PruebaContraseña",
+      "nombre": "PruebaContraseña",
+      "direccion": "PruebaContraseña",
+      "email": "PruebaContrasea@gmail.com",
+      "provincia": {
+        "id": "08",
+        "nm": "Barcelona"
+      },
+      "municipio": {
+        "id": "08009",
+        "nm": "Argentona"
+      },
+      "baja": "",
+      "movil": "678121212",
+      "tipo": "usuario",
+      "emailComprobacion": "PruebaContrasea@gmail.com",
+      "pswd": "PruebaContraseña",
+      "pswdComprobacion": "PruebaContraseña"
     }
   ],
   "candidatos": [
@@ -33222,5 +33265,6 @@
       "urlimg": "",
       "fAlta": "2025-01-09"
     }
-  ]
+  ],
+  "secret" : "your_secret_key"
 }
