@@ -8,12 +8,15 @@
         <router-link to="/" class="btn btn-customb"> <i class="bi bi-arrow-return-left me-2"></i></router-link>
       </h5>
     </div>
-    <div class="container-fluid border p-2 .custom-width w-100">
+    <div class="container border p-2 .custom-width w-100">
       <div class="col-10 col-m-6 col-lg-8 mx-auto w-100 .custom-width" >
         <form class="d-inline" >
           <div class="input-group-text mb-3 d-flex align-items-center">
             <label class="form-label ms-3 me-2">DNI/NIE:</label>
-            <input type="text" class="form-control sm-3 w-25 text-center"  :class="{ 'error-border': dniError }"  v-model="usuario.dni" @blur="validarDNI(this.usuario.dni)" placeholder="DNI-NIE usuario">
+            <input type="text" class="form-control sm-3 w-25"  
+              :class="[isDNI(usuario.dni) ? '' : 'bg-danger  bg-opacity-10  border-danger']"
+              v-model="usuario.dni" @blur="validarDNI(this.usuario.dni)" 
+              placeholder="DNI-NIE usuario">
             <div class="ms-auto"></div>
           </div>
           <div class="input-group-text mb-3">
@@ -24,17 +27,37 @@
           </div>
           <div class="input-group-text mb-3">
             <label class="form-label ms-3 me-2">Email:</label>
-            <input type="text" class="form-control sm  w-50" :class="{ 'error-border': emailMismatch }"  v-model= usuario.email @blur="validarEmail(this.usuario.email)" placeholder="Correo electrónico">
+            <input type="text" class="form-control sm  w-50" 
+              :class="isEmail(usuario.email)  ? '' : 'bg-danger  bg-opacity-10  border-danger'"
+              v-model= usuario.email 
+              @blur="validarEmail(this.usuario.email)" 
+              placeholder="Correo electrónico">
+
             <label class="form-label ms-3 me-2">Repita Email:</label>
-            <input type="text" class="form-control sm  w-50" :class="{ 'error-border': emailMismatch }"  v-model= usuario.email2 @blur="validarEmail(this.usuario.email2)" placeholder="Repita Correo electrónico">
+            <input type="text" class="form-control sm  w-50" 
+              :class="[comprobarVerificacion(email2) === null  ? '' : comprobarVerificacion(email2) ?  'bg-success  bg-opacity-10 border-success' : 'bg-danger  bg-opacity-10  border-danger']"
+              v-model= email2 
+              @blur="validarEmail(this.email2)" 
+              placeholder="Repita Correo electrónico">
             <label class="form-label ms-3 me-2">Movil:</label>
-            <input type="text" class="form-control sm  w-25 text-center" :class="{ 'error-border': movilError }" v-model= usuario.movil @blur="validarMovil(this.usuario.movil)" placeholder="Movil usuario">
+            
+            <input type="text" class="form-control sm  w-25" 
+            :class="isMovil(usuario.movil)  ? '' : 'bg-danger  bg-opacity-10  border-danger'"
+              v-model= usuario.movil 
+              @blur="validarMovil(this.usuario.movil)" 
+              placeholder="Movil usuario">
           </div>   
           <div class="input-group-text mb-3">       
             <label type="text" class="form-label ms-3 me-2">Contraseña:</label>
-            <input type="password" class="form-control sm  w-50" :class="{ 'error-border': passMismatch }" v-model = usuario.pass placeholder="Contraseña">
+            <input type="password" class="form-control sm  w-50" 
+              v-model = usuario.pass 
+              placeholder="Contraseña">
+            
             <label type="text" class="form-label ms-3 me-2">Repita Contraseña:</label>
-            <input type="password" class="form-control sm  w-50" :class=" { 'error-border': passMismatch }" v-model= usuario.pass2 placeholder="Repita Contraseña">         
+            <input type="password" class="form-control sm  w-50" 
+              :class="[comprobarVerificacionPswd(pass2) === null  ? '' : comprobarVerificacionPswd(pass2) ?  'bg-success  bg-opacity-10 border-success' : 'bg-danger  bg-opacity-10  border-danger']"
+              v-model= pass2 
+              placeholder="Repita Contraseña">         
           </div>
           <div class="input-group-text mb-3">
           <label class="form-label ms-3 me-2">Dirección:</label>
@@ -89,9 +112,7 @@ export default {
         nombre: '',
         direccion: '',
         email: '',
-        //email2: '',
         pass: '',
-        //pass2: '',
         provincia: '',
         municipio: '',
         movil: '',
@@ -106,7 +127,9 @@ export default {
       municipios: [],
       errores: [],
       tipos: [],
-      editDni: false
+      editDni: false,
+      email2: "", 
+      pass2 : "", 
     };
   },
 
@@ -117,12 +140,12 @@ export default {
 
   computed: {
       emailMismatch() {
-          return this.usuario.email && this.usuario.email2 && this.usuario.email !== this.usuario.email2;
+          return this.usuario.email && this.email2 && this.usuario.email !== this.email2;
        
       },  
 
       passMismatch() {
-        return this.usuario.pass && this.usuario.pass2 && this.usuario.pass !== this.usuario.pass2;
+        return this.usuario.pass && this.pass2 && this.usuario.pass !== this.pass2;
       }, 
      
     municipiosFiltrados() {
@@ -144,17 +167,17 @@ export default {
       // Método para grabar usuario
 
       async grabarUsuario() {
-        if (this.usuario.dni && this.usuario.apellidos && this.usuario.nombre && this.usuario.email && this.usuario.email2) {
+        if (this.usuario.dni && this.usuario.apellidos && this.usuario.nombre && this.usuario.email && this.email2) {
           // Validar que los dos correos electrónicos sean iguales
           if (!this.isChecked) {
             this.mostrarAlerta('Error', 'Debes aceptar la Política de Privacidad para continuar.', 'error');
             return; // No continuar si el checkbox no está marcado
           }
-          if (this.usuario.email !== this.usuario.email2) {
+          if (this.usuario.email !== this.email2) {
             this.mostrarAlerta('Error', 'Los correos electrónicos no coinciden.', 'error');
             return; // No continuar con el proceso si los correos no coinciden
           }
-          if (this.usuario.pass !== this.usuario.pass2) {
+          if (this.usuario.pass !== this.pass2) {
             this.mostrarAlerta('Error', 'Las contraseñas no coinciden.', 'error');
             return; // No continuar con el proceso si las contraseñas no coinciden
           }
@@ -332,6 +355,77 @@ export default {
           }
           this.editDni = false;
     },
+
+      isDNI(dni) {
+            if (dni === '') {
+                // Si el campo está vacío, no hace nada
+                return true;
+            }
+            const dniRegex = /^[XYZ0-9][0-9]{7}[A-Z]$/; // Formato 8 dígitos seguido de 1 letra
+
+            if (!dniRegex.test(dni)) {
+                return false;
+            }
+
+            // Inicializar variables para el cálculo
+            let dniNum = dni.substring(0, 8); // Extraer los números
+            const letra = dni.charAt(8); // Obtener la letra en la posición 8
+            // Identificación del NIE y sustitución
+            if (dniNum.charAt(0) === 'X') {
+                dniNum = dniNum.substring(1, 8)
+                dniNum = '0' + dniNum; // Sustituir X por 0
+            } else if (dniNum.charAt(0) === 'Y') {
+                dniNum = dniNum.substring(1, 8)
+                dniNum = '1' + dniNum; // Sustituir Y por 1
+            } else if (dni.charAt(0) === 'Z') {
+                dniNum = dniNum.substring(1, 8)
+                dniNum = '2' + dniNum; // Sustituir Z por 2
+            }
+
+            // Comprobar la letra esperada
+            const letras = 'TRWAGMYFPDXBNJZSQVHLCKE'; // Letras válidas para el DNI
+            const letraCalculada = letras[dniNum % 23]; // Calcular la letra esperada
+            if (letra !== letraCalculada) {
+                return false;
+            }
+
+            return true; // DNI/NIE válido
+        },
+        
+        isMovil(movil){
+            if (movil === '') {
+                // Si el campo está vacío, no hace nada
+                return true;
+            }
+            this.usuario.movil = movil;
+            // Comprobar el formato del DNI/NIE
+            const movilRegex = /^[67]\d{8}$/; // Formato empieza por 6 o 7 seguido de 8 dígitos 
+
+            return movilRegex.test(movil); 
+        },
+
+        isEmail(email) {
+            if (email === ''){
+                return true; 
+            }
+            const emailPattern = /^[a-zA-Z0-9]+([._-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z]{2,})+$/;
+            return emailPattern.test(email)
+        },
+
+        comprobarVerificacion(email){ 
+            if (this.isEmail(this.usuario.email)){
+                if (email==="") return null; 
+                return email === this.usuario.email;  
+            } 
+            if (email==="") return null; 
+            return false;  
+        },
+
+        comprobarVerificacionPswd(pswd){ 
+            if (pswd ==="") return null; 
+            return pswd === this.usuario.pass;        
+            
+        },
 
       // Método para mostrar alertas
     mostrarAlerta(titulo, mensaje, icono) {
