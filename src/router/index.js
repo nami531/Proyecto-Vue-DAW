@@ -9,6 +9,7 @@ import AvisoLegal from '@/components/AvisoLegal.vue'
 import TablaComentarios from '@/components/TablaComentarios.vue'
 import TablaArticulos from '@/components/TablaArticulos.vue'
 import TablaRegistro from '@/components/TablaRegistro.vue'
+import TablaLogin from '@/components/TablaLogin.vue'
 
 const routes = [
   {
@@ -60,6 +61,11 @@ const routes = [
     path : "/registro", 
     name: "TablaRegistro", 
     component : TablaRegistro
+  }, 
+  {
+    path : "/login", 
+    name: "TablaLogin",
+    component : TablaLogin
   }
 
 

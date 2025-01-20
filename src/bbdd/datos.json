@@ -33022,6 +33022,27 @@
       "baja": "",
       "movil": "698111122",
       "emailComprobacion": "prueba1@gmail.com"
+    },
+    {
+      "id": "a00b",
+      "dni": "72725478F",
+      "alta": "2025-01-20",
+      "apellidos": "Prueba1",
+      "nombre": "Prueba1",
+      "direccion": "Vigo",
+      "email": "prueba@gmail.com",
+      "pass": "$2a$10$sWRzuP2dqBCnS5mlpi9kCe52C98zs8eJ4AIDaa7SYJIgPZ/TW8r9i",
+      "provincia": {
+        "id": "14",
+        "nm": "Córdoba"
+      },
+      "municipio": {
+        "id": "14012",
+        "nm": "Bujalance"
+      },
+      "movil": "698171212",
+      "baja": "",
+      "tipo": "usuario"
     }
   ],
   "candidatos": [
