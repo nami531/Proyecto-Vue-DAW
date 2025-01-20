@@ -1,15 +1,16 @@
 <template>
     <div class="container ">
-    <div class="text-center my-4">
-      <h5 class="font-weight-bold text-uppercase text-primary position-relative d-inline-block">
-        <i class="bi bi-people-fill me-2"></i> <!-- Icono decorativo -->
+    <div class="my-4 d-flex justify-content-center ">
+      <i class="bi bi-people-fill me-2 text-primary"></i> <!-- Icono decorativo -->
+      
+      <h5 class="font-weight-bold text-uppercase text-primary  ">        
         Iniciar sesión
-        <span class="underline-effect"></span> <!-- Línea decorativa -->
-        <router-link to="/" class="btn btn-customb"> <i class="bi bi-arrow-return-left me-2"></i></router-link>
       </h5>
+      <router-link to="/" class="btn"> <i class="bi bi-arrow-return-left me-2"></i></router-link>
+
     </div>
   
-      <form @submit.prevent="iniciarSesion" class="border p-4">
+      <form @submit.prevent="iniciarSesion" class="border rounded shadow p-4 ">
         <!-- Campo DNI -->
         <label for="dni" class="form-label">DNI:</label>
 
