@@ -354,6 +354,8 @@ export default {
             tipo: ''
           }
           this.editDni = false;
+          this.pass2 = "";  
+          this.email2 = ""; 
     },
 
       isDNI(dni) {
