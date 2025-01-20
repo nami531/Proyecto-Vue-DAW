@@ -33022,29 +33022,6 @@
       "baja": "",
       "movil": "698111122",
       "emailComprobacion": "prueba1@gmail.com"
-    },
-    {
-      "id": "513f",
-      "dni": "88195037L",
-      "alta": "2024-12-31",
-      "apellidos": "PruebaContraseña",
-      "nombre": "PruebaContraseña",
-      "direccion": "PruebaContraseña",
-      "email": "PruebaContrasea@gmail.com",
-      "provincia": {
-        "id": "08",
-        "nm": "Barcelona"
-      },
-      "municipio": {
-        "id": "08009",
-        "nm": "Argentona"
-      },
-      "baja": "",
-      "movil": "678121212",
-      "tipo": "usuario",
-      "emailComprobacion": "PruebaContrasea@gmail.com",
-      "pswd": "PruebaContraseña",
-      "pswdComprobacion": "PruebaContraseña"
     }
   ],
   "candidatos": [
@@ -33266,5 +33243,5 @@
       "fAlta": "2025-01-09"
     }
   ],
-  "secret" : "your_secret_key"
+  "secret": "your_secret_key"
 }

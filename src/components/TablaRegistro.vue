@@ -202,7 +202,7 @@ export default {
               // Si el DNI no existe, agregar el usuario a la base de datos
               
               // Encriptar la contraseña antes de enviarla
-              const hashedPassword = await passport.encriptarContrasena(this.usuario.pass);
+              const hashedPassword = await passport.encriptarContrasenha(this.usuario.pass);
               this.usuario.pass = hashedPassword;  // Asignar la contraseña encriptada al objeto usuario
 
               // Añadir la fecha de registro en formato dd/mm/yyyy
