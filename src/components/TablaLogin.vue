@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="container ">
     <div class="text-center my-4">
       <h5 class="font-weight-bold text-uppercase text-primary position-relative d-inline-block">
         <i class="bi bi-people-fill me-2"></i> <!-- Icono decorativo -->
@@ -9,22 +9,27 @@
       </h5>
     </div>
   
-      <form @submit.prevent="iniciarSesion">
+      <form @submit.prevent="iniciarSesion" class="border p-4">
         <!-- Campo DNI -->
-        <div class="mb-3">
-          <label for="dni" class="form-label">DNI:</label>
+        <label for="dni" class="form-label">DNI:</label>
+
+        <div class=" input-group mb-3">
+          <span class="input-group-text"><i class="bi bi-person"></i></span>
           <input
             type="text"
             id="dni"
             class="form-control"
             v-model="dni"
             required
+            
           />
         </div>
+
   
         <!-- Campo Contraseña -->
-        <div class="mb-3">
-          <label for="pass" class="form-label">Contraseña:</label>
+        <label for="pass" class="form-label">Contraseña:</label>
+        <div class="input-group mb-3">
+          <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
           <input
             type="password"
             id="pass"
@@ -35,7 +40,7 @@
         </div>
   
         <!-- Botón de login -->
-        <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+        <button type="submit" class="btn btn-primary w-100 mt-4">Iniciar sesión</button>
       </form>
   
       <!-- Mensaje de error -->
