@@ -14,7 +14,7 @@
             <div class = "collapse navbar-collapse" id = "navbarNav">
             <ul class = "navbar-nav">
                 <li class = "nav-item">
-                    <router-link to ="/" class="nav-link" active-class="router-link-exact-active">Inicio</router-link>
+                    <router-link to ="/" class="nav-link" active-class="router-link-exact-active" v-if="isAdmin">Inicio</router-link>
                 </li>
                 <li class = "nav-item">
                     <router-link to ="/usuarios" class="nav-link" active-class="router-link-exact-active">Usuarios</router-link>
@@ -44,6 +44,9 @@
                     <li class="dropdown-item">
                         <router-link to="/registro" class="dropdown-item">Registro</router-link>
                     </li>
+                    <li class="dropdown-item">
+                        <router-link to="/logout" class="dropdown-item" @click="logout">Cerrar sesión</router-link>
+                    </li>
                 </ul>
                 
             </div>
@@ -55,7 +58,35 @@
 
 <script>
 export default{
-    name: "NavBar"
+    name: "NavBar", 
+    data(){
+        return {
+            isDropdownVisible: false, 
+            isAdmin : false, 
+        }; 
+    }, 
+    
+    mounted() {
+        this.isAdmin = localStorage.getItem('isAdmin') === 'true'; 
+    }, 
+
+    methods:{
+        toggleDropdown(){
+            console.log('Botón pulsado')
+            this.isDropdownVisible = !this.isDropdownVisible; 
+        }, 
+        
+        logout(){
+            localStorage.removeItem('isLogueado');
+            localStorage.removeItem('isAdmin'); 
+
+            this.$router.push({name : 'TablaLogin'}).then(() => {
+                window.location.reload()
+            })
+        }
+    }
+
+
 }
 </script>
 <style scoped>

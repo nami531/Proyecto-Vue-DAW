@@ -15,7 +15,8 @@ const routes = [
   {
     path: '/',
     name: 'inicio',
-    component: PaginaInicio
+    component: PaginaInicio,
+    meta : {requiresAdmin : true},
   },
   {
     path: "/usuarios",
@@ -66,6 +67,10 @@ const routes = [
     path : "/login", 
     name: "TablaLogin",
     component : TablaLogin
+  }, 
+  {
+    path : '/logout', 
+    name: 'logout'
   }
 
 
@@ -74,6 +79,20 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiresAdmin){
+    const isLogueado = localStorage.getItem('isLogueado') === 'true'; 
+    const isAdmin = localStorage.getItem('isAdmin') === 'true'; 
+    if (!isLogueado || !isAdmin){
+      next({name : 'TablaLogin'})
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }  
 })
 
 export default router
