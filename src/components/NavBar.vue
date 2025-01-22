@@ -14,16 +14,22 @@
             <div class = "collapse navbar-collapse" id = "navbarNav">
             <ul class = "navbar-nav">
                 <li class = "nav-item">
-                    <router-link to ="/" class="nav-link" active-class="router-link-exact-active" v-if="isAdmin">Inicio</router-link>
+                    <router-link to ="/gestion" class="nav-link" active-class="router-link-exact-active" v-if="isAdmin">Gestión</router-link>
                 </li>
                 <li class = "nav-item">
-                    <router-link to ="/usuarios" class="nav-link" active-class="router-link-exact-active">Usuarios</router-link>
+                    <router-link to ="/gestion" class="nav-link" active-class="router-link-exact-active">Inicio</router-link>
+                </li>
+                <li class = "nav-item">
+                    <router-link to ="/tienda" class="nav-link" active-class="router-link-exact-active">Tienda</router-link>
+                </li>
+                <li class = "nav-item">
+                    <router-link to ="/usuarios" class="nav-link" active-class="router-link-exact-active" v-if="isAdmin">Usuarios</router-link>
                 </li>
                 <li class = "nav-item">
                     <router-link to ="/empleo" class="nav-link" active-class="router-link-exact-active">Empleo</router-link>
                 </li>
                 <li class = "nav-item">
-                    <router-link to ="/articulos" class="nav-link" active-class="router-link-exact-active">Artículos</router-link>
+                    <router-link to ="/articulos" class="nav-link" active-class="router-link-exact-active" v-if="isAdmin">Artículos</router-link>
                 </li>
                 <li class = "nav-item">
                     <router-link to ="/comentarios" class="nav-link" active-class="router-link-exact-active">Comentarios</router-link>
@@ -38,13 +44,13 @@
                     <i class="bi bi-person-circle fs-3"></i>
                 </button>
                 <ul class="dropdown-menu">
-                    <li class="dropdown-item">
+                    <li class="dropdown-item" v-if="!isLogueado">
                         <router-link to="/login" class="dropdown-item">Acceso</router-link>
                     </li>
-                    <li class="dropdown-item">
+                    <li class="dropdown-item" v-if="!isLogueado">
                         <router-link to="/registro" class="dropdown-item">Registro</router-link>
                     </li>
-                    <li class="dropdown-item">
+                    <li class="dropdown-item" v-if="isLogueado">
                         <router-link to="/logout" class="dropdown-item" @click="logout">Cerrar sesión</router-link>
                     </li>
                 </ul>
@@ -63,11 +69,14 @@ export default{
         return {
             isDropdownVisible: false, 
             isAdmin : false, 
+            isLogueado : false,
         }; 
     }, 
     
     mounted() {
         this.isAdmin = localStorage.getItem('isAdmin') === 'true'; 
+        this.isLogueado = localStorage.getItem('isLogueado') === 'true'; 
+
     }, 
 
     methods:{
