@@ -58,9 +58,8 @@ Se ha modificado un dato en el json a propósito con la finalidad de enseñar la
                     <input class="btn btn-primary m-2 col-2 p-2 text-align-center" type="submit" @click.prevent="grabarComentario" value="Enviar Comentario">
                 </form>
             </div>
-
-            <h5 class="text-primary p-5"><i class="bi bi-file-earmark-bar-graph"></i> TABLA DE COMENTARIOS</h5>
-
+            <div v-if="isAdmin">
+                <h5 class="text-primary p-5"><i class="bi bi-file-earmark-bar-graph"></i> TABLA DE COMENTARIOS</h5>
             <table class="table table-striped mt-2">
                 <thead>
                     <tr class="table-primary">
@@ -106,6 +105,8 @@ Se ha modificado un dato en el json a propósito con la finalidad de enseñar la
                     <i class="bi bi-chevron-right"></i>
                 </button>
             </div>
+            </div>
+            
         </div>
 
 </template>
@@ -136,12 +137,14 @@ export default {
 
             pageSize: 5, //Registros por página
             currentPage: 1,
+            isAdmin: false,
         }
     },
 
 
     mounted() {
         this.getComentarios(); 
+        this.isAdmin = localStorage.getItem("isAdmin") === "true"
     },
 
     computed : {

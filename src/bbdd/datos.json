@@ -33021,7 +33021,8 @@
       },
       "baja": "",
       "movil": "698111122",
-      "emailComprobacion": "prueba1@gmail.com"
+      "emailComprobacion": "prueba1@gmail.com",
+      "tipo": "admin"
     },
     {
       "id": "a00b",
@@ -33043,6 +33044,27 @@
       "movil": "698171212",
       "baja": "",
       "tipo": "admin"
+    },
+    {
+      "id": "1c9f",
+      "dni": "72067538M",
+      "alta": "2025-01-21",
+      "apellidos": "Prueba Inicio Sesion",
+      "nombre": "Prueba3",
+      "direccion": "La contraseña es prueba",
+      "email": "pr@gmail.com",
+      "pass": "$2a$10$dHGuiBAQ1mp5VXtdJ2Ggg.zUPGnkOYSw3dl63iMeOpQhgaTUSwUfG",
+      "provincia": {
+        "id": "09",
+        "nm": "Burgos"
+      },
+      "municipio": {
+        "id": "09012",
+        "nm": "Alfoz de Santa Gadea"
+      },
+      "movil": "698857512",
+      "baja": "",
+      "tipo": "usuario"
     }
   ],
   "candidatos": [

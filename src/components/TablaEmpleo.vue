@@ -84,7 +84,7 @@
         </div>
 
 
-        <div class="container">
+        <div class="container" v-if="isAdmin">
             <h5 class="text-primary p-5"><i class="bi bi-tools m-2"></i>Gestión de Candidatos</h5>
             <table class="table table-striped mt-2">
                 <thead>
@@ -160,12 +160,14 @@ export default {
             pageSize: 5,
             currentPage: 1,
             // cargado: false,
+            isAdmin : false,
         }
     },
 
     mounted() {
         this.getDepartamentos();
         this.getCandidatos();
+        this.isAdmin = localStorage.getItem("isAdmin") === "true"
     },
 
     computed: {

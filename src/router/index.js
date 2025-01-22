@@ -12,24 +12,24 @@ import TablaLogin from '@/components/TablaLogin.vue'
 import PanelGestion from '@/components/PanelGestion.vue'
 import PaginaInicio from '@/components/PaginaInicio.vue'
 
-
 const routes = [
   {
     path: '/',
     name: 'inicio',
     component: PaginaInicio,
-    meta : {requiresAdmin : true},
   },
   {
     path: '/gestion',
-    name: 'inicio',
+    name: 'gestion',
     component: PanelGestion,
     meta : {requiresAdmin : true},
   },
   {
     path: "/usuarios",
     name: "usuarios",
-    component: TablaUsuarios
+    component: TablaUsuarios,
+    meta : {requiresAdmin : true},
+
   },
   {
     path: "/contacto",
@@ -94,10 +94,11 @@ router.beforeEach((to, from, next) => {
     const isLogueado = localStorage.getItem('isLogueado') === 'true'; 
     const isAdmin = localStorage.getItem('isAdmin') === 'true'; 
     if (!isLogueado || !isAdmin){
-      next({name : 'TablaLogin'})
+      next({name : 'inicio'})
     } else {
       next()
     }
+    // Si es usuario anonimo
   } else {
     next()
   }  
