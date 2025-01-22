@@ -94,6 +94,16 @@ export default {
             this.mostrarAlerta("Bienvenido", "Sesión Iniciada", "success")
             localStorage.setItem('isLogueado', 'true');
             localStorage.setItem('isAdmin', 'true');
+            localStorage.setItem('email', usuario.email)
+            this.$router.push({ name: 'inicio' }).then(() => {
+              window.location.reload()
+            })
+          } else if (usuario.tipo === "usuario"){
+            this.errorMessage = ""; // Limpiar mensaje de error si las credenciales son correctas
+            this.mostrarAlerta("Bienvenido", "Sesión Iniciada", "success")
+            localStorage.setItem('isLogueado', 'true');
+            localStorage.setItem('isAdmin', 'false');
+            localStorage.setItem('email', usuario.email)
             this.$router.push({ name: 'inicio' }).then(() => {
               window.location.reload()
             })
