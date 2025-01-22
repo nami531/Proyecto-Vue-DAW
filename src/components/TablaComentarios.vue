@@ -15,6 +15,10 @@ Se ha modificado un dato en el json a propósito con la finalidad de enseñar la
     </div>
 
     <div class="container">
+            <div class="d-flex flex-row justify-content-between mb-3 border-3 border-start border-primary px-3 pt-3 bg-body-secondary shadow">
+                <p>Solo los usuarios registrados pueden comentar</p>
+                <router-link to="/registro"><strong>Regístrate</strong></router-link>
+            </div>
             <div class="container border p-4 mx-auto">
                 <form @submit.prevent="grabarComentario" class="form-in-line">
                     <div class="input-group-text mb-3">
@@ -58,7 +62,7 @@ Se ha modificado un dato en el json a propósito con la finalidad de enseñar la
                     <input class="btn btn-primary m-2 col-2 p-2 text-align-center" type="submit" @click.prevent="grabarComentario" value="Enviar Comentario">
                 </form>
             </div>
-            <div v-if="isAdmin">
+            <div v-if="isAdmin" >
                 <h5 class="text-primary p-5"><i class="bi bi-file-earmark-bar-graph"></i> TABLA DE COMENTARIOS</h5>
             <table class="table table-striped mt-2">
                 <thead>
@@ -138,6 +142,7 @@ export default {
             pageSize: 5, //Registros por página
             currentPage: 1,
             isAdmin: false,
+            isLogueado : false,
         }
     },
 
@@ -145,6 +150,8 @@ export default {
     mounted() {
         this.getComentarios(); 
         this.isAdmin = localStorage.getItem("isAdmin") === "true"
+        this.isLogueado = localStorage.getItem("isLogueado") === "true"
+
     },
 
     computed : {
@@ -159,10 +166,15 @@ export default {
         // Métodos principales
         // Método para grabar el comentario
         async grabarComentario() {
+            
 
             // Verificar si los campos requeridos están llenos
             if (this.comentario.clienteEmail && this.comentario.clienteMovil && this.comentario.clienteValor) {
-                if (this.comentario.lopd){                    
+                if (this.comentario.lopd){  
+                    if (!this.isLogueado) {
+                        this.mostrarAlerta("Permiso denegado", "Debes tener una cuenta para comentar", "error")
+                        return; 
+                    }                   
                     if (this.comentario.clienteValor > 5 || this.comentario.clienteValor < 1){
                         this.mostrarAlerta("Error", "Se ha producido un error en la valoración", "error")
                     } else {
@@ -177,9 +189,15 @@ export default {
 
                         // Verificar si el usuario ya está registrado para poder comentar 
                         const usuarioExistente = usuariosExistentes.find(usuario => usuario.email === this.comentario.clienteEmail);
+                        if (!usuarioExistente){ 
+                            this.mostrarAlerta("Permiso denegado", "Debe registrarse para continuar", "error")
+                            return; 
+                        }
                         
                         // Si el usuario existe se crea el comentario en la bbdd
-                        if (usuarioExistente){
+                        // El email introducido en el comentario debe ser el mismo que el del usuario logueado 
+                        let emailUsuarioLogueado = localStorage.getItem('email')
+                        if (emailUsuarioLogueado === this.comentario.clienteEmail){
                             try {
                                 this.comentario.fechaComentario = this.obtenerFechaHoy(); 
                                 delete this.comentario.id; 
@@ -207,7 +225,7 @@ export default {
                             }
                         
                         } else {
-                            this.mostrarAlerta('Error', 'Debe registrarse para continuar', 'error');
+                            this.mostrarAlerta('Error', 'Bien visto pero no puedes robar identidades', 'error');
                         }    
                     }
                     
@@ -222,6 +240,11 @@ export default {
         },
 
         async seleccionaComentario(comentario) {
+            if (!this.isAdmin){ 
+                this.mostrarAlerta("Permiso denegado", "Un usuario no puede editar comentarios de otros usuarios", "error")
+                return; 
+            }
+            
             // Buscar el usuario por DNI en el archivo JSON
             try {
                 this.limpiarFormCli()
@@ -246,6 +269,10 @@ export default {
         },
 
         async borrarComentario(comentario) {
+            if (!this.isAdmin){ 
+                this.mostrarAlerta("Permiso denegado", "Un usuario no puede eliminar comentarios de otros usuarios", "error")
+                return; 
+            }
             {const resp = await Swal.fire({
                 title: "¿Estás seguro?",
                 html: `Desea Eliminar el comentario de <strong>${comentario.clienteEmail}</strong> <br><br>Esta acción no se puede deshacer`,
@@ -256,6 +283,7 @@ export default {
                 confirmButtonText: "Aceptar",
                 cancelButtonText: "Cancelar"
             })
+            
             if (resp.isConfirmed) {
                 try {
                     const response = await fetch('http://localhost:3000/comentarios');
@@ -265,7 +293,7 @@ export default {
 
                     const comentariosExistentes = await response.json();
                     const comentarioExistente = comentariosExistentes.find(c => c.id === comentario.id);
-                    
+                    if (!this.isAdmin) return; 
                     if (comentarioExistente) {
                         if (comentarioExistente.clienteEmail === this.comentario.clienteEmail){
                             await fetch(`http://localhost:3000/comentarios/${comentarioExistente.id}`, {
