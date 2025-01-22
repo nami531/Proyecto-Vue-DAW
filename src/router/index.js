@@ -11,6 +11,7 @@ import TablaRegistro from '@/components/TablaRegistro.vue'
 import TablaLogin from '@/components/TablaLogin.vue'
 import PanelGestion from '@/components/PanelGestion.vue'
 import PaginaInicio from '@/components/PaginaInicio.vue'
+import PaginaTienda from '@/components/PaginaTienda.vue'
 
 const routes = [
   {
@@ -31,6 +32,12 @@ const routes = [
     meta : {requiresAdmin : true},
 
   },
+  {
+    path: "/tienda",
+    name: "PaginaTienda",
+    component: PaginaTienda
+  },
+  
   {
     path: "/contacto",
     name: "contacto",
