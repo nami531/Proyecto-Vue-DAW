@@ -62,7 +62,7 @@ Se ha modificado un dato en el json a propósito con la finalidad de enseñar la
                     <input class="btn btn-primary m-2 col-2 p-2 text-align-center" type="submit" @click.prevent="grabarComentario" value="Enviar Comentario">
                 </form>
             </div>
-            <div v-if="isAdmin" >
+            <div v-if="isLogueado" >
                 <h5 class="text-primary p-5"><i class="bi bi-file-earmark-bar-graph"></i> TABLA DE COMENTARIOS</h5>
             <table class="table table-striped mt-2">
                 <thead>
