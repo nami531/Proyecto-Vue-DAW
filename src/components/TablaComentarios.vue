@@ -15,7 +15,7 @@ Se ha modificado un dato en el json a propósito con la finalidad de enseñar la
     </div>
 
     <div class="container">
-            <div class="d-flex flex-row justify-content-between mb-3 border-3 border-start border-primary px-3 pt-3 bg-body-secondary shadow">
+            <div class="d-flex flex-row justify-content-between mb-3 border-3 border-start border-primary px-3 pt-3 bg-body-secondary shadow" v-if="!isAdmin || !isLogueado">
                 <p>Solo los usuarios registrados pueden comentar</p>
                 <router-link to="/registro"><strong>Regístrate</strong></router-link>
             </div>
@@ -62,7 +62,7 @@ Se ha modificado un dato en el json a propósito con la finalidad de enseñar la
                     <input class="btn btn-primary m-2 col-2 p-2 text-align-center" type="submit" @click.prevent="grabarComentario" value="Enviar Comentario">
                 </form>
             </div>
-            <div v-if="isLogueado" >
+            <div>
                 <h5 class="text-primary p-5"><i class="bi bi-file-earmark-bar-graph"></i> TABLA DE COMENTARIOS</h5>
             <table class="table table-striped mt-2">
                 <thead>
@@ -72,7 +72,7 @@ Se ha modificado un dato en el json a propósito con la finalidad de enseñar la
                         <th scope="col" class="w-25 text-start  align-middle">Email</th>
                         <th scope="col" class="w-20 text-center align-middle">Mensaje</th>
                         <th scope="col" class="w-10 text-center align-middle">Valoración</th>
-                        <th scope="col" class="w-10 text-center align-middle">Gestión</th>
+                        <th scope="col" class="w-10 text-center align-middle" v-if="isAdmin">Gestión</th>
 
                     </tr>
                 </thead>
@@ -82,8 +82,8 @@ Se ha modificado un dato en el json a propósito con la finalidad de enseñar la
                         <td class="text-start align-middle">{{ comentario.fechaComentario }}</td>
                         <td class="text-start align-middle">{{ comentario.clienteEmail }}</td>
                         <td class="text-center align-middle">{{ comentario.clienteMensaje }}</td>
-                        <td class="text-start align-middle">{{ comentario.clienteValor }}</td>
-                        <td class="text-center align-middle table-info d-flex flex-row justify-content-evenly">
+                        <td class="text-center align-middle">{{ comentario.clienteValor }}</td>
+                        <td class="text-center align-middle table-info d-flex flex-row justify-content-evenly" v-if="isAdmin">
                             <div>
                                 <button class="btn btn-warning m-2" @click="seleccionaComentario(comentario)">
                                     <i class="fas fa-pencil-alt"></i>
@@ -172,7 +172,7 @@ export default {
             if (this.comentario.clienteEmail && this.comentario.clienteMovil && this.comentario.clienteValor) {
                 if (this.comentario.lopd){  
                     if (!this.isLogueado) {
-                        this.mostrarAlerta("Permiso denegado", "Debes tener una cuenta para comentar", "error")
+                        this.mostrarAlerta("Permiso denegado", "Debes iniciar sesión para comentar", "error")
                         return; 
                     }                   
                     if (this.comentario.clienteValor > 5 || this.comentario.clienteValor < 1){
@@ -214,8 +214,8 @@ export default {
                         }
 
                         // Si el usuario no existe se crea el comentario en la bbdd
+                        let emailUsuarioLogueado = localStorage.getItem('email')                        
                         // El email introducido en el comentario debe ser el mismo que el del usuario logueado 
-                        let emailUsuarioLogueado = localStorage.getItem('email')
                         if (emailUsuarioLogueado === this.comentario.clienteEmail){
                             try {                                
                                 this.comentario.fechaComentario = this.obtenerFechaHoy(); 
