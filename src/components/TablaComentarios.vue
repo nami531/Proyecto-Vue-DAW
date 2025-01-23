@@ -194,11 +194,30 @@ export default {
                             return; 
                         }
                         
-                        // Si el usuario existe se crea el comentario en la bbdd
+                        // Si el comentario ya existe y el usuario es admin se permite editarlo 
+                        if (this.comentario.id && this.isAdmin){
+                            const crearResponse = await fetch(`http://localhost:3000/comentarios/${this.comentario.id}`, {
+                                method: 'PUT',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(this.comentario)
+                            });
+
+                            if (!crearResponse.ok) {
+                                throw new Error('Error al editar el comentario: ' + crearResponse.statusText);
+                            }
+                            this.mostrarAlerta('Aviso', 'Comentario editado', 'success');
+                            this.getComentarios();
+                            this.limpiarFormCli()
+                            return; 
+                        }
+
+                        // Si el usuario no existe se crea el comentario en la bbdd
                         // El email introducido en el comentario debe ser el mismo que el del usuario logueado 
                         let emailUsuarioLogueado = localStorage.getItem('email')
                         if (emailUsuarioLogueado === this.comentario.clienteEmail){
-                            try {
+                            try {                                
                                 this.comentario.fechaComentario = this.obtenerFechaHoy(); 
                                 delete this.comentario.id; 
 
