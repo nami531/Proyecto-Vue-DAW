@@ -244,7 +244,7 @@ export default {
                             }
                         
                         } else {
-                            this.mostrarAlerta('Error', 'Bien visto pero no puedes robar identidades', 'error');
+                            this.mostrarAlerta('Error', 'No puedes editar con el email de otra persona', 'error');
                         }    
                     }
                     
