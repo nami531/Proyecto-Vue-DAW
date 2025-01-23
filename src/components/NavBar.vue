@@ -88,6 +88,8 @@ export default{
         logout(){
             localStorage.removeItem('isLogueado');
             localStorage.removeItem('isAdmin'); 
+            localStorage.removeItem('email');
+            console.log("localStorage")
 
             this.$router.push({name : 'TablaLogin'}).then(() => {
                 window.location.reload()
