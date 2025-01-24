@@ -5,11 +5,11 @@ const articuloSchema = new mongoose.Schema(
       nombre: { type: String, required: true },
       categoria: { type: String, required: true },
       descripcion: { type: String, maxlength: 256 },
-      precio: { type: Number, required: true, min: 0 },
-      stock: { type: Number, required: true, min: 0 },
+      precio_unitario: { type: Number, required: true, min: 0 },
+      stock_disponible: { type: Number, required: true, min: 0 },
       personalizacion: { type: String, maxlength: 128 },
       urlimg : {type : String, maxlength : 150},
-      fAlta: { type: Date, required: true },
+      fecha_alta: { type: Date, required: true },
     },
     { versionKey: false }
   );

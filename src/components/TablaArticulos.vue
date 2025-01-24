@@ -31,12 +31,12 @@
                     <span class="input-group-text custom-span me-2 h-100 p-3">Descripción: </span>
                     <textarea class="form-control w-75" v-model="articulo.descripcion" placeholder="Descripción del artículo"></textarea>
                     <span class="input-group-text custom-span me-2">Precio unitario: </span>
-                    <input type="text" class="form-control sm w-25" placeholder="Precio unitario artículo" v-model="articulo.precio">     
+                    <input type="text" class="form-control sm w-25" placeholder="Precio unitario artículo" v-model="articulo.precio_unitario">     
                 </div>
 
                 <div class="input-group-text mb-3">
                     <span class="input-group-text custom-span ms-auto me-2">Stock</span>
-                    <input type="number" class="form-control sm w-25" placeholder="Stock" v-model="articulo.stock">
+                    <input type="number" class="form-control sm w-25" placeholder="Stock" v-model="articulo.stock_disponible">
                     <span class="input-group-text custom-span ms-2 me-2">Personalización</span>
                     <textarea class="form-control w-75" v-model="articulo.personalizacion" placeholder="Detalles de personalización del artículo"></textarea>
                 </div>
@@ -45,7 +45,7 @@
                     <span class="input-group-text custom-span ms-auto me-2">Imagen URL</span>
                     <input type="text" class="form-control sm w-75" placeholder="http://imagen-del-articulo.com" v-model="articulo.urlimg">
                     <span class="input-group-text custom-span ms-auto me-2">Fecha Alta</span>
-                    <input type="date" class="form-control sm w-25"  v-model="articulo.fAlta">
+                    <input type="date" class="form-control sm w-25"  v-model="articulo.fecha_alta">
 
                     <button class="btn btn-secondary" type="button" @click.prevent="limpiarFormCli">
                         <i class="bi bi-eraser-fill fs-5" ></i>
@@ -82,9 +82,9 @@
                     <td class="text-start align-middle">{{ articulo.nombre }}</td>
                     <td class="text-start align-middle">{{ articulo.categoria }}</td>
                     <td class="text-center align-middle">{{ articulo.descripcion }}</td>
-                    <td class="text-start align-middle">{{ articulo.precio }}</td>
-                    <td class="text-start align-middle">{{ articulo.stock }}</td>
-                    <td class="text-start align-middle">{{ articulo.fAlta.split("T")[0] }}</td>
+                    <td class="text-start align-middle">{{ articulo.precio_unitario }}</td>
+                    <td class="text-start align-middle">{{ articulo.stock_disponible }}</td>
+                    <td class="text-start align-middle">{{ articulo.fecha_alta.split("T")[0] }}</td>
                     <td class="text-center align-middle table-info">
                         <div>
                             <button class="btn btn-warning m-2" @click="seleccionaArticulo(articulo)">
@@ -129,11 +129,11 @@ export default {
                 nombre : "", 
                 categoria : "", 
                 descripcion : "", 
-                precio : "",
-                stock : "", 
+                precio_unitario : "",
+                stock_disponible : "", 
                 personalizacion : "", 
                 urlimg : "",
-                fAlta : "",
+                fecha_alta : "",
             },
             articulos : [],
             categorias : ["Electrónica", "Hogar",  "Informática","Deporte","Libros","Otros"], 
@@ -159,7 +159,7 @@ export default {
     async grabarArticulo() {
 
         // Verificar si los campos requeridos están llenos
-        if (this.articulo.nombre && this.articulo.categoria && this.articulo.precio && this.articulo.stock) {
+        if (this.articulo.nombre && this.articulo.categoria && this.articulo.precio_unitario && this.articulo.stock_disponible) {
             
             try {
                 // Si existe el  articulo se modifica
@@ -201,7 +201,7 @@ export default {
                 if (articuloEncontrado) {
 
                     this.articulo = { ...articuloEncontrado };                    
-                    this.articulo.fAlta = this.articulo.fAlta.split('T')[0];  // Para asegurarse de que la fecha esté en formato YYYY-MM-DD
+                    this.articulo.fecha_alta = this.articulo.fecha_alta.split('T')[0];  // Para asegurarse de que la fecha esté en formato YYYY-MM-DD
                     
                 } else {
                     this.mostrarAlerta('Error', 'Artículo no encontrado en el servidor.', 'error');
@@ -291,11 +291,11 @@ export default {
                 nombre : "", 
                 categoria : "", 
                 descripcion : "", 
-                precio : "",
-                stock : "", 
+                precio_unitario : "",
+                stock_disponible : "", 
                 personalizacion : "", 
                 urlimg : "",
-                fAlta : "",
+                fecha_alta : "",
             }
         },        
 

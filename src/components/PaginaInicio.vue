@@ -14,22 +14,14 @@
             </article>
             <article class="d-flex flex-column">
                 <h2>Servicios</h2>
-                <ul class="text-custom">
+                <ul class="text-custom ms-4">
                     <li>
-                        <h6 class="font-weight-bold">Venta y entrega de productos</h6>
+                        <h6 class="weight-bold">Venta y entrega de productos</h6>
                         Recibe tus pedidos en casa con envíos rápidos y opciones de recogida en tienda.
                     </li>
                     <li>
                         <h6 class="font-weight-bold">Diseño o personalización</h6>
                         Creamos diseños únicos y adaptados a tus necesidades, reflejando tu estilo o el de tu negocio.
-                    </li>
-                    <li>
-                        <h6 class="font-weight-bold">Consultoría empresarial o financiera</h6>
-                        Soluciones estratégicas para planificar y gestionar tu negocio con éxito.
-                    </li>
-                    <li>
-                        <h6 class="font-weight-bold">Soporte técnico o atención al cliente</h6>
-                        Resolvemos tus dudas con soluciones rápidas para garantizar una experiencia sin complicaciones.
                     </li>
                 </ul>
             </article>
