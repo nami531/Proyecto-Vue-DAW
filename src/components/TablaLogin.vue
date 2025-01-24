@@ -36,6 +36,21 @@
       {{ errorMessage }}
     </div>
   </div>
+
+  <div class="d-flex flex-row justify-content-center align-items-between mt-4">
+      <div class="border text-start me-5 p-3 rounded">
+        <h3>Administrador</h3>
+        <p>DNI: 72725478F </p>
+        <p>Email: prueba@gmail.com</p>
+        <p>Contraseña: abc123</p>
+      </div>
+      <div class="border text-start p-3 rounded">
+        <h3>Usuario</h3>
+        <p>DNI: 72067538M </p>
+        <p>Email: pr@gmail.com</p>
+        <p>Contraseña: prueba</p>
+      </div>
+    </div>
 </template>
 
 <script>
