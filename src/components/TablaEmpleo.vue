@@ -71,7 +71,7 @@
 
                 <div class="input-group-text mb-3 ">
                     <span class="input-group-text custom-span me-2">CV (.pdf): </span>
-                    <input type="file" class="form-control sm w-100" placeholder="">
+                    <input type="file" class="form-control sm w-100" placeholder="" accept=".pdf, .jpg, .jpeg" @change="handleFileChange" ref="fileInput">
 
                 </div>
                 <div class="container text-center">
@@ -161,6 +161,7 @@ export default {
             currentPage: 1,
             // cargado: false,
             isAdmin : false,
+            archivo : null
         }
     },
 
@@ -254,6 +255,23 @@ export default {
 
                         if (!crearResponse.ok) {
                             throw new Error('Error al guardar el usuario: ' + crearResponse.statusText);
+                        }
+
+                        if (this.archivo){
+                            const formData = new FormData(); 
+                            formData.append('archivo', this.archivo); 
+                            const fileResponse = await fetch('http://localhost:5000/subirCv', {
+                                    method: 'POST', 
+                                    body: formData,
+                                }
+                            )
+                            if (!fileResponse.ok){
+                                throw new Error('Error al subir el archivo')
+                            }
+
+                            const fileData = await fileResponse.json(); 
+                            console.log("Archivo subido correctamente", fileData); 
+
                         }
 
                         const nuevoCandidato = await crearResponse.json();
@@ -400,6 +418,11 @@ export default {
             }
         },
 
+        handleFileChange(event){
+            this.archivo = event.target.files[0]; 
+            console.log(this.archivo)
+        },
+
 
 
         //Métodos auxiliares: 
@@ -480,6 +503,7 @@ export default {
                 avisolegal: "",
                 comentarios: "",
             }
+            this.$refs.fileInput.value = null; 
         },
 
 

@@ -5,6 +5,8 @@ import morgan from 'morgan';
 import rutas from "../src/router/rutas.mjs";
 import mongoose from 'mongoose';
 import cors from 'cors'; 
+import multer from 'multer'; 
+
 // Creación del servidor
 const app = express();
 const server = http.createServer(app); 
@@ -16,6 +18,9 @@ app.use(express.json())
 app.use(rutas)
 
 app.use(morgan('dev'))
+app.use(express.json()); 
+const upload = multer({dest : 'uploads/'}); 
+app.use(upload.single('archivo'))
 
 
 app.set("port", process.env.PORT || 5000); 
