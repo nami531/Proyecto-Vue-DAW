@@ -28,8 +28,8 @@ server.listen(app.get("port"), () => {
 });
 
 // En clase: 
-mongoose.connect('mongodb://localhost:27017/BBDD')
-    .then(() => console.log("Conectado a MongoDB"))
+mongoose.connect('mongodb://admin:abc123@localhost:27017/BBDD?authSource=admin')
+     .then(() => console.log("Conectado a MongoDB"))
     .catch(err => console.log("Error Conexion", err))
 
 
