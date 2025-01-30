@@ -80,7 +80,7 @@ Se ha modificado un dato en el json a propósito con la finalidad de enseñar la
                     <tr v-for="comentario in comentariosPorPagina" :key="comentario.id">
                         <td class="text-start align-middle">{{ comentario.id }}</td>
                         <td class="text-start align-middle">{{ comentario.fechaComentario }}</td>
-                        <td class="text-start align-middle">{{ comentario.clienteEmail }}</td>
+                        <td class="text-start align-middle">{{ comentario.clienteNombre }}</td>
                         <td class="text-center align-middle">{{ comentario.clienteMensaje }}</td>
                         <td class="text-center align-middle">{{ comentario.clienteValor }}</td>
                         <td class="text-center align-middle table-info d-flex flex-row justify-content-evenly" v-if="isAdmin">
@@ -128,6 +128,7 @@ export default {
         return {
             comentario : {
                 id : "",
+                clienteNombre : "", 
                 clienteEmail : "", 
                 clienteMensaje : "",
                 fechaComentario : "", 
@@ -163,7 +164,6 @@ export default {
 
     methods : {
 
-        // Métodos principales
         // Método para grabar el comentario
         async grabarComentario() {
             
@@ -219,6 +219,7 @@ export default {
                         if (emailUsuarioLogueado === this.comentario.clienteEmail){
                             try {                                
                                 this.comentario.fechaComentario = this.obtenerFechaHoy(); 
+                                this.comentario.clienteNombre = usuarioExistente.nombre
                                 delete this.comentario.id; 
 
                                 const crearResponse = await fetch('http://localhost:3000/comentarios', {
