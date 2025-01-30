@@ -12,16 +12,22 @@ const app = express();
 const server = http.createServer(app); 
 
 
-app.use(cors()); 
+app.use(cors({
+    origin: 'http://localhost:8080', // El frontend
+    methods: ['GET', 'POST', 'OPTIONS'], // Métodos permitidos
+    allowedHeaders: ['Content-Type', 'Authorization', 'Origin', 'Accept', 'X-Requested-With'], // Cabeceras permitidas
+}));
 app.use(express.json())
 
-app.use(rutas)
 
 app.use(morgan('dev'))
+
 app.use(express.json()); 
+
 const upload = multer({dest : 'uploads/'}); 
 app.use(upload.single('archivo'))
 
+app.use(rutas)
 
 app.set("port", process.env.PORT || 5000); 
 app.get("/", (req, res) => {

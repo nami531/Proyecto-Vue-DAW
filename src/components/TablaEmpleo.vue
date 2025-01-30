@@ -262,7 +262,11 @@ export default {
                             formData.append('archivo', this.archivo); 
                             const fileResponse = await fetch('http://localhost:5000/subirCv', {
                                     method: 'POST', 
+                                    headers: {
+                                        "Content-Type": "multipart/form-data"
+                                    },
                                     body: formData,
+                                    mode: "cors"
                                 }
                             )
                             if (!fileResponse.ok){
