@@ -239,61 +239,92 @@ export default {
         // },
 
         async grabarCandidato() {
-            if (this.empleado.apellidos && this.empleado.email && this.empleado.nombre && this.empleado.categoria && this.empleado.movil && this.empleado.modalidad) {
-                if (this.empleado.avisolegal) {
-                    if (this.empleado.comentarios.length > 256) this.empleado.comentarios = "";
-                    // let { id, ...candidato } = this.empleado;
-                    // console.log(id); 
-                    try {
-                        const crearResponse = await fetch('http://localhost:3000/candidatos', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify(this.empleado)
-                        });
+            try {
+                // Validaciones
+                if (!this.empleado.apellidos || !this.empleado.nombre || !this.empleado.email || !this.empleado.movil
+                || !this.empleado.categoria || !this.empleado.modalidad) {
+                this.mostrarAlerta("Aviso", "Todos los campos obligatorios", "warning");
+                return; // Detiene la ejecución si falta algún campo
+                }
 
-                        if (!crearResponse.ok) {
-                            throw new Error('Error al guardar el usuario: ' + crearResponse.statusText);
-                        }
+                // Política de privacidad
+                if (!this.empleado.avisolegal) {
+                this.mostrarAlerta("Aviso", "Debe Aceptar las Condiciones de Privacidad", "warning");
+                return;
+                }
 
-                        if (this.archivo){
-                            const formData = new FormData(); 
-                            formData.append('archivo', this.archivo); 
-                            const fileResponse = await fetch('http://localhost:5000/subirCv', {
-                                    method: 'POST', 
-                                    headers: {
-                                        "Content-Type": "multipart/form-data"
-                                    },
-                                    body: formData,
-                                    mode: "cors"
-                                }
-                            )
-                            if (!fileResponse.ok){
-                                throw new Error('Error al subir el archivo')
-                            }
+                // **Paso 1: Enviar los datos del empleado**
+                const datos = {
+                apellidos: this.empleado.apellidos,
+                nombre: this.empleado.nombre,
+                email: this.empleado.email,
+                movil: this.empleado.movil,
+                categoria: this.empleado.categoria.nombre,
+                modalidad: this.empleado.modalidad,
+                comentarios: this.empleado.comentarios,
+                avisolegal: "si"
+                };
 
-                            const fileData = await fileResponse.json(); 
-                            console.log("Archivo subido correctamente", fileData); 
+                const responseCandidato = await fetch('http://localhost:3000/candidatos', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(datos), // Enviamos los datos como JSON
+                });
 
-                        }
+                if (!responseCandidato.ok) {
+                const errorData = await responseCandidato.json();
+                throw new Error(`Error al guardar los datos del empleado: ${errorData.message || 'Desconocido'}`);
+                }
 
-                        const nuevoCandidato = await crearResponse.json();
-                        this.candidatos.push(nuevoCandidato); // Agregar usuario al array local
-                        this.mostrarAlerta('Aviso', 'Candidatura Enviada', 'success');
-                        this.limpiarFormCli();
-                    } catch (error) {
-                        console.error(error);
-                        this.mostrarAlerta('Error', 'No se pudo grabar el empleado.', 'error');
-                    }
-                } else {
-                    this.mostrarAlerta('Error', 'Debe aceptar la política de privacidad para continuar', 'error');
+                // Paso 2: Subir el archivo PDF (si existe)
+            
+                if (this.cvFile) {
+
+                const formData = new FormData();
+                const candidatoId = this.empleado.movil || 'default';
+                const nuevoArchivo = new File([this.cvFile], `${candidatoId}.pdf`, { type: this.cvFile.type });
+                formData.append('archivo', nuevoArchivo);
+                formData.append('candidatoId', this.empleado.movil) 
+                console.log(nuevoArchivo)
+                const fileResponse = await fetch('http://localhost:5000/subircv', {
+                    method: 'POST',
+                    body: formData,
+                    credentials : 'include'
+                });
+                
+                if (!fileResponse.ok) {
+                    throw new Error('Error al subir el archivo');
+                }else{
+                    console.log('hubo respuesta:', fileResponse);
                 }
 
 
-            } else {
-                this.mostrarAlerta('Error', 'Por favor, completa todos los campos requeridos.', 'error');
-            }
+                const fileData = await fileResponse.json();
+                console.log('Archivo subido correctamente:', fileData);
+                }
+                // Si todo fue bien
+                this.mostrarAlerta("Aviso", "Datos y archivo enviados correctamente", "success");
+                this.getCandidatos(); // Si necesitas actualizar la lista de candidatos
+
+                // Restablecer formulario
+                this.empleado = {
+                apellidos: '',
+                nombre: '',
+                email: '',
+                movil: '',
+                categoria: '',
+                modalidad: '',
+                comentarios: '',
+                };
+                this.$refs.fileInput.value = null;
+                this.isChecked = false;
+
+          } catch (error) {
+            console.error('Error:', error);
+            //this.mostrarAlerta("Error", error.message, "error");  // Mostrar el error en la alerta
+          }
 
 
         },
