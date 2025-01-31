@@ -24,7 +24,7 @@
                 <div class="input-group-text mb-3">
                     <span class="input-group-text custom-span me-2">Email: </span>
                     <input type="text" class="form-control sm w-75" placeholder="Email" v-model="empleado.email"
-                        @blur="validarEmail(this.empleado.email)" >
+                        @blur="validarEmail(this.empleado.email)">
 
                     <span class="input-group-text custom-span mx-2 ms-2">Móvil: </span>
                     <input type="text" class="form-control sm w-25 " placeholder="Móvil" v-model="empleado.movil"
@@ -71,7 +71,8 @@
 
                 <div class="input-group-text mb-3 ">
                     <span class="input-group-text custom-span me-2">CV (.pdf): </span>
-                    <input type="file" class="form-control sm w-100" placeholder="" accept=".pdf, .jpg, .jpeg" @change="handleFileChange" ref="fileInput">
+                    <input type="file" class="form-control sm w-100" placeholder="" accept=".pdf, .jpg, .jpeg"
+                        @change="handleFileChange" ref="fileInput">
 
                 </div>
                 <div class="container text-center">
@@ -160,8 +161,8 @@ export default {
             pageSize: 5,
             currentPage: 1,
             // cargado: false,
-            isAdmin : false,
-            archivo : null
+            isAdmin: false,
+            archivo: null
         }
     },
 
@@ -242,67 +243,67 @@ export default {
             try {
                 // Validaciones
                 if (!this.empleado.apellidos || !this.empleado.nombre || !this.empleado.email || !this.empleado.movil
-                || !this.empleado.categoria || !this.empleado.modalidad) {
-                this.mostrarAlerta("Aviso", "Todos los campos obligatorios", "warning");
-                return; // Detiene la ejecución si falta algún campo
+                    || !this.empleado.categoria || !this.empleado.modalidad) {
+                    this.mostrarAlerta("Aviso", "Todos los campos obligatorios", "warning");
+                    return; // Detiene la ejecución si falta algún campo
                 }
 
                 // Política de privacidad
                 if (!this.empleado.avisolegal) {
-                this.mostrarAlerta("Aviso", "Debe Aceptar las Condiciones de Privacidad", "warning");
-                return;
+                    this.mostrarAlerta("Aviso", "Debe Aceptar las Condiciones de Privacidad", "warning");
+                    return;
                 }
 
                 // **Paso 1: Enviar los datos del empleado**
                 const datos = {
-                apellidos: this.empleado.apellidos,
-                nombre: this.empleado.nombre,
-                email: this.empleado.email,
-                movil: this.empleado.movil,
-                categoria: this.empleado.categoria.nombre,
-                modalidad: this.empleado.modalidad,
-                comentarios: this.empleado.comentarios,
-                avisolegal: "si"
+                    apellidos: this.empleado.apellidos,
+                    nombre: this.empleado.nombre,
+                    email: this.empleado.email,
+                    movil: this.empleado.movil,
+                    categoria: this.empleado.categoria.nombre,
+                    modalidad: this.empleado.modalidad,
+                    comentarios: this.empleado.comentarios,
+                    avisolegal: "si"
                 };
 
                 const responseCandidato = await fetch('http://localhost:3000/candidatos', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(datos), // Enviamos los datos como JSON
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(datos), // Enviamos los datos como JSON
                 });
 
                 if (!responseCandidato.ok) {
-                const errorData = await responseCandidato.json();
-                throw new Error(`Error al guardar los datos del empleado: ${errorData.message || 'Desconocido'}`);
+                    const errorData = await responseCandidato.json();
+                    throw new Error(`Error al guardar los datos del empleado: ${errorData.message || 'Desconocido'}`);
                 }
 
                 // Paso 2: Subir el archivo PDF (si existe)
-            
-                if (this.cvFile) {
 
-                const formData = new FormData();
-                const candidatoId = this.empleado.movil || 'default';
-                const nuevoArchivo = new File([this.cvFile], `${candidatoId}.pdf`, { type: this.cvFile.type });
-                formData.append('archivo', nuevoArchivo);
-                formData.append('candidatoId', this.empleado.movil) 
-                console.log(nuevoArchivo)
-                const fileResponse = await fetch('http://localhost:5000/subircv', {
-                    method: 'POST',
-                    body: formData,
-                    credentials : 'include'
-                });
-                
-                if (!fileResponse.ok) {
-                    throw new Error('Error al subir el archivo');
-                }else{
-                    console.log('hubo respuesta:', fileResponse);
-                }
+                if (this.archivo) {
+
+                    const formData = new FormData();
+                    const candidatoId = this.empleado.movil || 'default';
+                    const nuevoArchivo = new File([this.archivo], `${candidatoId}.pdf`, { type: this.archivo.type });
+                    formData.append('archivo', nuevoArchivo);
+                    formData.append('candidatoId', this.empleado.movil)
+                    console.log(nuevoArchivo)
+                    const fileResponse = await fetch('http://localhost:5000/subircv', {
+                        method: 'POST',
+                        body: formData,
+                        credentials: 'include'
+                    });
+
+                    if (!fileResponse.ok) {
+                        throw new Error('Error al subir el archivo');
+                    } else {
+                        console.log('hubo respuesta:', fileResponse);
+                    }
 
 
-                const fileData = await fileResponse.json();
-                console.log('Archivo subido correctamente:', fileData);
+                    const fileData = await fileResponse.json();
+                    console.log('Archivo subido correctamente:', fileData);
                 }
                 // Si todo fue bien
                 this.mostrarAlerta("Aviso", "Datos y archivo enviados correctamente", "success");
@@ -310,21 +311,21 @@ export default {
 
                 // Restablecer formulario
                 this.empleado = {
-                apellidos: '',
-                nombre: '',
-                email: '',
-                movil: '',
-                categoria: '',
-                modalidad: '',
-                comentarios: '',
+                    apellidos: '',
+                    nombre: '',
+                    email: '',
+                    movil: '',
+                    categoria: '',
+                    modalidad: '',
+                    comentarios: '',
                 };
                 this.$refs.fileInput.value = null;
                 this.isChecked = false;
 
-          } catch (error) {
-            console.error('Error:', error);
-            //this.mostrarAlerta("Error", error.message, "error");  // Mostrar el error en la alerta
-          }
+            } catch (error) {
+                console.error('Error:', error);
+                //this.mostrarAlerta("Error", error.message, "error");  // Mostrar el error en la alerta
+            }
 
 
         },
@@ -350,7 +351,7 @@ export default {
                     let { id, ...empleadoSinId } = this.empleado;
                     console.log(id)
                     this.empleado = empleadoSinId;
-                    
+
                 } else {
                     this.mostrarAlerta('Error', 'Candidato no encontrado en el servidor.', 'error');
                 }
@@ -453,8 +454,8 @@ export default {
             }
         },
 
-        handleFileChange(event){
-            this.archivo = event.target.files[0]; 
+        handleFileChange(event) {
+            this.archivo = event.target.files[0];
             console.log(this.archivo)
         },
 
@@ -538,7 +539,7 @@ export default {
                 avisolegal: "",
                 comentarios: "",
             }
-            this.$refs.fileInput.value = null; 
+            this.$refs.fileInput.value = null;
         },
 
 

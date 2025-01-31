@@ -5,23 +5,23 @@ import multer  from 'multer';
 
 const rutas = express.Router();
 
-const upload = multer({dest: 'uploads/'})
+// const upload = multer({dest: 'uploads/'})
 
-rutas.post('/subirCv', upload.single('archivo'), async(req, res) => {
-    try {
-        if (req.file){
-            console.log('Archivo recibido', req.file)
-        } else {
-            console.log('No se recibió ningún archivo')
-        }
+// rutas.post('/subirCv', upload.single('archivo'), async(req, res) => {
+//     try {
+//         if (req.file){
+//             console.log('Archivo recibido', req.file)
+//         } else {
+//             console.log('No se recibió ningún archivo')
+//         }
         
-    } catch (error){
-        console.error('Error al guardar el cv')
-        res.status(500).json({
-            error : 'Error al guardar el archivo'
-        })
-    }
-} )
+//     } catch (error){
+//         console.error('Error al guardar el cv')
+//         res.status(500).json({
+//             error : 'Error al guardar el archivo'
+//         })
+//     }
+// } )
 // como establecer una ruta
 
 rutas.get('/articulos', async (req, res) => {
