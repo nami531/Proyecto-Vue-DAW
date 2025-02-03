@@ -2,8 +2,8 @@
     <div class="container">
         <nav class="navbar bg-body-tertiary">
             <form class="container-fluid justify-content-start">
-                <button class="" @click.prevent="seleccionarCategoria(null)" >Mostrar todos los artículos</button>
-                <button class="" v-for="categoria in categorias" :key="categoria.id" @click.prevent="seleccionarCategoria(categoria.nombre)">{{ categoria.nombre }}</button>
+                <button class="btn btnCategoria " @click.prevent="seleccionarCategoria(null)" >Mostrar todos los artículos</button>
+                <button class="btn btnCategoria" v-for="categoria in categorias" :key="categoria.id" @click.prevent="seleccionarCategoria(categoria.nombre)">{{ categoria.nombre }}</button>
             </form>
         </nav>
         <table class="table table-striped mt-2">
@@ -24,7 +24,7 @@
                         </td>
                         <td class="text-center align-middle">{{ articulo.nombre }}</td>
                         <td class="text-center align-middle">{{ articulo.descripcion }}</td>
-                        <td class="text-center align-middle">{{ articulo.precio_unitario }}</td>
+                        <td class="text-center align-middle">{{ articulo.precio_unitario }} &euro;</td>
                         <td class="text-center align-middle">{{ articulo.stock_disponible }}</td>
                         <td class="text-center align-middle table-info">
                             <button class="btn btn-warning m-2" @click="comprarArticulo(articulo.id)">
@@ -134,5 +134,13 @@ export default {
 </script>
 
 <style scoped>
+.btnCategoria:focus {
+    color: rgb(56, 83, 207) !important; 
+    font-size: 18px !important;
+    transition: font-size 0.5s ease-in-out !important;
+}
 
+.btnCategoria:active {
+    border: none !important;
+}
 </style>
