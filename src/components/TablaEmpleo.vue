@@ -263,8 +263,10 @@ export default {
                     categoria: this.empleado.categoria.nombre,
                     modalidad: this.empleado.modalidad,
                     comentarios: this.empleado.comentarios,
-                    avisolegal: "si"
+                    avisolegal: true
                 };
+
+                
 
                 const responseCandidato = await fetch('http://localhost:3000/candidatos', {
                     method: 'POST',
