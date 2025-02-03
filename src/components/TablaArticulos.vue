@@ -22,7 +22,7 @@
                     <span class="input-group-text custom-span ms-auto me-2">Categoría</span>
                     <select name="categoria" id="categoria" class="form-select w-50" v-model="articulo.categoria">
                         <option value="" disabled>Seleccionar categoría</option>
-                        <option v-for="categoria in categorias" :key="categoria" :value="categoria">{{ categoria }}</option>
+                        <option v-for="categoria in categorias" :key="categoria.id" :value="categoria.nombre">{{ categoria.nombre }}</option>
                     </select>
                 </div>
                 
@@ -136,14 +136,14 @@ export default {
                 fecha_alta : "",
             },
             articulos : [],
-            categorias : ["Electrónica", "Hogar",  "Informática","Deporte","Libros","Otros"], 
+            categorias : [], 
             pageSize: 5,
             currentPage: 1,
         }
     },
 
     mounted()  {
-        // this.getCategorias(); 
+        this.getCategorias(); 
         this.getArticulos();
     },
 
@@ -270,21 +270,21 @@ export default {
             });
         },
 
-        // async getCategorias() {
-        //     try {
-        //         console.log(1)
-        //         const response = await fetch("http://localhost:3000/categoriasArticulo")
-        //         if (!response.ok) {
-        //             throw new Error("Error en la solicitud" + response.statusText)
-        //         }
-        //         console.log(this.categorias)
-        //         this.categorias = await response.json();
-        //         console.log(this.categorias)
+        async getCategorias() {
+            try {
+                console.log(1)
+                const response = await fetch("http://localhost:3000/categoriasArticulo")
+                if (!response.ok) {
+                    throw new Error("Error en la solicitud" + response.statusText)
+                }
+                console.log(this.categorias)
+                this.categorias = await response.json();
+                console.log(this.categorias)
 
-        //     } catch (error) {
-        //         console.error(error);
-        //     }
-        // },
+            } catch (error) {
+                console.error(error);
+            }
+        },
 
         limpiarFormCli() {
             this.articulo =  {

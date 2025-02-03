@@ -33308,11 +33308,11 @@
   "categoriasArticulo": [
     {
       "nombre": "Electrónica",
-      "id": "2299"
+      "id": "5453"
     },
     {
-      "nombre": "Electrónica",
-      "id": "5453"
+      "nombre": "Hogar",
+      "id" : "01010"
     },
     {
       "nombre": "Informática",
