@@ -125,6 +125,7 @@ export default {
 
         seleccionarCategoria(categoria){
             this.categoria = categoria; 
+            this.currentPage = 1
             this.getArticulos()
         }
     }

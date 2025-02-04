@@ -42,8 +42,10 @@
                 </div>
 
                 <div class="input-group-text mb-3">
-                    <span class="input-group-text custom-span ms-auto me-2">Imagen URL</span>
-                    <input type="text" class="form-control sm w-75" placeholder="http://imagen-del-articulo.com" v-model="articulo.urlimg">
+                    <span class="input-group-text custom-span me-2">Imagen del artículo (.png, .jpg, .jpeg): </span>
+                    <input type="file" class="form-control sm w-100" placeholder="" accept=".png, .jpg, .jpeg"
+                        @change="handleFileChange" ref="fileInput">
+
                     <span class="input-group-text custom-span ms-auto me-2">Fecha Alta</span>
                     <input type="date" class="form-control sm w-25"  v-model="articulo.fecha_alta">
 
@@ -139,6 +141,7 @@ export default {
             categorias : [], 
             pageSize: 5,
             currentPage: 1,
+            archivo : null
         }
     },
 
@@ -163,6 +166,32 @@ export default {
             
             try {
                 // Si existe el  articulo se modifica
+                if (this.archivo) {
+
+                    const formData = new FormData();
+                    const nuevoArchivo = new File([this.archivo], `${this.archivo.name}`, { type: this.archivo.type });
+                    formData.append('img', nuevoArchivo);
+
+                    console.log(nuevoArchivo)
+
+                    const fileResponse = await fetch('http://localhost:5000/subirimg', {
+                        method: 'POST',
+                        body: formData,
+                        credentials: 'include'
+                    });
+
+                    if (!fileResponse.ok) {
+                        throw new Error('Error al subir el archivo');
+                    } else {
+                        console.log('hubo respuesta:', fileResponse);
+                    }
+
+
+                    const fileData = await fileResponse.json();
+                    console.log('Archivo subido correctamente:', fileData.archivo);
+                    
+                    this.articulo.urlimg = `http://localhost:5000/uploads/img/${fileData.archivo.originalname}`
+                }
                 if (this.articulo._id) {
 
                     actualizarArticulo(this.articulo._id, this.articulo)
@@ -255,6 +284,10 @@ export default {
             }
         },
 
+        handleFileChange(event) {
+            this.archivo = event.target.files[0];
+            console.log(this.archivo)
+        },
 
         // Método para mostrar alertas
         mostrarAlerta(titulo, mensaje, icono) {
@@ -297,6 +330,7 @@ export default {
                 urlimg : "",
                 fecha_alta : "",
             }
+            this.archivo = null;
         },        
 
         async getArticulos() {

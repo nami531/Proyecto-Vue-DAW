@@ -6,8 +6,15 @@ import rutas from "../src/router/rutas.mjs";
 import mongoose from 'mongoose';
 import cors from 'cors'; 
 import multer from 'multer'; 
+import fs from 'fs'; 
 import path from 'path';
-import fs from 'fs';
+import { fileURLToPath } from 'url';
+
+// Definir __dirname manualmente en ES Modules 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+
 
 // Creación del servidor
 const app = express();
@@ -52,11 +59,39 @@ const storage = multer.diskStorage({
         cb(null, filename) // Guardar el archivo con el nombre generado
     }
   });
+
+  const storageImg = multer.diskStorage({
+    destination: (req, file, cb) => {
+      const uploadDir = 'uploads/img/';
+      if (!fs.existsSync(uploadDir)) {
+        fs.mkdirSync(uploadDir, { recursive: true });
+      }
+      cb(null, uploadDir);
+    },
+  
+    filename: (req, file, cb) => {
+        const fileExtension = path.extname(file.originalname);  // Obtener la extensión del archivo
+        const originalName = file.originalname.split('.')[0];  // Obtener el nombre original sin la extensión
+        const filename = `${originalName}${fileExtension}`;  // Ejemplo: 1234567890-nombreOriginal.pdf
+        cb(null, filename) // Guardar el archivo con el nombre generado
+    }
+  });
   
 const upload = multer({
     storage: storage,
     fileFilter: (req, file, cb) => {
         const allowedTypes = ['application/pdf'];
+        if (!allowedTypes.includes(file.mimetype)) {
+        return cb(new Error('Tipo de archivo no permitido'), false);
+        }
+        cb(null, true);
+    }
+});
+
+const uploadImg = multer({
+    storage: storageImg,
+    fileFilter: (req, file, cb) => {
+        const allowedTypes = ['image/jpeg', 'image/png'];
         if (!allowedTypes.includes(file.mimetype)) {
         return cb(new Error('Tipo de archivo no permitido'), false);
         }
@@ -78,6 +113,19 @@ app.post('/subircv', upload.single('archivo'), (req, res) => {
     });
 });
 
+app.post('/subirimg', uploadImg.single('img'), (req, res) => {
+    console.log('Imagen recibida:', req.file);
+    if (!req.file) {
+        return res.status(400).json({ mensaje: 'No se subió ninguna imagen' });
+    }
+    // Responder con el archivo subido y su ubicación
+    res.status(200).json({
+        mensaje: 'Imagen subida con éxito',
+        archivo: req.file,
+    });
+});
+
+app.use('/uploads/img/', express.static(path.join(__dirname, '../uploads/img')));
 app.set('port', process.env.PORT  || 5000);
 
 app.get("/", (req, res) => {
