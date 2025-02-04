@@ -331,6 +331,7 @@ export default {
                 fecha_alta : "",
             }
             this.archivo = null;
+            this.$refs.fileInput.value = null;
         },        
 
         async getArticulos() {
