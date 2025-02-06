@@ -165,11 +165,28 @@ export default {
         if (this.articulo.nombre && this.articulo.categoria && this.articulo.precio_unitario && this.articulo.stock_disponible) {
             
             try {
+                
                 // Si existe el  articulo se modifica
+                let articuloAgregadoId; 
+                if (this.articulo._id) {
+                    actualizarArticulo(this.articulo._id, this.articulo)
+                    articuloAgregadoId = this.articulo._id; 
+                    this.mostrarAlerta("Aviso", "Artículo modificado correctamente", "success")
+                    this.getArticulos();
+                } else {
+                    // Borramos el id para que no de problemas
+                    delete this.articulo._id; 
+                    // this.articulo.categoria = this.articulo.categoria.nombre; 
+                    let articuloAgregado = await agregarArticulo(this.articulo); 
+                    console.log("Este es el articulo que se ha guardado: " + articuloAgregado)
+                    articuloAgregadoId = articuloAgregado._id; 
+                    this.mostrarAlerta("Aviso", "Artículo dado de alta correctamente", "success")
+                    this.getArticulos();
+                }
                 if (this.archivo) {
 
                     const formData = new FormData();
-                    const nuevoArchivo = new File([this.archivo], `${this.archivo.name}`, { type: this.archivo.type });
+                    const nuevoArchivo = new File([this.archivo], `${articuloAgregadoId}.${this.archivo.name.split('.').pop()}`, { type: this.archivo.type });
                     formData.append('img', nuevoArchivo);
 
                     console.log(nuevoArchivo)
@@ -189,25 +206,11 @@ export default {
 
                     const fileData = await fileResponse.json();
                     console.log('Archivo subido correctamente:', fileData.archivo);
-                    
+
                     this.articulo.urlimg = `http://localhost:5000/uploads/img/${fileData.archivo.originalname}`
+                    // Actualizamos el articulo con la url correspondiente
+                    actualizarArticulo(articuloAgregadoId, this.articulo); 
                 }
-                if (this.articulo._id) {
-
-                    actualizarArticulo(this.articulo._id, this.articulo)
-
-                    this.mostrarAlerta("Aviso", "Artículo modificado correctamente", "success")
-                    this.getArticulos();
-                } else {
-                    // Borramos el id para que no de problemas
-                    delete this.articulo._id; 
-                    // this.articulo.categoria = this.articulo.categoria.nombre; 
-                    agregarArticulo(this.articulo); 
-
-                    this.mostrarAlerta("Aviso", "Artículo dado de alta correctamente", "success")
-                    this.getArticulos();
-                }
-                
                 this.limpiarFormCli()
             } catch (error) {
                 console.error(error);
