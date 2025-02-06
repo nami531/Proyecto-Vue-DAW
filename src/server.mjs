@@ -42,7 +42,7 @@ app.get('/subircv', (req,res) => {
 // Ruta para gestionar la subida de archivos
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-      const uploadDir = 'uploads/';
+      const uploadDir = 'uploads/cv/';
       if (!fs.existsSync(uploadDir)) {
         fs.mkdirSync(uploadDir, { recursive: true });
       }
