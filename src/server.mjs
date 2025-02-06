@@ -126,6 +126,8 @@ app.post('/subirimg', uploadImg.single('img'), (req, res) => {
 });
 
 app.use('/uploads/img/', express.static(path.join(__dirname, '../uploads/img')));
+app.use('/uploads/cv/', express.static(path.join(__dirname, '../uploads/cv')));
+
 app.set('port', process.env.PORT  || 5000);
 
 app.get("/", (req, res) => {

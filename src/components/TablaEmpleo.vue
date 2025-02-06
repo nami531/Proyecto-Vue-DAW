@@ -96,6 +96,7 @@
                         <th scope="col" class="w-10 text-center align-middle">Móvil</th>
                         <th scope="col" class="w-10 text-center align-middle">Categoría</th>
                         <th scope="col" class="w-10 text-center align-middle">Modalidad</th>
+                        <th scope="col" class="w-10 text-center align-middle">Ver cv</th>
                         <th scope="col" class="table-info text-center align-middle">Acción</th>
                     </tr>
                 </thead>
@@ -107,6 +108,7 @@
                         <td class="text-start align-middle">{{ empleado.movil }}</td>
                         <td class="text-start align-middle">{{ empleado.categoria }}</td>
                         <td class="text-start align-middle">{{ empleado.modalidad }}</td>
+                        <td class="text-center align-middle"><a :href='`http://localhost:5000/uploads/cv/${empleado.movil}.pdf`' ><i class="bi bi-filetype-pdf"></i></a></td>
                         <td class="text-center align-middle table-info">
                             <div v-if="empleado.nombre !== ''">
                                 <button class="btn btn-warning m-2" @click="seleccionaCandidato(empleado)">

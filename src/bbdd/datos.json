@@ -33139,6 +33139,16 @@
       "modalidad": "Remoto",
       "avisolegal": true,
       "comentarios": ""
+    },
+    {
+      "id": "3d4c",
+      "apellidos": "Empleado",
+      "nombre": "Empleado",
+      "email": "empleado@gmail.com",
+      "movil": "777777777",
+      "modalidad": "Híbrido",
+      "comentarios": "ldflsdkfñjsdf",
+      "avisolegal": true
     }
   ],
   "categorias": [
@@ -33312,7 +33322,7 @@
     },
     {
       "nombre": "Hogar",
-      "id" : "01010"
+      "id": "01010"
     },
     {
       "nombre": "Informática",
