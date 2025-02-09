@@ -261,6 +261,13 @@ export default {
                     if (articulo._id) {
                         eliminarArticulo(articulo._id)
 
+                        await fetch(`http://localhost:5000/deleteimg/${articulo.urlimg}`, {
+                            method : 'DELETE', 
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                        })
+
                         this.mostrarAlerta("Aviso", "Artículo dado de baja correctamente", "success")
                         this.getArticulos();
                     } else {

@@ -131,6 +131,23 @@ rutas.post('/subirimg', uploadImg.single('img'), (req, res) => {
     });
 });
 
+rutas.delete('/deleteimg/:nombre', (req, res) => {
+    const nombreArchivo = req.params.nombre; 
+    const rutaArchivo = path.join('uploads/img', nombreArchivo); 
+    if (fs.existsSync(rutaArchivo)){
+        fs.unlinkSync(rutaArchivo); 
+        
+        res.status(200).json({
+            mensaje : 'Archivo eliminado con exito'
+        })
+    } else {
+        res.status(404).json({
+            mensaje : 'Archivo no encontrado'
+        })
+    }
+    
+})
+
 rutas.get('/articulos', async (req, res) => {
     try{
         const articulos = await Articulo.default.find({});
