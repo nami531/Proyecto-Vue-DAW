@@ -5,8 +5,6 @@ import morgan from 'morgan';
 import rutas from "../src/router/rutas.mjs";
 import mongoose from 'mongoose';
 import cors from 'cors'; 
-import multer from 'multer'; 
-import fs from 'fs'; 
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -35,95 +33,6 @@ app.use(morgan('dev'));
 app.use(rutas);
 
 
-app.get('/subircv', (req,res) => {
-    res.send("Paso por aquí");
-    });
-
-// Ruta para gestionar la subida de archivos
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-      const uploadDir = 'uploads/cv/';
-      if (!fs.existsSync(uploadDir)) {
-        fs.mkdirSync(uploadDir, { recursive: true });
-      }
-      cb(null, uploadDir);
-    },
-  
-    filename: (req, file, cb) => {
-        // Usar el candidatoId enviado desde el frontend para nombrar el archivo
-        //const candidatoId = req.body.candidatoId || Date.now();  // Si no se envía candidatoId, usar la fecha actual como nombre
-        const fileExtension = path.extname(file.originalname);  // Obtener la extensión del archivo
-        const originalName = file.originalname.split('.')[0];  // Obtener el nombre original sin la extensión
-        // Concatenar candidatoId + el nombre original del archivo + la extensión
-        const filename = `${originalName}${fileExtension}`;  // Ejemplo: 1234567890-nombreOriginal.pdf
-        cb(null, filename) // Guardar el archivo con el nombre generado
-    }
-  });
-
-  const storageImg = multer.diskStorage({
-    destination: (req, file, cb) => {
-      const uploadDir = 'uploads/img/';
-      if (!fs.existsSync(uploadDir)) {
-        fs.mkdirSync(uploadDir, { recursive: true });
-      }
-      cb(null, uploadDir);
-    },
-  
-    filename: (req, file, cb) => {
-        const fileExtension = path.extname(file.originalname);  // Obtener la extensión del archivo
-        const originalName = file.originalname.split('.')[0];  // Obtener el nombre original sin la extensión
-        const filename = `${originalName}${fileExtension}`;  // Ejemplo: 1234567890-nombreOriginal.pdf
-        cb(null, filename) // Guardar el archivo con el nombre generado
-    }
-  });
-  
-const upload = multer({
-    storage: storage,
-    fileFilter: (req, file, cb) => {
-        const allowedTypes = ['application/pdf'];
-        if (!allowedTypes.includes(file.mimetype)) {
-        return cb(new Error('Tipo de archivo no permitido'), false);
-        }
-        cb(null, true);
-    }
-});
-
-const uploadImg = multer({
-    storage: storageImg,
-    fileFilter: (req, file, cb) => {
-        const allowedTypes = ['image/jpeg', 'image/png'];
-        if (!allowedTypes.includes(file.mimetype)) {
-        return cb(new Error('Tipo de archivo no permitido'), false);
-        }
-        cb(null, true);
-    }
-});
-  
-// Ruta para gestionar la subida de archivos
-app.post('/subircv', upload.single('archivo'), (req, res) => {
-    console.log('Archivo recibido:', req.file);
-    console.log('Candidato ID:', req.body.candidatoId);
-    if (!req.file) {
-        return res.status(400).json({ mensaje: 'No se subió ningún archivo' });
-    }
-    // Responder con el archivo subido y su ubicación
-    res.status(200).json({
-        mensaje: 'Archivo subido con éxito',
-        archivo: req.file,
-    });
-});
-
-app.post('/subirimg', uploadImg.single('img'), (req, res) => {
-    console.log('Imagen recibida:', req.file);
-    if (!req.file) {
-        return res.status(400).json({ mensaje: 'No se subió ninguna imagen' });
-    }
-    // Responder con el archivo subido y su ubicación
-    res.status(200).json({
-        mensaje: 'Imagen subida con éxito',
-        archivo: req.file,
-    });
-});
 
 app.use('/uploads/img/', express.static(path.join(__dirname, '../uploads/img')));
 app.use('/uploads/cv/', express.static(path.join(__dirname, '../uploads/cv')));
