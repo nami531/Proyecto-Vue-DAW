@@ -395,7 +395,15 @@ export default {
                             body: JSON.stringify(candidatoExistente)
                         });
 
-                        this.mostrarAlerta("Aviso", "Candidato dado de baja correctamente", "success")
+                        
+
+                        await fetch(`http://localhost:5000/deletecv/${candidatoExistente.movil}.pdf`, {
+                            method: 'DELETE',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                        });
+                        this.mostrarAlerta("Aviso", "Candidato y curriculum dado de baja correctamente", "success")
                         this.getCandidatos();
                     } else {
                         this.mostrarAlerta("Error", "Candidato no encontrado", "error")

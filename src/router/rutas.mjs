@@ -102,6 +102,23 @@ rutas.post('/subircv', upload.single('archivo'), (req, res) => {
     });
 });
 
+rutas.delete('/deletecv/:nombre', (req, res) => {
+    const nombreArchivo = req.params.nombre; 
+    const rutaArchivo = path.join('uploads/cv', nombreArchivo); 
+    if (fs.existsSync(rutaArchivo)){
+        fs.unlinkSync(rutaArchivo); 
+        
+        res.status(200).json({
+            mensaje : 'Archivo eliminado con exito'
+        })
+    } else {
+        res.status(404).json({
+            mensaje : 'Archivo no encontrado'
+        })
+    }
+    
+})
+
 rutas.post('/subirimg', uploadImg.single('img'), (req, res) => {
     console.log('Imagen recibida:', req.file);
     if (!req.file) {
