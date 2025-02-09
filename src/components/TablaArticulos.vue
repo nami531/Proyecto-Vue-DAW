@@ -207,7 +207,7 @@ export default {
                     const fileData = await fileResponse.json();
                     console.log('Archivo subido correctamente:', fileData.archivo);
 
-                    this.articulo.urlimg = `http://localhost:5000/uploads/img/${fileData.archivo.originalname}`
+                    this.articulo.urlimg = `${fileData.archivo.originalname}`
                     // Actualizamos el articulo con la url correspondiente
                     actualizarArticulo(articuloAgregadoId, this.articulo); 
                 }
