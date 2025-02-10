@@ -134,7 +134,7 @@ export default {
                 precio_unitario : "",
                 stock_disponible : "", 
                 personalizacion : "", 
-                urlimg : "",
+                imagen : "",
                 fecha_alta : "",
             },
             articulos : [],
@@ -207,7 +207,7 @@ export default {
                     const fileData = await fileResponse.json();
                     console.log('Archivo subido correctamente:', fileData.archivo);
 
-                    this.articulo.urlimg = `${fileData.archivo.originalname}`
+                    this.articulo.imagen = `${fileData.archivo.originalname}`
                     // Actualizamos el articulo con la url correspondiente
                     actualizarArticulo(articuloAgregadoId, this.articulo); 
                 }
@@ -261,7 +261,7 @@ export default {
                     if (articulo._id) {
                         eliminarArticulo(articulo._id)
 
-                        await fetch(`http://localhost:5000/deleteimg/${articulo.urlimg}`, {
+                        await fetch(`http://localhost:5000/deleteimg/${articulo.imagen}`, {
                             method : 'DELETE', 
                             headers: {
                                 'Content-Type': 'application/json'
@@ -337,7 +337,7 @@ export default {
                 precio_unitario : "",
                 stock_disponible : "", 
                 personalizacion : "", 
-                urlimg : "",
+                imagen : "",
                 fecha_alta : "",
             }
             this.archivo = null;

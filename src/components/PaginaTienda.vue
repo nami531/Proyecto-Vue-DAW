@@ -20,7 +20,7 @@
                 <tbody>
                     <tr v-for="articulo in articulosPorPagina" :key="articulo.id">
                         <td class="d-flex justify-content-center align-items-center align-middle">
-                            <img :src="`http://localhost:5000/uploads/img/${articulo.urlimg}`" :alt="articulo.nombre" width="100px" height="100px">
+                            <img :src="`http://localhost:5000/uploads/img/${articulo.imagen}`" :alt="articulo.nombre" width="100px" height="100px">
                         </td>
                         <td class="text-center align-middle">{{ articulo.nombre }}</td>
                         <td class="text-center align-middle">{{ articulo.descripcion }}</td>

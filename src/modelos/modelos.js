@@ -8,7 +8,7 @@ const articuloSchema = new mongoose.Schema(
       precio_unitario: { type: Number, required: true, min: 0 },
       stock_disponible: { type: Number, required: true, min: 0 },
       personalizacion: { type: String, maxlength: 128 },
-      urlimg : {type : String, maxlength : 150},
+      imagen : {type : String, maxlength : 150},
       fecha_alta: { type: Date, required: true },
     },
     { versionKey: false }
