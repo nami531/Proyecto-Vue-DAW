@@ -26,6 +26,19 @@
                         <td class="text-center align-middle">{{ articulo.descripcion }}</td>
                         <td class="text-center align-middle">{{ articulo.precio_unitario }} &euro;</td>
                         <td class="text-center align-middle">{{ articulo.stock_disponible }}</td>
+                        <td>
+                            <img :src="`http://localhost:5000/uploads/img/${articulo.imagen}`" alt="Foto de producto" width="64" height="64" class="img-thumbnail" 
+                            @click="openModal(articulo._id)"/>
+                        </td>          
+                        <td class="table-warning text-center">
+                            <button class="btn btn-success" @click="addToCart(articulo)">
+                            <i class="fas fa-shopping-cart"></i>
+                            </button>
+                        </td>
+                         <!-- El modal (ventana emergente) que muestra la imagen expandida -->
+                        <div v-if="isModalOpen" class="modal" @click="closeModal">
+                            <img :src="`http://localhost:5000/uploads/img/${articulo.imagen}`" alt="Foto expandida" class="modal-content" />
+                        </div>
                         <td class="text-center align-middle table-info">
                             <button class="btn btn-warning m-2" @click="comprarArticulo(articulo.id)">
                                 <i class="bi bi-cart"></i>
@@ -63,6 +76,7 @@ export default {
             categorias : [], 
             pageSize: 5,
             currentPage: 1,
+            isModalOpen : false
         }
     },
 
@@ -127,7 +141,18 @@ export default {
             this.categoria = categoria; 
             this.currentPage = 1
             this.getArticulos()
-        }
+        }, 
+
+        openModal() {
+            this.isModalOpen = true;
+        },
+
+        closeModal() {
+            this.isModalOpen = false;
+        },
+
+        
+
     }
 
 
@@ -144,4 +169,31 @@ export default {
 .btnCategoria:active {
     border: none !important;
 }
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    cursor: pointer;
+}
+
+    /* Estilo para la imagen expandida dentro del modal */
+.modal-content {
+    max-width: 80%;
+    max-height: 80%;
+    object-fit: contain;
+}
+
+/* Para el estilo del cursor sobre la imagen del modal */
+.modal-content:hover {
+    cursor: zoom-out;
+}
+    
 </style>
