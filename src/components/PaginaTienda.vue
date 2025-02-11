@@ -30,18 +30,13 @@
                             <img :src="`http://localhost:5000/uploads/img/${articulo.imagen}`" alt="Foto de producto" width="64" height="64" class="img-thumbnail" 
                             @click="openModal(articulo._id)"/>
                         </td>          
-                        <td class="table-warning text-center">
-                            <button class="btn btn-success" @click="addToCart(articulo)">
-                            <i class="fas fa-shopping-cart"></i>
-                            </button>
-                        </td>
                          <!-- El modal (ventana emergente) que muestra la imagen expandida -->
                         <div v-if="isModalOpen" class="modal" @click="closeModal">
                             <img :src="`http://localhost:5000/uploads/img/${articulo.imagen}`" alt="Foto expandida" class="modal-content" />
                         </div>
                         <td class="text-center align-middle table-info">
-                            <button class="btn btn-warning m-2" @click="comprarArticulo(articulo.id)">
-                                <i class="bi bi-cart"></i>
+                            <button class="btn btn-success" @click="agregarArticulo(articulo)">
+                                <i class="fas fa-shopping-cart"></i>
                             </button>
                         </td>
                     </tr>
@@ -63,7 +58,10 @@
 
 <script>
 import { obtenerArticulos } from '@/js/articuloServicios';
+import { useCartStore } from '@/store/carts';
+
 export default {
+
     name : "PaginaTienda",
     components : {
 
@@ -76,8 +74,13 @@ export default {
             categorias : [], 
             pageSize: 5,
             currentPage: 1,
-            isModalOpen : false
+            isModalOpen : false, 
+            data : null,
         }
+    },
+
+    created() {
+        this.data = useCartStore(); // Se inicializa aquí después de que Vue ya está montado
     },
 
     computed: {
@@ -150,6 +153,10 @@ export default {
         closeModal() {
             this.isModalOpen = false;
         },
+
+        agregarArticulo(producto){
+            this.data.addToCart(producto); 
+        }
 
         
 

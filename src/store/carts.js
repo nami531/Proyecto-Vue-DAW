@@ -1,5 +1,7 @@
 // src/stores/cart.js
-import { defineStore } from 'pinia';
+import { createPinia, defineStore } from 'pinia';
+
+export const pinia = createPinia(); 
 
 export const useCartStore = defineStore('cart', {
   state: () => ({
