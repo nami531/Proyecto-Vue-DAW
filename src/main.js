@@ -14,5 +14,5 @@ import { createPinia } from 'pinia'
 
 
 
-createApp(App).use(router).use(store).use(createPinia()).mount('#app')
+createApp(App).use(createPinia()).use(router).use(store).mount('#app')
 

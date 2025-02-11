@@ -41,7 +41,7 @@
             </div>
             <div class="d-flex">
                 <div >
-                    <a href="/carrito" class="btn btn-ligth">terrible</a>
+                    <router-link to="/carrito" class="btn btn-ligth">terrible</router-link>
                 </div>
 
                 <div class="dropdown ms-auto">
@@ -70,6 +70,7 @@
 </template>
 
 <script>
+
 export default{
     name: "NavBar", 
     data(){

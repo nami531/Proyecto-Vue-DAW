@@ -58,7 +58,7 @@
 
 <script>
 import { obtenerArticulos } from '@/js/articuloServicios';
-import { useCartStore } from '@/store/carts';
+import { useCartStore } from '@/store/carts.js';
 
 export default {
 
@@ -75,7 +75,7 @@ export default {
             pageSize: 5,
             currentPage: 1,
             isModalOpen : false, 
-            data : useCartStore()
+            cartStore : useCartStore()
         }
     },
 
@@ -151,15 +151,26 @@ export default {
         },
 
         agregarArticulo(producto){
-            this.data.addToCart(producto); 
-            console.log("Producto añadido", producto)
-            console.log("Items del carrito", this.data.items)
-        }
+            // Cambiamos el id y a mayores añadimos la cantidad
+            const productoPinia = {
+                id : producto._id ,
+                nombre : producto.nombre , 
+                categoria : producto.categoria , 
+                descripcion : producto.descripcion , 
+                precio_unitario : producto.precio_unitario ,
+                stock_disponible : producto.stock_disponible , 
+                personalizacion : producto.personalizacion, 
+                imagen : producto.imagen,
+                fecha_alta : producto.fecha_alta, 
+            }
+            this.cartStore.addToCart(productoPinia); 
 
-        
+            console.log(this.cartStore.getItems)
+        },
 
     }
 
+ 
 
 }
 </script>

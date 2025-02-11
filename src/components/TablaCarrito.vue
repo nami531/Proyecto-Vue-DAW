@@ -12,24 +12,24 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="articulo in this.data.items" :key="articulo.id">
+                    <tr v-for="item in this.cartStore.getItems" :key="item.id">
                         <td class="d-flex justify-content-center align-items-center align-middle">
-                            <img :src="`http://localhost:5000/uploads/img/${articulo.imagen}`" :alt="articulo.nombre" width="100px" height="100px">
+                            <img :src="`http://localhost:5000/uploads/img/${item.imagen}`" :alt="item.nombre" width="100px" height="100px">
                         </td>
-                        <td class="text-center align-middle">{{ articulo.nombre }}</td>
-                        <td class="text-center align-middle">{{ articulo.descripcion }}</td>
-                        <td class="text-center align-middle">{{ articulo.precio_unitario }} &euro;</td>
-                        <td class="text-center align-middle">{{ articulo.stock_disponible }}</td>
+                        <td class="text-center align-middle">{{ item.nombre }}</td>
+                        <td class="text-center align-middle">{{ item.descripcion }}</td>
+                        <td class="text-center align-middle">{{ item.precio_unitario }} &euro;</td>
+                        <td class="text-center align-middle">{{ item.stock_disponible }}</td>
                         <td>
-                            <img :src="`http://localhost:5000/uploads/img/${articulo.imagen}`" alt="Foto de producto" width="64" height="64" class="img-thumbnail" 
+                            <img :src="`http://localhost:5000/uploads/img/${item.imagen}`" alt="Foto de producto" width="64" height="64" class="img-thumbnail" 
                             @click="openModal()"/>
                         </td>          
                          <!-- El modal (ventana emergente) que muestra la imagen expandida -->
                         <div v-if="isModalOpen" class="modal" @click="closeModal">
-                            <img :src="`http://localhost:5000/uploads/img/${articulo.imagen}`" alt="Foto expandida" class="modal-content" />
+                            <img :src="`http://localhost:5000/uploads/img/${item.imagen}`" alt="Foto expandida" class="modal-content" />
                         </div>
                         <td class="text-center align-middle table-info">
-                            <button class="btn btn-success" @click="agregarArticulo(articulo)">
+                            <button class="btn btn-success" @click="agregarArticulo(item)">
                                 <i class="fas fa-shopping-cart"></i>
                             </button>
                         </td>
@@ -40,26 +40,22 @@
 </template>
 
 <script>
-import { useCartStore } from '@/store/carts';
-import { mapState } from 'pinia';
+import { useCartStore } from '@/store/carts.js';
 
 export default ({
     name : "TablaCarrito", 
     components : {
 
     }, 
-    computed: {
-    // Usamos mapState para acceder de forma reactiva al estado del store
-        ...mapState(useCartStore, ['items']),  // Mapea 'items' del store como propiedad computada
-    },
+
     data (){
         return {
-            data : useCartStore()
+            cartStore : useCartStore()
         }
     },
 
     mounted(){
-        console.log("Items del carrito", this.data.items)
+        console.log("Items del carrito", this.cartStore.getItems)
     }
 })
 </script>
