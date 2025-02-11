@@ -28,7 +28,7 @@
                         <td class="text-center align-middle">{{ articulo.stock_disponible }}</td>
                         <td>
                             <img :src="`http://localhost:5000/uploads/img/${articulo.imagen}`" alt="Foto de producto" width="64" height="64" class="img-thumbnail" 
-                            @click="openModal(articulo._id)"/>
+                            @click="openModal()"/>
                         </td>          
                          <!-- El modal (ventana emergente) que muestra la imagen expandida -->
                         <div v-if="isModalOpen" class="modal" @click="closeModal">
