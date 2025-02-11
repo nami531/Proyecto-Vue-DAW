@@ -55,7 +55,7 @@
                     
                     
                     <ul class="dropdown-menu">
-                        <li></li>
+                        <li v-if="this.usuario">¡Hola!, {{ this.usuario }}</li>
                         <li class="dropdown-item" v-if="!isLogueado">
                             <router-link to="/login" class="dropdown-item">Acceso</router-link>
                         </li>
@@ -85,13 +85,14 @@ export default{
             isDropdownVisible: false, 
             isAdmin : false, 
             isLogueado : false,
+            usuario : "", 
         }; 
     }, 
     
     mounted() {
         this.isAdmin = localStorage.getItem('isAdmin') === 'true'; 
         this.isLogueado = localStorage.getItem('isLogueado') === 'true'; 
-
+        this.obtenerNombreUsuario(localStorage.getItem('email')); 
     }, 
 
     methods:{
@@ -109,6 +110,17 @@ export default{
             this.$router.push({name : 'TablaLogin'}).then(() => {
                 window.location.reload()
             })
+        },
+
+        async obtenerNombreUsuario(email){
+            const response= await fetch(`http://localhost:3000/usuarios?email=${email}`)
+            if (!response.ok){
+                console.log("Se ha producido un error")
+            }
+
+            const usuario = await response.json(); 
+            console.log("Respuesta obtenida", usuario); 
+            this.usuario = usuario[0].nombre; 
         }
     }
 
