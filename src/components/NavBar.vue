@@ -41,13 +41,16 @@
             </div>
             <div class="d-flex">
                 <div >
-                    <router-link to="/carrito" class="btn btn-ligth">terrible</router-link>
+                    <router-link to="/carrito" class="btn btn-ligth"> <i class="fas fa-shopping-cart"></i></router-link>
                 </div>
 
                 <div class="dropdown ms-auto">
-                    <button class="btn btn-primary" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-person-circle fs-3"></i>
-                    </button>
+                    <div class="d-flex flex-row align-items-center justify-content-center"  style="height: 35px;">
+                        <button class="btn btn-primary align-middle" type="button">
+                            <i class="bi bi-person-circle fs-3 text-white"></i>
+                         </button>
+                    </div>
+                    
                     <ul class="dropdown-menu">
                         <li class="dropdown-item" v-if="!isLogueado">
                             <router-link to="/login" class="dropdown-item">Acceso</router-link>
