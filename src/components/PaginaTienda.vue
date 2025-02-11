@@ -75,12 +75,8 @@ export default {
             pageSize: 5,
             currentPage: 1,
             isModalOpen : false, 
-            data : null,
+            data : useCartStore()
         }
-    },
-
-    created() {
-        this.data = useCartStore(); // Se inicializa aquí después de que Vue ya está montado
     },
 
     computed: {
@@ -156,6 +152,8 @@ export default {
 
         agregarArticulo(producto){
             this.data.addToCart(producto); 
+            console.log("Producto añadido", producto)
+            console.log("Items del carrito", this.data.items)
         }
 
         

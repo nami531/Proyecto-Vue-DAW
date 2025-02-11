@@ -39,23 +39,30 @@
                 </li>
             </ul>
             </div>
-            <div class="dropdown ms-auto">
-                <button class="btn btn-primary" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="bi bi-person-circle fs-3"></i>
-                </button>
-                <ul class="dropdown-menu">
-                    <li class="dropdown-item" v-if="!isLogueado">
-                        <router-link to="/login" class="dropdown-item">Acceso</router-link>
-                    </li>
-                    <li class="dropdown-item" v-if="!isLogueado">
-                        <router-link to="/registro" class="dropdown-item">Registro</router-link>
-                    </li>
-                    <li class="dropdown-item" v-if="isLogueado">
-                        <router-link to="/logout" class="dropdown-item" @click="logout">Cerrar sesión</router-link>
-                    </li>
-                </ul>
-                
+            <div class="d-flex">
+                <div >
+                    <a href="/carrito" class="btn btn-ligth">terrible</a>
+                </div>
+
+                <div class="dropdown ms-auto">
+                    <button class="btn btn-primary" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-circle fs-3"></i>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-item" v-if="!isLogueado">
+                            <router-link to="/login" class="dropdown-item">Acceso</router-link>
+                        </li>
+                        <li class="dropdown-item" v-if="!isLogueado">
+                            <router-link to="/registro" class="dropdown-item">Registro</router-link>
+                        </li>
+                        <li class="dropdown-item" v-if="isLogueado">
+                            <router-link to="/logout" class="dropdown-item" @click="logout">Cerrar sesión</router-link>
+                        </li>
+                    </ul>
+                    
+                </div>
             </div>
+            
         </div>
         </nav>
     </div>
