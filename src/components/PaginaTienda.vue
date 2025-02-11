@@ -9,6 +9,7 @@
         <table class="table table-striped mt-2">
                 <thead>
                     <tr class="table-primary">
+                        <th scope="col" class="w-10 text-center align-middle">Id</th>
                         <th scope="col" class="w-10 text-center align-middle">Foto</th>
                         <th scope="col" class="w-20 text-start  align-middle">Nombre</th>
                         <th scope="col" class="w-45 text-center align-middle">Descripción</th>
@@ -19,9 +20,9 @@
                 </thead>
                 <tbody>
                     <tr v-for="articulo in articulosPorPagina" :key="articulo.id">
-                        <td class="d-flex justify-content-center align-items-center align-middle">
-                            <img :src="`http://localhost:5000/uploads/img/${articulo.imagen}`" :alt="articulo.nombre" width="100px" height="100px">
-                        </td>
+                        <td class="text-center align-middle">{{ articulo._id.substring(0, 8) }}</td>
+
+                        
                         <td class="text-center align-middle">{{ articulo.nombre }}</td>
                         <td class="text-center align-middle">{{ articulo.descripcion }}</td>
                         <td class="text-center align-middle">{{ articulo.precio_unitario }} &euro;</td>
