@@ -20,7 +20,11 @@ export const useCartStore = defineStore('cart', {
 
     addToCart(product) {
       const existingProduct = this.items.find(item => item.id === product.id);
+      
       if (existingProduct) {
+        if (existingProduct.quantity + 1 > existingProduct.stock_disponible) {
+          throw new Error('Nos hemos quedado fuera de stock')
+        }
         existingProduct.quantity += 1; // Si ya está en el carrito, incrementa la cantidad
         console.log("Estoy siendo ejecutado desde pinia", existingProduct)
 

@@ -60,6 +60,8 @@
 <script>
 import { obtenerArticulos } from '@/js/articuloServicios';
 import { useCartStore } from '@/store/carts.js';
+import Swal from 'sweetalert2';
+
 
 export default {
 
@@ -169,9 +171,27 @@ export default {
                 imagen : producto.imagen,
                 fecha_alta : producto.fecha_alta, 
             }
-            this.cartStore.addToCart(productoPinia); 
 
-            console.log(this.cartStore.getItems)
+            try {
+                this.cartStore.addToCart(productoPinia); 
+
+            } catch (error){
+                this.mostrarAlerta('Error', error.message, 'error');
+            }
+
+        },
+
+        mostrarAlerta(titulo, mensaje, icono) {
+            Swal.fire({
+                title: titulo,
+                text: mensaje,
+                icon: icono,
+                customClass: {
+                    container: 'custom-alert-container',
+                    popup: 'custom-alert-popup',
+                    modal: 'custom-alert-modal'
+                }
+            });
         },
 
     }
