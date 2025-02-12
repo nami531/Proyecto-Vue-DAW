@@ -54,6 +54,7 @@
                     </div>
 
                 </div>
+                <div class="d-flex flex-row align-items-center justify-content-center text-white ms-3" v-if="this.usuario">{{ this.usuario }}</div>
 
                 <div class="dropdown ms-auto">
                     <button class="btn btn-primary" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
@@ -62,7 +63,6 @@
                     
                     
                     <ul class="dropdown-menu">
-                        <li v-if="this.usuario">¡Hola!, {{ this.usuario }}</li>
                         <li class="dropdown-item" v-if="!isLogueado">
                             <router-link to="/login" class="dropdown-item">Acceso</router-link>
                         </li>
