@@ -41,11 +41,18 @@
             </div>
             <div class="d-flex">
                 <div >
-                    <div class="d-flex flex-row align-items-center justify-content-center"  style="height: 58px;">
-                        <button class="btn btn-primary align-middle" type="button">
-                            <router-link to="/carrito" class="btn btn-ligth text-white"> <i class="fas fa-shopping-cart"></i></router-link>
-                        </button>
+                    <div class="d-flex flex-row align-items-center justify-content-center" style="height: 58px;">
+                        <div class="position-relative">
+                            <router-link to="/carrito" class="btn btn-primary align-middle position-relative">
+                                <i class="fas fa-shopping-cart"></i>
+                            </router-link>
+                            <div v-if="this.cartStore.totalItems >= 1" class="position-absolute bg-danger text-white rounded-circle d-flex align-items-center justify-content-center z-1" 
+                                style="top: -5px; right: -5px; width: 20px; height: 20px; font-size: 12px;">
+                                {{ this.cartStore.totalItems }}
+                            </div>
+                        </div>
                     </div>
+
                 </div>
 
                 <div class="dropdown ms-auto">
@@ -77,6 +84,8 @@
 </template>
 
 <script>
+import { useCartStore } from '@/store/carts';
+
 
 export default{
     name: "NavBar", 
@@ -86,6 +95,7 @@ export default{
             isAdmin : false, 
             isLogueado : false,
             usuario : "", 
+            cartStore : useCartStore(),
         }; 
     }, 
     
