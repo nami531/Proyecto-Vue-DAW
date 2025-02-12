@@ -43,7 +43,7 @@
                 <div >
                     <div class="d-flex flex-row align-items-center justify-content-center" style="height: 58px;">
                         <div class="position-relative">
-                            <router-link to="/carrito" class="btn btn-primary align-middle position-relative">
+                            <router-link to="/carrito" class="btn btn-primary align-middle position-relative" v-if="this.isLogueado">
                                 <i class="fas fa-shopping-cart"></i>
                             </router-link>
                             <div v-if="this.cartStore.totalItems >= 1" class="position-absolute bg-danger text-white rounded-circle d-flex align-items-center justify-content-center z-1" 

@@ -15,7 +15,7 @@
                         <th scope="col" class="w-45 text-center align-middle">Descripción</th>
                         <th scope="col" class="w-10 text-center align-middle">Precio</th>
                         <th scope="col" class="w-10 text-center align-middle">Stock</th>
-                        <th scope="col" class="table-info text-center align-middle">Comprar</th>
+                        <th scope="col" class="table-info text-center align-middle" v-if="this.isLogueado">Comprar</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -35,7 +35,7 @@
                         <div v-if="isModalOpen" class="modal" @click="closeModal">
                             <img :src="`http://localhost:5000/uploads/img/${articulo.imagen}`" alt="Foto expandida" class="modal-content" />
                         </div>
-                        <td class="text-center align-middle table-info">
+                        <td class="text-center align-middle table-info" v-if="this.isLogueado">
                             <button class="btn btn-success" @click="agregarArticulo(articulo)">
                                 <i class="fas fa-shopping-cart"></i>
                             </button>
@@ -76,7 +76,10 @@ export default {
             pageSize: 5,
             currentPage: 1,
             isModalOpen : false, 
-            cartStore : useCartStore()
+            cartStore : useCartStore(), 
+            isAdmin : false, 
+            isLogueado : false,
+
         }
     },
 
@@ -91,6 +94,8 @@ export default {
     mounted() {
         this.getCategorias(); 
         this.getArticulos(); 
+        this.isAdmin = localStorage.getItem("isAdmin") === "true"
+        this.isLogueado = localStorage.getItem("isLogueado") === "true"
     },
 
     methods : {
