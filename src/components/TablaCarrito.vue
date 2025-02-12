@@ -8,6 +8,7 @@
                         <th scope="col" class="w-10 text-center align-middle">Precio</th>
                         <th scope="col" class="w-10 text-center align-middle">Foto</th>
                         <th scope="col" class="w-10 text-center align-middle">Cantidad</th>
+                        <th scope="col" class="w-10 text-center align-middle">Total</th>
                         <th scope="col" class="table-info text-center align-middle">Eliminar</th>
                     </tr>
                 </thead>
@@ -26,12 +27,13 @@
                             <img :src="`http://localhost:5000/uploads/img/${item.imagen}`" alt="Foto expandida" class="modal-content" />
                         </div>
                         <td class="align-middle">
-                            <div class="input-group gap-2 d-flex align-items-center justify-content-center ">
+                            <div class="gap-2 d-flex align-items-center justify-content-center ">
                                 <button @click="decrease(item)" class="btn btn-primary p-0 px-2">-</button>
-                                <span class="fs-5">{{ item.quantity }}</span>
+                                <span class="border bg-white px-2">{{ item.quantity }}</span>
                                 <button @click="increase(item)" class="btn btn-primary p-0 px-2  ">+</button>
                             </div>
                         </td>
+                        <td>{{ (item.quantity * item.precio_unitario).toFixed(2) }} €</td>
                         <td class="text-center align-middle table-info">
                             <button class="btn btn-danger" @click="eliminarArticulo(item)">
                                 <i class="bi bi-trash"></i>
