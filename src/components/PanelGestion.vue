@@ -17,20 +17,6 @@
             <router-link to="/comentarios"  class="col bg-primary me-4 rounded containerAltura d-flex justify-content-center align-items-center text-decoration-none" >
                 <div class="text-white d-flex justify-content-center align-items-center text-decoration-none" >Gestión de comentarios</div>
             </router-link>
-        
-            <router-link to="/articulos"  class="col bg-primary me-4 rounded containerAltura d-flex justify-content-center align-items-center text-decoration-none">
-                <div class="text-white d-flex justify-content-center align-items-center construccion" >Gestión de artículos</div>
-            </router-link>
-        </div>
-
-        <div class="row mb-4">
-            <router-link to="/registro"  class="col bg-primary me-4 rounded containerAltura d-flex justify-content-center align-items-center text-decoration-none" >
-                <div class="text-white d-flex justify-content-center align-items-center text-decoration-none" >Registro usuarios</div>
-            </router-link>
-        
-            <router-link to="/"  class="col bg-secondary me-4 rounded containerAltura d-flex justify-content-center align-items-center text-decoration-none">
-                <span class="text-white   d-flex justify-content-center align-items-center construccion" >En construcción</span>
-            </router-link>
         </div>
         
     </div>
