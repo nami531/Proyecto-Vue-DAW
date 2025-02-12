@@ -102,7 +102,10 @@ export default{
     mounted() {
         this.isAdmin = localStorage.getItem('isAdmin') === 'true'; 
         this.isLogueado = localStorage.getItem('isLogueado') === 'true'; 
-        this.obtenerNombreUsuario(localStorage.getItem('email')); 
+        const email = localStorage.getItem('email'); 
+        if (email){
+            this.obtenerNombreUsuario(email); 
+        }
     }, 
 
     methods:{
