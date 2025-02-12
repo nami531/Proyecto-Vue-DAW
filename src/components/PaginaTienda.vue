@@ -10,11 +10,11 @@
                 <thead>
                     <tr class="table-primary">
                         <th scope="col" class="w-10 text-center align-middle">Id</th>
-                        <th scope="col" class="w-10 text-center align-middle">Foto</th>
                         <th scope="col" class="w-20 text-start  align-middle">Nombre</th>
                         <th scope="col" class="w-45 text-center align-middle">Descripción</th>
                         <th scope="col" class="w-10 text-center align-middle">Precio</th>
                         <th scope="col" class="w-10 text-center align-middle">Stock</th>
+                        <th scope="col" class="w-10 text-center align-middle">Foto</th>
                         <th scope="col" class="table-info text-center align-middle" v-if="this.isLogueado">Comprar</th>
                     </tr>
                 </thead>
