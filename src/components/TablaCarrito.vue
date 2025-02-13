@@ -87,7 +87,7 @@ export default ({
         },
 
         async finalizarCompra(){
-            const stripe = await loadStripe("pk_test_51Qrx96QRDuUoVuBUOD2dhwzJfVnHMlNDiePiWfuZQVF0CPzBXHr9j6LTvdC5E7UMJYaX8b2KPkwRXG163wKPLcQG00vY1CFVpT"); 
+            const stripe = await loadStripe(process.env.VUE_APP_PUBLIC_KEY); 
             const response = await fetch("http://localhost:5000/crear-checkout-session", {
                 method : 'POST',
                 headers : { 'Content-Type' : 'application/json'},

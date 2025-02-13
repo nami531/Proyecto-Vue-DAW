@@ -5,6 +5,7 @@ import multer from 'multer';
 import fs from 'fs'; 
 import path from 'path';
 import Stripe from 'stripe'; 
+import 'dotenv/config.js'; 
 const rutas = express.Router();
 
 // const upload = multer({dest: 'uploads/'})
@@ -230,7 +231,7 @@ rutas.delete('/articulos/:id', async (req, res) => {
 
 rutas.post("/crear-checkout-session", async (req, res) => {
     try {
-        const stripe = new Stripe("sk_test_51Qrx96QRDuUoVuBUNTbd70NFvvAThNuGLlsMqPkYzVY1jSKJTMgAfEGTGp2ARS0mecAOl6jb9MAuUT3fu4uP2R3q00ExzOWlqn"); 
+        const stripe = new Stripe(process.env.STRIPE_SECRET_KEY); 
         
         const {items , amount} = req.body; 
         console.log(items, amount)
