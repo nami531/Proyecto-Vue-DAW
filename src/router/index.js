@@ -13,6 +13,8 @@ import PanelGestion from '@/components/PanelGestion.vue'
 import PaginaInicio from '@/components/PaginaInicio.vue'
 import PaginaTienda from '@/components/PaginaTienda.vue'
 import TablaCarrito from '@/components/TablaCarrito.vue'
+import PagoAprobado from '@/components/PagoAprobado.vue'
+import PagoCancelado from '@/components/PagoCancelado.vue'
 
 const routes = [
   {
@@ -92,6 +94,16 @@ const routes = [
     path: '/carrito', 
     name : 'TablaCarrito', 
     component : TablaCarrito
+  }, 
+  {
+    path : '/success',
+    name : 'PagoAprobado', 
+    component : PagoAprobado
+  }, 
+  {
+    path : '/cancel', 
+    name : 'PagoCancelado', 
+    component : PagoCancelado
   }
 
 

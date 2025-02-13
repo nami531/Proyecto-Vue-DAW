@@ -4,6 +4,7 @@ import  mongoose  from 'mongoose';
 import multer from 'multer';
 import fs from 'fs'; 
 import path from 'path';
+import Stripe from 'stripe'; 
 const rutas = express.Router();
 
 // const upload = multer({dest: 'uploads/'})
@@ -226,5 +227,46 @@ rutas.delete('/articulos/:id', async (req, res) => {
         console.log("Error al eliminar artículo:", error);
     }   
 });
+
+rutas.post("/crear-checkout-session", async (req, res) => {
+    try {
+        const stripe = new Stripe("sk_test_51Qrx96QRDuUoVuBUNTbd70NFvvAThNuGLlsMqPkYzVY1jSKJTMgAfEGTGp2ARS0mecAOl6jb9MAuUT3fu4uP2R3q00ExzOWlqn"); 
+        
+        const {items , amount} = req.body; 
+        console.log(items, amount)
+
+        if (!items || !Array.isArray(items) || items.length === 0){
+            return res.status(400).json({error : "Debe haber al menos un producto en el carrito"}); 
+        }
+
+        if (!amount || isNaN(amount) || amount <= 0 ){
+            return res.status(400).json({error : "Monto inválido"}); 
+        }
+
+        const lineItems = items.map(item => ({
+            price_data : {
+                currency : 'eur', 
+                product_data : {
+                    name : item.nombre,
+                }, 
+                unit_amount : parseInt(item.precio_unitario * 100),
+            }, 
+            quantity : item.quantity,
+        }))
+
+        const session = await stripe.checkout.sessions.create({
+            payment_method_types : ['card'], 
+            line_items : lineItems,
+            mode : 'payment', 
+            success_url : 'http://localhost:8080/success', 
+            cancel_url : 'http://localhost:8080/cancel', 
+        })
+        console.log(session)
+        res.json({id : session.id}); 
+    } catch (error) {
+        console.error("Error al crear la sesión de pago: ", error)
+        res.status(500).json({error : "Error en el servidor"}); 
+    }
+})
 
 export default rutas;

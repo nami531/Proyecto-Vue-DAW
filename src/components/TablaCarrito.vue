@@ -43,6 +43,7 @@
                 </tbody>
             </table>
             <h2 class="text-end"> Precio total: {{ cartStore.totalPrice.toFixed(2) }} €</h2>
+            <button class="btn btn-primary" @click="finalizarCompra">Finalizar compra</button>
     </div>
     <div v-else>
         <div class="d-flex flex-column align-items-center justify-content-center min-vh-100">
@@ -54,6 +55,7 @@
 
 <script>
 import { useCartStore } from '@/store/carts.js';
+import { loadStripe } from '@stripe/stripe-js';
 
 export default ({
     name : "TablaCarrito", 
@@ -84,7 +86,31 @@ export default ({
             this.cartStore.updateQuantity(articulo.id, articulo.quantity - 1)
         },
 
-        
+        async finalizarCompra(){
+            const stripe = await loadStripe("pk_test_51Qrx96QRDuUoVuBUOD2dhwzJfVnHMlNDiePiWfuZQVF0CPzBXHr9j6LTvdC5E7UMJYaX8b2KPkwRXG163wKPLcQG00vY1CFVpT"); 
+            const response = await fetch("http://localhost:5000/crear-checkout-session", {
+                method : 'POST',
+                headers : { 'Content-Type' : 'application/json'},
+                body : JSON.stringify({ items : this.cartStore.items, amount : this.cartStore.totalPrice})
+            }); 
+
+            const session = await response.json(); 
+
+            if (!session.id){
+                console.error("No se recibio sesionId de stripe")
+                return; 
+            }
+
+            const { error } = await stripe.redirectToCheckout({
+                sessionId : session.id, 
+            }); 
+
+            if (error){
+                console.error("Error en el pago", error)
+            }
+
+
+        },
     }
 })
 </script>
