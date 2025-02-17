@@ -30,6 +30,7 @@
 
 <script>
 import emailjs from 'emailjs-com'; 
+import Swal from 'sweetalert2';
     export default {
         name : "TablaContacto",
         components : {
@@ -53,19 +54,12 @@ import emailjs from 'emailjs-com';
 
             esTelefonoValido(){
                 const regexTelefono = /^[67]\d{8}$/; 
-                if (!regexTelefono.test(this.contacto.tlf)){
-                    console.error("Telefono")
-                }
                 return regexTelefono.test(this.contacto.tlf); 
             }, 
 
             esEmailValido(){
                 const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
-                if (!regexEmail.test(this.contacto.email)){
-                    console.error("Email")
-                }
                 return regexEmail.test(this.contacto.email)
-
             }
         }, 
 
@@ -82,18 +76,37 @@ import emailjs from 'emailjs-com';
                     emailjs.send(process.env.VUE_APP_SERVICE_ID, process.env.VUE_APP_TEMPLATE_ID, templateParams, process.env.VUE_APP_PUBLIC_EMAIL_ID)
                         .then((response) => {
                             console.log('Correo enviado exitosamente', response); 
-                            alert('Tu mensaje ha sido enviado con exito'); 
+                            this.mostrarAlerta('Enviado', 'Tu mensaje ha sido enviado con éxito', 'success'); 
                         })
                         .catch((error) => {
                             console.error('Error al enviar al correo', error)
-                            alert('Ha habido un problema'); 
+                            this.mostrarAlerta('Error', 'Ha habido un problema', 'error'); 
                         }); 
-                    
+                    this.contacto =  {
+                        nombre : "", 
+                        tlf : "", 
+                        email : "", 
+                        mensaje : ""
+                    }
                 } else {
-                    alert('Por favor completa todos los campos correctamente')
+                    this.mostrarAlerta('Error', 'Por favor completa todos los campos correctamente', 'error')
                 }
 
-            }
+            }, 
+
+            mostrarAlerta(titulo, mensaje, icono) {
+                Swal.fire({
+                    title: titulo,
+                    text: mensaje,
+                    icon: icono,
+                    customClass: {
+                        container: 'custom-alert-container',
+                        popup: 'custom-alert-popup',
+                        modal: 'custom-alert-modal'
+                    }
+                });
+            },
+
         }
     }
 </script>
