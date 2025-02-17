@@ -231,7 +231,8 @@ rutas.delete('/articulos/:id', async (req, res) => {
 
 rutas.post("/crear-checkout-session", async (req, res) => {
     try {
-        const stripe = new Stripe(process.env.STRIPE_SECRET_KEY); 
+        console.log(process.env.VUE_APP_STRIPE_SECRET_KEY);
+        const stripe = new Stripe(process.env.VUE_APP_STRIPE_SECRET_KEY); 
         
         const {items , amount} = req.body; 
         console.log(items, amount)
