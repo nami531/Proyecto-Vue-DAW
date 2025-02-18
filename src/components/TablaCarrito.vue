@@ -87,6 +87,7 @@ export default ({
         },
 
         async finalizarCompra(){
+            localStorage.setItem("carrito", JSON.stringify(this.cartStore.items)); 
             const stripe = await loadStripe(process.env.VUE_APP_PUBLIC_KEY); 
             const response = await fetch("http://localhost:5000/crear-checkout-session", {
                 method : 'POST',
