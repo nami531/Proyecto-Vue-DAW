@@ -8,7 +8,7 @@ import Stripe from 'stripe';
 import 'dotenv/config.js'; 
 const rutas = express.Router();
 
-const {Articulo} = pkg; 
+const {Articulo, Factura} = pkg; 
 
 // const upload = multer({dest: 'uploads/'})
 
@@ -215,7 +215,7 @@ rutas.delete('/articulos/:id', async (req, res) => {
         }
 
         // Intentar encontrar y eliminar el artículo
-        const articulo = await Articulo.default.findByIdAndDelete(id);
+        const articulo = await Articulo.findByIdAndDelete(id);
 
         // Si no se encuentra el artículo
         if (!articulo) {
@@ -228,6 +228,86 @@ rutas.delete('/articulos/:id', async (req, res) => {
     } catch (error) {
         res.status(400).json({ message: error.message });
         console.log("Error al eliminar artículo:", error);
+    }   
+});
+
+// CRUD Facturas
+rutas.get('/facturas', async (req, res) => {
+    try{
+        const facturas = await Factura.find({});
+        res.json(facturas);
+
+    } catch(error){
+        res.status(500).json({message: error.message});
+        console.log("Error al obtener artículos:", error);
+    }
+});
+
+rutas.post('/facturas', async (req, res) => {
+    try{
+        const factura = new Factura(req.body);
+        await factura.save();
+        res.status(201).json(factura);
+        console.log("Factura guardado correctamente");
+    } 
+    catch(error){
+        res.status(400).json({message: error.message});
+        console.log("Error al guardar artículo:", error);
+        }
+    });
+
+rutas.put('/facturas/:id', async (req, res) => { 
+    try {
+        const { id } = req.params;
+        console.log("ID recibido:", id);
+
+
+        // Verificar si el ID es válido
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).send('No hay factura con ese ID');
+        }
+
+        // Intentar encontrar y actualizar el artículo
+        const factura = await Factura.findByIdAndUpdate(id, req.body, { new: true });
+
+        // Si no se encuentra el artículo
+        if (!factura) {
+            return res.status(404).json({ message: 'Factura no encontrado' });
+        }
+
+        // Responder con el artículo actualizado
+        res.json(factura);
+        console.log("Factura actualizado correctamente");
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+        console.log("Error al actualizar factura:", error);
+    }
+});
+
+rutas.delete('/facturas/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        console.log("ID recibido:", id);
+
+        // Verificar si el ID es válido
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).send('No hay factura con ese ID');
+        }
+
+        // Intentar encontrar y eliminar el artículo
+        const factura = await Factura.findByIdAndDelete(id);
+
+        // Si no se encuentra el artículo
+        if (!factura) {
+            return res.status(404).json({ message: 'Factura no encontrado' });
+        }
+
+        // Responder con el artículo eliminado
+        res.json(factura);
+        console.log("Factura eliminado correctamente");
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+        console.log("Error al eliminar factura:", error);
     }   
 });
 
