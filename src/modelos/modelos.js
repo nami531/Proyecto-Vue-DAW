@@ -29,7 +29,6 @@ const facturaSchema = new mongoose.Schema({
     fecha : {type : Date, default: Date.now}
 })
 
-const Articulo = mongoose.model('Articulo', articuloSchema);
-const Factura = mongoose.model('Factura', facturaSchema); 
-export default {Articulo , Factura};
+export const Articulo = mongoose.model('Articulo', articuloSchema);
+export const Factura = mongoose.model('Factura', facturaSchema); 
 //export.module = Articulo;

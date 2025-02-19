@@ -1,5 +1,5 @@
 import express from 'express';
-import  Articulo from '../modelos/modelos.js';
+import  pkg from '../modelos/modelos.js';
 import  mongoose  from 'mongoose';
 import multer from 'multer';
 import fs from 'fs'; 
@@ -7,6 +7,8 @@ import path from 'path';
 import Stripe from 'stripe'; 
 import 'dotenv/config.js'; 
 const rutas = express.Router();
+
+const {Articulo} = pkg; 
 
 // const upload = multer({dest: 'uploads/'})
 
@@ -152,7 +154,7 @@ rutas.delete('/deleteimg/:nombre', (req, res) => {
 
 rutas.get('/articulos', async (req, res) => {
     try{
-        const articulos = await Articulo.default.find({});
+        const articulos = await Articulo.find({});
         res.json(articulos);
 
     } catch(error){
@@ -163,7 +165,7 @@ rutas.get('/articulos', async (req, res) => {
 
 rutas.post('/articulos', async (req, res) => {
     try{
-        const articulo = new Articulo.default(req.body);
+        const articulo = new Articulo(req.body);
         await articulo.save();
         res.status(201).json(articulo);
         console.log("Artículo guardado correctamente");
@@ -186,7 +188,7 @@ rutas.put('/articulos/:id', async (req, res) => {
         }
 
         // Intentar encontrar y actualizar el artículo
-        const articulo = await Articulo.default.findByIdAndUpdate(id, req.body, { new: true });
+        const articulo = await Articulo.findByIdAndUpdate(id, req.body, { new: true });
 
         // Si no se encuentra el artículo
         if (!articulo) {
