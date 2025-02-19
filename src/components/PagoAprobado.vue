@@ -20,6 +20,8 @@ import { useCartStore } from '@/store/carts';
 import jsPDF from 'jspdf';
 // import { toRefs } from 'vue';
 import { watch } from 'vue';
+import propiedad from "@/assets/propiedad.png"
+import autoTable from 'jspdf-autotable';
 
 export default {
     name: "PagoAprobado",
@@ -53,7 +55,7 @@ export default {
 
             const doc = new jsPDF();
             const cart = this.cartItems;
-            doc.addImage("propiedad", "png", 10, 10, 20, 20);
+            doc.addImage(propiedad, "png", 10, 10, 20, 20);
 
             doc.setFontSize(18)
             doc.text("Factura de compra", 60, 20)
@@ -72,7 +74,7 @@ export default {
                 `${(item.quantity * item.precio_unitario).toFixed(2)} €`
             ])
 
-            doc.autoTable({
+            autoTable(doc , {
                 startY: 80,
                 head: headers,
                 body: data,
@@ -85,7 +87,9 @@ export default {
                 theme: 'striped',
             });
 
-            const totalText = `Total: ${this.cartItems.reduce((acc, item) => acc + item.precio_unitario * item.cantidad, 0).toFixed(2)} €`;
+            const finalY =  doc.lastAutoTable ? doc.lastAutoTable.finalY : 80
+
+            const totalText = `Total: ${this.cartItems.reduce((acc, item) => acc + item.precio_unitario * item.quantity, 0).toFixed(2)} €`;
             const pageWidth = doc.internal.pageSize.width;
 
             const totalWidth = doc.getTextWidth(totalText);
@@ -93,30 +97,20 @@ export default {
 
             doc.setFont('helvetica', 'bold');
             doc.setFontSize(12);
-            doc.text(totalText, positionX - 9, doc.lastAutotable.finalY + 10);
+            doc.text(totalText, positionX - 9, finalY + 10);
 
             doc.save("factura.pdf");
             console.log(doc);
 
         },
 
-        async function cargarImagen(){
-            const response = await fetch('/propiedad.png');
-            const blob = await response.blob();
-            const reader = new FileReader();
+    },
 
-            return new Promise((resolve) => {
-                reader.onloadend = () => resolve(reader.result);
-                reader.readAsDataURL(blob);
-            });
-        }
-
+    beforeUnmount() {
+        localStorage.removeItem("carrito"); 
+        const cartStore = useCartStore(); 
+        cartStore.clearCart(); 
     }
-
-    // beforeUnmount() {
-    //     const cartStore = useCartStore(); 
-    //     cartStore.clearCart(); 
-    // }
 
     
 
