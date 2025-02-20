@@ -31,21 +31,25 @@ export default {
         return {
             cartItems: [],
             totalPrice: 0,
-            cliente: null, 
+            cliente: null,
+            factura: null, 
         }
     },
 
     async mounted() {
         const cartStore = useCartStore();
+        // Recuperamos los items del localStorage
         const items = JSON.parse(localStorage.getItem("carrito"))
+        // Los volvemos a guardar en el store 
         cartStore.items = items;
+        this.cartItems = items; 
         this.totalPrice = cartStore.totalPrice;
 
         watch(() => cartStore.items, (newVal) => {
             this.cartItems = newVal;
         }, { deep: true });
 
-        this.cliente = (await this.getCliente()); 
+        this.cliente = (await this.getCliente());
         const clienteID = this.cliente.id;
         const factura = {
             clienteID: clienteID,
@@ -53,10 +57,9 @@ export default {
             totalFactura: cartStore.totalPrice,
             fecha: Date.now()
         }
-        console.log(factura)
 
-        agregarFactura(factura);
-
+        this.factura = await agregarFactura(factura);
+        console.log(this.factura)
         cartStore.items.forEach((item) => {
             this.updateStock(item, item.quantity)
         })
@@ -64,67 +67,92 @@ export default {
 
     methods: {
 
-
         generarFacturaPdf() {
             if (this.cartItems.length === 0) {
-                console.error("No hay productos en el carrito no se puede generar la factura");
+                console.error("No hay productos en el carrito, no se puede generar la factura");
                 return;
             }
 
             const doc = new jsPDF();
-            const cart = this.cartItems;
-            doc.addImage(propiedad, "png", 10, 10, 20, 20);
+            const cart = this.factura.items;
 
-            doc.setFontSize(18)
-            doc.text("Factura de compra", 60, 20)
+            // Logo
+            doc.addImage(propiedad, "PNG", 10, 10, 25, 25);
 
-            doc.setFontSize(9);
-            doc.text("Razon social: Regalos Teis", 110, 50);
-            doc.text("Dirección: Avenida Galicia 101, Vigo - 36216", 110, 55);
-            doc.text("Tlf: 986 111 333 - Email: regalos@example.com", 110, 60);
+            // Título
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(18);
+            doc.text("Factura de Compra", 75, 20);
 
-            
+            // Información del negocio
+            doc.setFontSize(10);
+            doc.setFont("helvetica", "normal");
+            doc.text("Razón Social: Regalos Teis", 120, 40);
+            doc.text("Dirección: Avenida Galicia 101, Vigo - 36216", 120, 45);
+            doc.text("Tel: 986 111 333 - Email: regalos@example.com", 120, 50);
 
-            const headers = [["ID", "Producto", "Cantidad", "Precio_unitario", "Total"]];
+            // Número de factura
+            doc.setFont("helvetica", "bold");
+            doc.text(`Nº Factura: ${this.factura._id}`, 120, 35);
+
+            // Información del cliente
+            if (this.cliente) {
+                doc.setFont("helvetica", "bold");
+                doc.text("Datos del Cliente:", 10, 50);
+                doc.setFont("helvetica", "normal");
+                doc.text(`Nombre: ${this.cliente.nombre} ${this.cliente.apellidos}`, 10, 55);
+                doc.text(`DNI: ${this.cliente.dni}`, 10, 60);
+                doc.text(`Dirección: ${this.cliente.direccion}, ${this.cliente.municipio.nm}, ${this.cliente.provincia.nm}`, 10, 65);
+                doc.text(`Teléfono: ${this.cliente.movil}`, 10, 70);
+                doc.text(`Email: ${this.cliente.email}`, 10, 75);
+            }
+
+            // Fecha de emisión
+            const fecha = new Date().toLocaleDateString();
+            doc.text(`Fecha de emisión: ${fecha}`, 150, 75);
+
+            // Tabla con los productos
+            const headers = [["ID", "Producto", "Cantidad", "Precio Unitario (€)", "Total (€)"]];
             const data = cart.map((item) => [
-                item._id,
+                item.productoId,
                 item.nombre,
-                item.quantity,
-                `${item.precio_unitario.toFixed(2)} €`,
-                `${(item.quantity * item.precio_unitario).toFixed(2)} €`
-            ])
+                item.cantidad,
+                item.precio_unitario.toFixed(2),
+                (item.cantidad * item.precio_unitario).toFixed(2)
+            ]);
 
-            autoTable(doc , {
-                startY: 80,
+            autoTable(doc, {
+                startY: 85,
                 head: headers,
                 body: data,
+                theme: "striped",
+                styles: { fontSize: 10, cellPadding: 3 },
+                headStyles: { fillColor: [40, 40, 40], textColor: 255 },
                 columnStyles: {
-                    0: { halign: 'center' },
-                    2: { halign: 'center' },
-                    3: { halign: 'right' },
-                    4: { halign: 'right' },
-                },
-                theme: 'striped',
+                    0: { halign: "center" },
+                    2: { halign: "center" },
+                    3: { halign: "right" },
+                    4: { halign: "right" }
+                }
             });
 
-            const finalY =  doc.lastAutoTable ? doc.lastAutoTable.finalY : 80
+            // Total de la factura
+            const finalY = doc.lastAutoTable.finalY + 10;
+            const totalFactura =  this.factura.total;
 
-            const totalText = `Total: ${this.cartItems.reduce((acc, item) => acc + item.precio_unitario * item.quantity, 0).toFixed(2)} €`;
-            const pageWidth = doc.internal.pageSize.width;
+            doc.setFillColor(40, 40, 40);
+            doc.setTextColor(255, 255, 255);
+            doc.setFont("helvetica", "bold");
+            doc.rect(150, finalY, 40, 10, "F");
+            doc.text(`Total: ${totalFactura} €`, 155, finalY + 7);
 
-            const totalWidth = doc.getTextWidth(totalText);
-            const positionX = pageWidth - totalWidth - 14;
-
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(12);
-            doc.text(totalText, positionX - 9, finalY + 10);
-
-            doc.save("factura.pdf");
-            console.log(doc);
-
+            // Guardar PDF
+            doc.save(`Factura_${this.factura._id}_${this.cliente.nombre}_${fecha}.pdf`);
+            console.log("Factura generada correctamente");
         },
-        
-        
+
+
+
         async getCliente() {
             const clienteEmail = localStorage.getItem("email")
             const response = await fetch(`http://localhost:3000/usuarios?email=${encodeURI(clienteEmail)}`)
@@ -156,21 +184,21 @@ export default {
             )
             return listaItemsNueva
         }
-        
+
     },
 
 
 
     beforeUnmount() {
-        const cartStore = useCartStore(); 
-        cartStore.clearCart(); 
+        const cartStore = useCartStore();
+        cartStore.clearCart();
     },
 
-    beforeMount(){
-        
+    beforeMount() {
+
     }
 
-    
+
 
 }
 </script>

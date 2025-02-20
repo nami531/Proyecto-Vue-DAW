@@ -246,8 +246,8 @@ rutas.get('/facturas', async (req, res) => {
 rutas.post('/facturas', async (req, res) => {
     try{
         const factura = new Factura(req.body);
-        await factura.save();
-        res.status(201).json(factura);
+        const facturaGuardada = await factura.save();
+        res.status(201).json(facturaGuardada);
         console.log("Factura guardado correctamente");
     } 
     catch(error){
