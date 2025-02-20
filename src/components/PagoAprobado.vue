@@ -22,8 +22,6 @@ import jsPDF from 'jspdf';
 import { watch } from 'vue';
 import propiedad from "@/assets/propiedad.png"
 import autoTable from 'jspdf-autotable';
-import { agregarFactura } from "@/js/facturaServicios"; 
-import { actualizarArticulo } from "@/js/articuloServicios"; 
 
 export default {
     name: "PagoAprobado",
@@ -39,7 +37,6 @@ export default {
         const items = JSON.parse(localStorage.getItem("carrito"))
         this.cartItems = items;
         this.totalPrice = cartStore.totalPrice;
-
 
         watch(() => cartStore.items, (newVal) => {
             this.cartItems = newVal;
@@ -105,45 +102,17 @@ export default {
             console.log(doc);
 
         },
+        
+        
 
-        async finalizarPago(){
-            const clienteEmail = localStorage.getItem("email")
-            const response = await fetch(`http://localhost:3000/usuarios?email=${encodeURI(clienteEmail)}`)
-            if (!response.ok){
-                console.error("Error al obtener el cliente")
-            }
-
-            const clienteID = await response.json() ; 
-            const factura = {
-                clienteID: clienteID[0].id , 
-                items: this.cartItems, 
-                totalFactura: this.totalPrice, 
-                fecha : Date.now()
-            }
-
-            agregarFactura(factura); 
-
-            this.cartItems.forEach((item) => {
-                this.updateStock(item, item.quantity)
-            })
-
-        },
-
-        updateStock(item, cantidad){
-            console.log(item); 
-            item.stock_disponible -= cantidad ; 
-            delete item.quantity; 
-            actualizarArticulo(item._id,  item)
-        }
+        
     },
 
 
 
     beforeUnmount() {
-        localStorage.removeItem("carrito"); 
         const cartStore = useCartStore(); 
         cartStore.clearCart(); 
-        this.finalizarPago()
     }
 
     
