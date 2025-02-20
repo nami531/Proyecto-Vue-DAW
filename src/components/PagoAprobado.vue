@@ -138,7 +138,7 @@ export default {
 
             // Total de la factura
             const finalY = doc.lastAutoTable.finalY + 10;
-            const totalFactura =  this.factura.total;
+            const totalFactura =  this.factura.totalFactura.toFixed(2);
 
             doc.setFillColor(40, 40, 40);
             doc.setTextColor(255, 255, 255);
