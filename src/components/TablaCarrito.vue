@@ -57,8 +57,7 @@
 <script>
 import { useCartStore } from '@/store/carts.js';
 import { loadStripe } from '@stripe/stripe-js';
-import { agregarFactura } from '@/js/facturaServicios';
-import { actualizarArticulo } from '@/js/articuloServicios';
+
 export default ({
     name: "TablaCarrito",
     components: {
@@ -91,7 +90,7 @@ export default ({
 
 
         async finalizarCompra() {
-            const clienteID = (await this.getCliente()).id;
+            localStorage.setItem("carrito", JSON.stringify(this.cartStore.items))
             const stripe = await loadStripe(process.env.VUE_APP_PUBLIC_KEY);
             const response = await fetch("http://localhost:5000/crear-checkout-session", {
                 method: 'POST',
@@ -105,63 +104,16 @@ export default ({
                 console.error("No se recibio sesionId de stripe")
                 return;
             }
-            console.log(stripe)
-            // const { error } = await stripe.redirectToCheckout({
-            //     sessionId : session.id, 
-            // }); 
+            const { error } = await stripe.redirectToCheckout({
+                sessionId : session.id, 
+            }); 
 
-            const error = false
             if (error) {
                 console.error("Error en el pago", error)
-            } else {
-                const factura = {
-                    clienteID: clienteID,
-                    items: this.formatearListaItems(),
-                    totalFactura: this.cartStore.totalPrice,
-                    fecha: Date.now()
-                }
-                console.log(factura)
-
-                agregarFactura(factura);
-
-                this.cartStore.items.forEach((item) => {
-                    this.updateStock(item, item.quantity)
-                })
-
             }
         },
 
-        async getCliente() {
-            const clienteEmail = localStorage.getItem("email")
-            const response = await fetch(`http://localhost:3000/usuarios?email=${encodeURI(clienteEmail)}`)
-            if (!response.ok) {
-                console.error("Error al obtener el cliente")
-            }
-
-            const cliente = await response.json();
-            return cliente[0];
-
-        },
-
-        updateStock(item, cantidad) {
-            item.stock_disponible -= cantidad;
-            delete item.quantity;
-            actualizarArticulo(item.id, item)
-        },
-
-        formatearListaItems() {
-            const listaItemsNueva = this.cartStore.items.map((item) => {
-                return {
-                    productoId: item.id,
-                    nombre: item.nombre,
-                    precio_unitario: item.precio_unitario,
-                    cantidad: item.quantity,
-                    total: parseInt(item.precio_unitario) * parseInt(item.quantity)
-                }
-            }
-            )
-            return listaItemsNueva
-        }
+        
     }
 })
 </script>

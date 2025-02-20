@@ -22,6 +22,8 @@ import jsPDF from 'jspdf';
 import { watch } from 'vue';
 import propiedad from "@/assets/propiedad.png"
 import autoTable from 'jspdf-autotable';
+import { agregarFactura } from '@/js/facturaServicios';
+import { actualizarArticulo } from '@/js/articuloServicios';
 
 export default {
     name: "PagoAprobado",
@@ -32,15 +34,31 @@ export default {
         }
     },
 
-    mounted() {
+    async mounted() {
         const cartStore = useCartStore();
         const items = JSON.parse(localStorage.getItem("carrito"))
-        this.cartItems = items;
+        cartStore.items = items;
         this.totalPrice = cartStore.totalPrice;
 
         watch(() => cartStore.items, (newVal) => {
             this.cartItems = newVal;
         }, { deep: true });
+
+
+        const clienteID = (await this.getCliente()).id;
+        const factura = {
+            clienteID: clienteID,
+            items: this.formatearListaItems(items),
+            totalFactura: cartStore.totalPrice,
+            fecha: Date.now()
+        }
+        console.log(factura)
+
+        agregarFactura(factura);
+
+        cartStore.items.forEach((item) => {
+            this.updateStock(item, item.quantity)
+        })
     },
 
     methods: {
@@ -104,7 +122,37 @@ export default {
         },
         
         
+        async getCliente() {
+            const clienteEmail = localStorage.getItem("email")
+            const response = await fetch(`http://localhost:3000/usuarios?email=${encodeURI(clienteEmail)}`)
+            if (!response.ok) {
+                console.error("Error al obtener el cliente")
+            }
 
+            const cliente = await response.json();
+            return cliente[0];
+
+        },
+
+        updateStock(item, cantidad) {
+            item.stock_disponible -= cantidad;
+            delete item.quantity;
+            actualizarArticulo(item.id, item)
+        },
+
+        formatearListaItems(items) {
+            const listaItemsNueva = items.map((item) => {
+                return {
+                    productoId: item.id,
+                    nombre: item.nombre,
+                    precio_unitario: item.precio_unitario,
+                    cantidad: item.quantity,
+                    total: parseInt(item.precio_unitario) * parseInt(item.quantity)
+                }
+            }
+            )
+            return listaItemsNueva
+        }
         
     },
 
@@ -113,6 +161,10 @@ export default {
     beforeUnmount() {
         const cartStore = useCartStore(); 
         cartStore.clearCart(); 
+    },
+
+    beforeMount(){
+        
     }
 
     
