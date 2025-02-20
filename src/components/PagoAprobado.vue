@@ -31,6 +31,7 @@ export default {
         return {
             cartItems: [],
             totalPrice: 0,
+            cliente: null, 
         }
     },
 
@@ -44,8 +45,8 @@ export default {
             this.cartItems = newVal;
         }, { deep: true });
 
-
-        const clienteID = (await this.getCliente()).id;
+        this.cliente = (await this.getCliente()); 
+        const clienteID = this.cliente.id;
         const factura = {
             clienteID: clienteID,
             items: this.formatearListaItems(items),
@@ -81,6 +82,8 @@ export default {
             doc.text("Razon social: Regalos Teis", 110, 50);
             doc.text("Dirección: Avenida Galicia 101, Vigo - 36216", 110, 55);
             doc.text("Tlf: 986 111 333 - Email: regalos@example.com", 110, 60);
+
+            
 
             const headers = [["ID", "Producto", "Cantidad", "Precio_unitario", "Total"]];
             const data = cart.map((item) => [
