@@ -144,13 +144,9 @@ export default ({
         },
 
         updateStock(item, cantidad) {
-
-            console.log(item);
-
-
             item.stock_disponible -= cantidad;
             delete item.quantity;
-            actualizarArticulo(item._id, item)
+            actualizarArticulo(item.id, item)
         },
 
         formatearListaItems() {
@@ -164,8 +160,6 @@ export default ({
                 }
             }
             )
-            console.log("Lista de items: ", listaItemsNueva)
-
             return listaItemsNueva
         }
     }
