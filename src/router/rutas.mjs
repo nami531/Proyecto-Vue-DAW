@@ -6,6 +6,7 @@ import fs from 'fs';
 import path from 'path';
 import Stripe from 'stripe'; 
 import 'dotenv/config.js'; 
+import nodemailer from 'nodemailer'; 
 const rutas = express.Router();
 
 const {Articulo, Factura} = pkg; 
@@ -351,6 +352,38 @@ rutas.post("/crear-checkout-session", async (req, res) => {
         console.error("Error al crear la sesión de pago: ", error)
         res.status(500).json({error : "Error en el servidor"}); 
     }
+})
+
+const transporter = nodemailer.createTransport({
+    service : 'gmail', 
+    auth : {
+        user : process.env.VUE_APP_EMAIL_USER,
+        pass: process.env.VUE_APP_EMAIL_PASSWORD
+    },
+    tls : {
+        rejectUnauthorized : false, 
+    }
+})
+
+rutas.post('/enviar-correo', (req, res) => {
+    console.log('Datos recibidos: ', req.body.toString()); 
+    const {nombre, tlf, email, mensaje} = req.body; 
+
+    const mailOptions = {
+        from: email, 
+        to: 'nadiamarquez27112005@gmail.com', 
+        subject: 'Mensaje de contacto', 
+        text: `Nombre: ${nombre}\nTeléfono: ${tlf}\nEmail: ${email}\nMensaje: ${mensaje}`
+    }; 
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error){
+            console.error("Error al enviar el correo", error)
+            return res.status(500).json({error : 'Error al enviar el mensaje, por favor inténtelo de nuevo'}); 
+        } else {
+            console.log("Email enviado")
+            return res.status(200).json({error : 'Mensaje enviado correctamente'}); 
+        }
+    })
 })
 
 export default rutas;

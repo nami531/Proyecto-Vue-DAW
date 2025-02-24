@@ -29,7 +29,6 @@
 </template>
 
 <script>
-import emailjs from 'emailjs-com'; 
 import Swal from 'sweetalert2';
     export default {
         name : "TablaContacto",
@@ -66,28 +65,30 @@ import Swal from 'sweetalert2';
         methods : {
             enviarCorreo(){
                 if (this.esNombreValido && this.esTelefonoValido && this.esEmailValido){
-                    const templateParams = {
-                        from_name : this.contacto.nombre, 
-                        telefono : this.contacto.tlf, 
-                        reply_to : this.contacto.email, 
-                        message : this.contacto.mensaje
-                    }
+                    fetch('http://localhost:5000/enviar-correo',{
+                        method : 'POST', 
+                        headers: {
+                            'Content-Type' : 'application/json', 
+                        },
+                        body : JSON.stringify(this.contacto),
 
-                    emailjs.send(process.env.VUE_APP_SERVICE_ID, process.env.VUE_APP_TEMPLATE_ID, templateParams, process.env.VUE_APP_PUBLIC_EMAIL_ID)
-                        .then((response) => {
-                            console.log('Correo enviado exitosamente', response); 
-                            this.mostrarAlerta('Enviado', 'Tu mensaje ha sido enviado con éxito', 'success'); 
-                        })
-                        .catch((error) => {
-                            console.error('Error al enviar al correo', error)
-                            this.mostrarAlerta('Error', 'Ha habido un problema', 'error'); 
-                        }); 
-                    this.contacto =  {
-                        nombre : "", 
-                        tlf : "", 
-                        email : "", 
-                        mensaje : ""
-                    }
+                    }).then(response => response.json())
+                    .catch(data => {
+                        if (data.message){
+                            this.mensajeExito = '¡Mensaje enviado con éxito!'
+                            this.contacto.nombre = "", 
+                            this.contacto.tlf = "", 
+                            this.contacto.email = "", 
+                            this.contacto.mensaje = ""
+                            this.mostrarAlerta("Enviado", "Mensaje enviado con éxito", "success")
+                        } else {
+                            this.mensajeError = "Hubo un problema al enviar el mensaje. Inténtalo de nuevo"; 
+                        }
+                    })
+                    .catch(error => {
+                        console.error(error); 
+                        this.mensajeError = 'Hubo un problema en la conexión del servidor al enviar el mensaje. Intenta de nuevo'
+                    })
                 } else {
                     this.mostrarAlerta('Error', 'Por favor completa todos los campos correctamente', 'error')
                 }
