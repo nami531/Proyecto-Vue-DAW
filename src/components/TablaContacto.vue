@@ -42,7 +42,8 @@ import Swal from 'sweetalert2';
                     tlf : "", 
                     email : "", 
                     mensaje : ""
-                }
+                },
+                mensajeError : ""
             }
         }, 
 
@@ -73,9 +74,8 @@ import Swal from 'sweetalert2';
                         body : JSON.stringify(this.contacto),
 
                     }).then(response => response.json())
-                    .catch(data => {
+                    .then(data => {
                         if (data.message){
-                            this.mensajeExito = '¡Mensaje enviado con éxito!'
                             this.contacto.nombre = "", 
                             this.contacto.tlf = "", 
                             this.contacto.email = "", 

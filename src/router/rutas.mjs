@@ -381,7 +381,7 @@ rutas.post('/enviar-correo', (req, res) => {
             return res.status(500).json({error : 'Error al enviar el mensaje, por favor inténtelo de nuevo'}); 
         } else {
             console.log("Email enviado")
-            return res.status(200).json({error : 'Mensaje enviado correctamente'}); 
+            return res.status(200).json({message : 'Mensaje enviado correctamente'}); 
         }
     })
 })
