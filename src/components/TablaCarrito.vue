@@ -1,6 +1,6 @@
 <template>
     <div class="container" v-if="cartStore.items.length > 0">
-        <table class="table table-striped mt-2">
+        <table class="table custom-table mt-2">
             <thead>
                 <tr class="table-primary">
                     <th scope="col" class="w-20 text-start  align-middle">Nombre</th>
@@ -29,9 +29,9 @@
                     </div>
                     <td class="align-middle">
                         <div class="gap-2 d-flex align-items-center justify-content-center ">
-                            <button @click="decrease(item)" class="btn btn-primary p-0 px-2">-</button>
+                            <button @click="decrease(item)" class="btn btn-primary p-0 px-2" >-</button>
                             <span class="border bg-white px-2">{{ item.quantity }}</span>
-                            <button @click="increase(item)" class="btn btn-primary p-0 px-2  ">+</button>
+                            <button @click="increase(item)" class="btn btn-primary p-0 px-2" :disabled="item.stock_disponible === item.quantity" >+</button>
                         </div>
                     </td>
                     <td>{{ (item.quantity * item.precio_unitario).toFixed(2) }} €</td>
@@ -84,7 +84,11 @@ export default ({
         },
 
         decrease(articulo) {
-            this.cartStore.updateQuantity(articulo.id, articulo.quantity - 1)
+            if (articulo.quantity - 1 === 0){
+                this.eliminarArticulo(articulo)
+            } else {
+                this.cartStore.updateQuantity(articulo.id, articulo.quantity - 1)
+            }
         },
 
 
@@ -117,3 +121,33 @@ export default ({
     }
 })
 </script>
+<style scoped>
+.custom-table {
+    border-collapse: separate;
+    border-spacing: 0 10px; /* Espaciado entre filas */
+}
+
+.custom-table tbody tr {
+    border-radius: 10px;
+    overflow: hidden;
+    background: #f8f9fa;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+}
+
+.custom-table th, 
+.custom-table td {
+    padding: 12px;
+    border: none;
+    vertical-align: middle;
+}
+
+.custom-table thead {
+    background: #007bff;
+    color: white;
+    border-radius: 10px;
+}
+
+.custom-table tbody tr:hover {
+    background-color: #e9ecef; /* Color al pasar el mouse */
+}
+</style>
