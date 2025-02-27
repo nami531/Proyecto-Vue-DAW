@@ -17,6 +17,9 @@
             <router-link to="/comentarios"  class="col bg-primary me-4 rounded containerAltura d-flex justify-content-center align-items-center text-decoration-none" >
                 <div class="text-white d-flex justify-content-center align-items-center text-decoration-none" >Gestión de comentarios</div>
             </router-link>
+            <router-link to="/articulos"  class="col bg-primary me-4 rounded containerAltura d-flex justify-content-center align-items-center text-decoration-none" >
+                <div class="text-white d-flex justify-content-center align-items-center text-decoration-none" >Gestión de artículos</div>
+            </router-link>
         </div>
         
     </div>

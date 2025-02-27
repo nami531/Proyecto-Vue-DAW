@@ -6,7 +6,7 @@
                 <button class="btn btnCategoria" v-for="categoria in categorias" :key="categoria.id" @click.prevent="seleccionarCategoria(categoria.nombre)">{{ categoria.nombre }}</button>
             </form>
         </nav>
-        <table class="table table-striped mt-2">
+        <table class="table custom-table mt-2">
                 <thead>
                     <tr class="table-primary">
                         <th scope="col" class="w-10 text-center align-middle">Id</th>
@@ -36,7 +36,7 @@
                             <img :src="`http://localhost:5000/uploads/img/${articulo.imagen}`" alt="Foto expandida" class="modal-content" />
                         </div>
                         <td class="text-center align-middle table-info" v-if="this.isLogueado">
-                            <button class="btn btn-success" @click="agregarArticulo(articulo)">
+                            <button class="btn btn-warning" @click="agregarArticulo(articulo)">
                                 <i class="fas fa-shopping-cart"></i>
                             </button>
                         </td>
@@ -236,6 +236,35 @@ export default {
 /* Para el estilo del cursor sobre la imagen del modal */
 .modal-content:hover {
     cursor: zoom-out;
+}
+
+.custom-table {
+    border-collapse: separate;
+    border-spacing: 0 10px; /* Espaciado entre filas */
+}
+
+.custom-table tbody tr {
+    border-radius: 10px;
+    overflow: hidden;
+    background: #f8f9fa;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+}
+
+.custom-table th, 
+.custom-table td {
+    padding: 12px;
+    border: none;
+    vertical-align: middle;
+}
+
+.custom-table thead {
+    background: #007bff;
+    color: white;
+    border-radius: 10px;
+}
+
+.custom-table tbody tr:hover {
+    background-color: #e9ecef; /* Color al pasar el mouse */
 }
     
 </style>
