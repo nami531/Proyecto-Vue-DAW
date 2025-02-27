@@ -2,7 +2,7 @@
     <main class="container d-flex flex-column">
         <section class="d-flex flex-column justify-content-center align-items-center my-3 border p-5 rounded">
             <h1>¡Te damos la bienvenida a nuestra tienda!</h1>
-            <img src="https://picsum.photos/1020/720" width="700px" height="auto" class="rounded mt-3">
+            <img src="http://localhost:8080/inicio.webp" width="700px" height="auto" class="rounded mt-3">
         </section>
         <section class="d-flex flex-row justify-content-between">
             <article class="d-flex flex-column w-50">
