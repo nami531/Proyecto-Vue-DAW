@@ -1,5 +1,11 @@
 <template>
     <div class="container mt-3 w-50">
+        <div class="row d-flex align-items-center">
+            <h5 class="text-center front-weight-bold text-primary p-3 underline-effect">
+                <i class="bi bi-envelope-paper"></i>
+                Contacta con nosotros <router-link to="/">
+                <i class="bi bi-arrow-return-left me-2 black"></i></router-link> </h5>
+        </div>
         <form @submit.prevent="enviarCorreo" class="border rounded shadow p-4  ">
             <div class=" d-flex flex-column justify-content-center align-items-center">
                 <div class="input-group mb-3">
@@ -22,7 +28,7 @@
                     <label class="form-label col-2 text-start">Mensaje:</label>
                     <textarea class="form-control" v-model="contacto.mensaje" ></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary w-50 mt-4">Enviar</button>
+                <button type="submit" class="btn btn-primary w-25 mt-4">Enviar</button>
             </div>
         </form>
     </div>
