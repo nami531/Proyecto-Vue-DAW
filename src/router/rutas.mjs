@@ -366,7 +366,7 @@ const transporter = nodemailer.createTransport({
 })
 
 rutas.post('/enviar-correo', (req, res) => {
-    console.log('Datos recibidos: ', req.body.toString()); 
+    console.log('Datos recibidos: ', req.body); 
     const {nombre, tlf, email, mensaje} = req.body; 
 
     const mailOptions = {
