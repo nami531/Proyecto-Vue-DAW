@@ -20,6 +20,9 @@
                     <router-link to ="/gestion" class="nav-link" active-class="router-link-exact-active" v-if="isAdmin">Gestión</router-link>
                 </li>
                 <li class = "nav-item">
+                    <router-link to ="/facturas" class="nav-link" active-class="router-link-exact-active" v-if="isAdmin">Facturas</router-link>
+                </li>
+                <li class = "nav-item">
                     <router-link to ="/tienda" class="nav-link" active-class="router-link-exact-active">Tienda</router-link>
                 </li>
                 <li class = "nav-item">

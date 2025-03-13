@@ -15,6 +15,7 @@ import PaginaTienda from '@/components/PaginaTienda.vue'
 import TablaCarrito from '@/components/TablaCarrito.vue'
 import PagoAprobado from '@/components/PagoAprobado.vue'
 import PagoCancelado from '@/components/PagoCancelado.vue'
+import TablaFacturas from '@/components/TablaFacturas.vue'
 
 const routes = [
   {
@@ -104,6 +105,11 @@ const routes = [
     path : '/cancel', 
     name : 'PagoCancelado', 
     component : PagoCancelado
+  }, 
+  {
+    path : '/facturas', 
+    name : 'TablaFacturas', 
+    component : TablaFacturas
   }
 
 
