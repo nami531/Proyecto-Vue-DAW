@@ -79,7 +79,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="articulo in articulosPorPagina" :key="articulo.id">
+                <tr v-for="articulo in articulosPorPagina" :key="articulo.id" :class="articulo.stock_disponible < 50 ? 'table-warning' : ''">
                     <td class="text-start align-middle">{{ articulo._id.slice(-8) }}</td>
                     <td class="text-start align-middle">{{ articulo.nombre }}</td>
                     <td class="text-start align-middle">{{ articulo.categoria }}</td>
