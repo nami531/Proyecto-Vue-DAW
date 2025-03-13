@@ -5,13 +5,14 @@ import { defineStore } from 'pinia';
 export const useCartStore = defineStore('cart', {
   state: () => ({
     items: [], // Lista de productos en el carrito
+    discount : 1, // Porcentaje de descuento en base a 1 
   }),
 
 
   getters: {
     totalItems: (state) => state.items.reduce((acc, item) => acc + item.quantity, 0), // Número total de productos
     totalPrice: (state) => state.items.reduce((acc, item) => acc + item.precio_unitario * item.quantity, 0), // Precio total
-    
+    totalPriceDiscount: (state) => state.items.reduce((acc, item) => acc + item.precio_unitario * item.quantity, 0) * state.discount, // Precio total
     getItems : (state) => state.items
   },
 
@@ -50,5 +51,9 @@ export const useCartStore = defineStore('cart', {
     clearCart() {
       this.items = []; // Limpia el carrito
     },
+
+    aplicarDescuento(porcentaje){
+      this.discount = porcentaje; 
+    }
   },
 });

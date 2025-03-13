@@ -43,8 +43,22 @@
                 </tr>
             </tbody>
         </table>
-        <h2 class="text-end"> Precio total: {{ cartStore.totalPrice.toFixed(2) }} €</h2>
-        <button class="btn btn-primary" @click="finalizarCompra">Finalizar compra</button>
+        <div class="d-flex flex-column justify-content-end align-items-end">
+
+            <form @submit.prevent="aplicarDescuento">
+                <div class="input-group w-75">
+                    <span>Cupón de descuento</span>
+                    <input class="form-control ms-2 w-100" type="text" @blur="aplicarDescuento()" v-model="this.descuento">
+                </div>
+            </form>
+            <div class="input-group">
+                <span>Gastos de envío: </span>
+                <input class="form-control ms-2" type="text" @blur="aplicarDescuento()" v-model="this.gastosEnvio" disabled readonly>
+            </div>
+            <h2 class="text-end"> Precio total: {{ descuentoAplicado ? cartStore.totalPriceDiscount.toFixed(2) : cartStore.totalPrice.toFixed(2) }} €</h2>
+            <button class=" btn btn-primary text-end" @click="finalizarCompra">Finalizar compra</button>
+        </div>
+        
     </div>
     <div v-else>
         <div class="d-flex flex-column align-items-center justify-content-center min-vh-100">
@@ -66,7 +80,10 @@ export default ({
 
     data() {
         return {
-            cartStore: useCartStore()
+            cartStore: useCartStore(), 
+            descuento : "", 
+            gastosEnvio : 0, 
+            descuentoAplicado : false,
         }
     },
 
@@ -116,6 +133,14 @@ export default ({
                 console.error("Error en el pago", error)
             }
         },
+
+        aplicarDescuento(){
+            if (this.descuento === 'DESCUENTO'){
+                // Se aplica un descuento del 10% 
+                this.descuentoAplicado = true; 
+                this.cartStore.aplicarDescuento(0.9)
+            }
+        }
 
         
     }
