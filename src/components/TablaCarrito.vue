@@ -51,7 +51,7 @@
             </form>
             <div class="d-flex mt-2 justify-content-end w-100">
                 <span class="w-50 text-end">Gastos de envío: </span>
-                <input class="form-control ms-2 w-25" type="text" disabled readonly :value="cartStore.getGastosEnvio().toFixed(2).toString().concat(' €')">
+                <input class="form-control ms-2 w-25" type="text" disabled readonly :value="cartStore.gastosEnvio.toFixed(2).toString().concat(' €')">
             </div>
             <h2 class="text-end"> Precio total: {{ descuentoAplicado ? cartStore.totalPriceDiscount.toFixed(2) : cartStore.totalPrice.toFixed(2) }} €</h2>
             <button class=" btn btn-primary text-end" @click="finalizarCompra">Finalizar compra</button>
