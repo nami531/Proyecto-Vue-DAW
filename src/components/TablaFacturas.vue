@@ -11,7 +11,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="factura in facturas" :key="factura._id">
+                <tr v-for="factura in facturasPorPagina" :key="factura._id">
                     <td class="text-center align-middle">{{ factura._id.substring(0, 8) }}</td>
                     <td class="text-center align-middle">{{ factura.clienteID }}</td>
                     <td class="text-center align-middle">{{ obtenerFechaHoy(factura.fecha) }}</td>
@@ -19,6 +19,16 @@
                 </tr>
             </tbody>
         </table>
+        <div class="d-flex justify-content-center my-3">
+            <button class="btn btn-primary" :disabled="currentPage === 1" @click="paginaAnterior">
+                <i class="bi bi-chevron-left"></i>
+            </button>
+            <span class="mx-3 align-self-center"> Página {{ currentPage }}</span>
+            <button class="btn btn-primary" :disabled="currentPage * pageSize >= this.facturas.length"
+                @click="siguientePagina">
+                <i class="bi bi-chevron-right"></i>
+            </button>
+        </div>
     </div>
     
 </template>
@@ -30,12 +40,18 @@ export default {
     name : "TablaFacturas",
     data() {
         return {
-            facturas : []
+            facturas : [],
+            pageSize: 10,
+            currentPage: 1,
         }
     },
 
     computed: {
-        
+        facturasPorPagina() {
+            const indiceInicial = (this.currentPage - 1) * this.pageSize;
+
+            return this.facturas.slice(indiceInicial, indiceInicial + this.pageSize);
+        }
     },
     
     mounted() {
@@ -57,7 +73,19 @@ export default {
             const fechaFormateada = new Intl.DateTimeFormat('es-ES', opciones).format(fecha);
             //return fecha.toLocaleDateString('es-ES');  // Formato dd/mm/yyyy
             return fechaFormateada;
-        }
+        }, 
+        
+        siguientePagina() {
+            if (this.currentPage * this.pageSize < this.facturas.length) {
+                this.currentPage++;
+            }
+        },
+
+        paginaAnterior() {
+            if (this.currentPage > 1) {
+                this.currentPage--;
+            }
+        },
     }
 }
 </script>
