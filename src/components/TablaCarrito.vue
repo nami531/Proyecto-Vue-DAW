@@ -43,17 +43,15 @@
                 </tr>
             </tbody>
         </table>
-        <div class="d-flex flex-column justify-content-end align-items-end">
+        <div class="d-flex flex-column align-items-end">
 
-            <form @submit.prevent="aplicarDescuento">
-                <div class="input-group w-75">
-                    <span>Cupón de descuento</span>
-                    <input class="form-control ms-2 w-100" type="text" @blur="aplicarDescuento()" v-model="this.descuento">
-                </div>
+            <form @submit.prevent="aplicarDescuento" class="d-flex justify-content-end w-100">
+                <span class="w-50 text-end">Cupón de descuento:</span>
+                <input class="form-control ms-2 w-25" type="text" @blur="aplicarDescuento()" v-model="this.descuento">
             </form>
-            <div class="input-group">
-                <span>Gastos de envío: </span>
-                <input class="form-control ms-2" type="text" disabled readonly :value="cartStore.getGastosEnvio().toFixed(2)">
+            <div class="d-flex mt-2 justify-content-end w-100">
+                <span class="w-50 text-end">Gastos de envío: </span>
+                <input class="form-control ms-2 w-25" type="text" disabled readonly :value="cartStore.getGastosEnvio().toFixed(2).toString().concat(' €')">
             </div>
             <h2 class="text-end"> Precio total: {{ descuentoAplicado ? cartStore.totalPriceDiscount.toFixed(2) : cartStore.totalPrice.toFixed(2) }} €</h2>
             <button class=" btn btn-primary text-end" @click="finalizarCompra">Finalizar compra</button>
@@ -134,6 +132,8 @@ export default ({
         },
 
         aplicarDescuento(){
+            this.descuento = this.descuento.toLocaleUpperCase()
+
             if (this.descuento === 'DESCUENTO'){
                 // Se aplica un descuento del 10% 
                 this.descuentoAplicado = true; 
