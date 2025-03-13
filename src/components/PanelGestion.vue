@@ -21,6 +21,12 @@
                 <div class="text-white d-flex justify-content-center align-items-center text-decoration-none" >Gestión de artículos</div>
             </router-link>
         </div>
+
+        <div class="row mb-4">
+            <router-link to="/facturas"  class="col bg-primary me-4 rounded containerAltura d-flex justify-content-center align-items-center text-decoration-none" >
+                <div class="text-white d-flex justify-content-center align-items-center text-decoration-none" >Ver las facturas</div>
+            </router-link>
+        </div>
         
     </div>
 

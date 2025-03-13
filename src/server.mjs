@@ -18,7 +18,7 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const server = http.createServer(app); 
 
-
+// allowedHeaders: '*',  Permite todos los headers
 app.use(cors({
     origin: ['http://localhost:8080', 'http://localhost:5000'],  // Permitir el frontend
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
@@ -49,7 +49,7 @@ server.listen(app.get("port"), () => {
 
 // En clase: 
 // TODO: CAMBIAR PARA EL EXAMEN
-mongoose.connect('mongodb://admin:abc123@localhost:27017/BBDD?authSource=admin')
+mongoose.connect('mongodb://admin:abc123@localhost:27017/bbdd?authSource=admin')
      .then(() => console.log("Conectado a MongoDB"))
     .catch(err => console.log("Error Conexion", err))
 

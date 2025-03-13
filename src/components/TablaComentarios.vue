@@ -15,7 +15,7 @@ Se ha modificado un dato en el json a propósito con la finalidad de enseñar la
     </div>
 
     <div class="container">
-            <div class="d-flex flex-row justify-content-between mb-3 border-3 border-start border-primary px-3 pt-3 bg-body-secondary shadow" v-if="!isAdmin || !isLogueado">
+            <div class="d-flex flex-row justify-content-between mb-3 border-3 border-start border-primary px-3 pt-3 bg-body-secondary shadow" v-if="!isLogueado">
                 <p>Solo los usuarios registrados pueden comentar</p>
                 <router-link to="/registro"><strong>Regístrate</strong></router-link>
             </div>
