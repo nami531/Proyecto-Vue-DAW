@@ -19,11 +19,17 @@
                             </div>
                         </div>
                     </div>
-                    <span class="input-group-text custom-span ms-auto me-2">Categoría</span>
-                    <select name="categoria" id="categoria" class="form-select w-50" v-model="articulo.categoria">
-                        <option value="" disabled>Seleccionar categoría</option>
-                        <option v-for="categoria in categorias" :key="categoria.id" :value="categoria.nombre">{{ categoria.nombre }}</option>
-                    </select>
+                    <div class="input-group">
+                        <span class="input-group-text custom-span ms-auto me-2">Categoría</span>
+                        <select name="categoria" id="categoria" class="form-select w-50" v-model="articulo.categoria">
+                            <option value="" disabled>Seleccionar categoría</option>
+                            <option v-for="categoria in categorias" :key="categoria.id" :value="categoria.nombre">{{ categoria.nombre }}</option>
+                        </select>
+                        <button class="input-group-text" id="basic-addon1" @click.prevent="buscarPorCategoria()">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                    
                 </div>
                 
                 
@@ -65,7 +71,7 @@
 
         <h5 class="text-primary p-5"><i class="bi bi-tools m-2"></i>Tabla de Artículos</h5>
         
-        <table class="table table-striped mt-2">
+        <table class="table table-striped mt-2" >
             <thead>
                 <tr class="table-primary">
                     <th scope="col" class="w-20 text-center align-middle">ID</th>
@@ -78,8 +84,8 @@
                     <th scope="col" class="table-info text-center align-middle">Gestión</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr v-for="articulo in articulosPorPagina" :key="articulo.id" :class="articulo.stock_disponible < 50 ? 'table-warning' : ''">
+            <tbody v-if="articulosPorPagina.length !== 0">
+                <tr v-for="articulo in articulosPorPagina" :key="articulo.id" :class="articulo.stock_disponible < 50 ? 'table-warning' : ''" >
                     <td class="text-start align-middle">{{ articulo._id.slice(-8) }}</td>
                     <td class="text-start align-middle">{{ articulo.nombre }}</td>
                     <td class="text-start align-middle">{{ articulo.categoria }}</td>
@@ -97,6 +103,18 @@
                             </button>
                         </div>
                     </td>
+                </tr>
+            </tbody>
+            <tbody v-if="articulosPorPagina.length === 0">
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>No se han encontrado artículos de la categoría: {{ this.articulo.categoria }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                 </tr>
             </tbody>
         </table>
@@ -280,6 +298,25 @@ export default {
                 }
             }
         },
+
+        async buscarPorCategoria(){
+            try {
+                if (this.articulo.categoria === ""){
+                    this.mostrarAlerta('Error', 'Debes seleccionar una categoría', 'error');
+                } else {
+                    const articulos = await obtenerArticulos();                     
+                    let productosPorCategoria = articulos.filter(articulo => articulo.categoria === this.articulo.categoria);
+                    
+                   
+                    this.articulos = productosPorCategoria; 
+                }
+                
+            } catch (error) {
+                console.error(error);
+                this.mostrarAlerta('Error', 'No se pudo encontrar el usuario.', 'error');
+
+            }
+        }, 
 
         // Métodos para la paginación
         siguientePagina() {
