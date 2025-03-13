@@ -5,7 +5,7 @@
             <thead>
                 <tr class="table-primary">
                     <th scope="col" class="w-10 text-center align-middle">Id</th>
-                    <th scope="col" class="w-20 text-start  align-middle">ClienteID</th>
+                    <th scope="col" class="w-20 text-center  align-middle">ClienteID</th>
                     <th scope="col" class="w-45 text-center align-middle">Fecha</th>
                     <th scope="col" class="w-10 text-center align-middle">Total factura</th>
                 </tr>
