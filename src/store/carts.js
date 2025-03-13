@@ -54,6 +54,11 @@ export const useCartStore = defineStore('cart', {
 
     aplicarDescuento(porcentaje){
       this.discount = porcentaje; 
+    },
+
+    getGastosEnvio(){
+      if (this.totalPriceDiscount > 50) return 0; 
+      else return this.totalPriceDiscount * 0.05; 
     }
   },
 });

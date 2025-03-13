@@ -53,7 +53,7 @@
             </form>
             <div class="input-group">
                 <span>Gastos de envío: </span>
-                <input class="form-control ms-2" type="text" @blur="aplicarDescuento()" v-model="this.gastosEnvio" disabled readonly>
+                <input class="form-control ms-2" type="text" disabled readonly :value="cartStore.getGastosEnvio().toFixed(2)">
             </div>
             <h2 class="text-end"> Precio total: {{ descuentoAplicado ? cartStore.totalPriceDiscount.toFixed(2) : cartStore.totalPrice.toFixed(2) }} €</h2>
             <button class=" btn btn-primary text-end" @click="finalizarCompra">Finalizar compra</button>
@@ -82,7 +82,6 @@ export default ({
         return {
             cartStore: useCartStore(), 
             descuento : "", 
-            gastosEnvio : 0, 
             descuentoAplicado : false,
         }
     },
