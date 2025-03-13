@@ -105,18 +105,6 @@
                     </td>
                 </tr>
             </tbody>
-            <tbody v-if="articulosPorPagina.length === 0">
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>No se han encontrado artículos de la categoría: {{ this.articulo.categoria }}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-            </tbody>
         </table>
         <div class="d-flex justify-content-center my-3">
             <button class="btn btn-primary" :disabled="currentPage === 1" @click="paginaAnterior">
