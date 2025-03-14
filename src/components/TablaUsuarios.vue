@@ -142,6 +142,7 @@
 </template>
 
 <script>
+import { usePerfil } from '@/store/perfil';
 import Swal from 'sweetalert2';
 export default {
     name: "TablaUsuarios",
@@ -179,14 +180,23 @@ export default {
             pageSize: 5, //Registros por página
             currentPage: 1,
             tipos: [],
+            perfilStore : usePerfil(),
         }
     },
 
-    mounted() {
+    async mounted() {
         this.getProvincias();
         this.getUsuarios();
         this.getMunicipios();
         this.getTipos(); 
+
+        if (this.perfilStore.cargado){
+            this.seleccionaUsuario(this.perfilStore.perfil)
+        }
+    },
+
+    beforeUnmount(){
+        this.perfilStore.clearCargado(); 
     },
 
     computed: {

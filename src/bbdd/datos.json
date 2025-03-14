@@ -33065,6 +33065,25 @@
       "movil": "698857512",
       "baja": "",
       "tipo": "usuario"
+    },
+    {
+      "id": "4f97",
+      "alta": "2012-12-12",
+      "dni": "01234567L",
+      "apellidos": "y asmel amor",
+      "nombre": "imbitameun kfe",
+      "direccion": "tu te vas, y yo me quedo aquí. Lloverá y ya no seré tuya, seré la gata, bajo la LLUVIA",
+      "email": "notemasnohaicuidado@noteculpodelpasado.yaloves",
+      "provincia": {
+        "id": "05",
+        "nm": "Ávila"
+      },
+      "municipio": {
+        "id": "05014",
+        "nm": "Arenas de San Pedro"
+      },
+      "baja": "",
+      "movil": "666666987"
     }
   ],
   "candidatos": [

@@ -57,7 +57,7 @@
                     </div>
 
                 </div>
-                <div class="d-flex flex-row align-items-center justify-content-center text-white ms-3" v-if="this.usuario">{{ this.usuario }}</div>
+                <div class="d-flex flex-row align-items-center justify-content-center text-white ms-3" v-if="this.usuario">{{ this.usuario.nombre }}</div>
 
                 <div class="dropdown ms-auto">
                     <button class="btn btn-primary" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
@@ -71,6 +71,9 @@
                         </li>
                         <li class="dropdown-item" v-if="!isLogueado">
                             <router-link to="/registro" class="dropdown-item">Registro</router-link>
+                        </li>
+                        <li class="dropdown-item" v-if="isLogueado">
+                            <router-link to="/usuarios" @click.prevent="cargarPerfil()" class="dropdown-item">Mi perfil</router-link>
                         </li>
                         <li class="dropdown-item" v-if="isLogueado">
                             <router-link to="/logout" class="dropdown-item" @click="logout">Cerrar sesión</router-link>
@@ -88,7 +91,7 @@
 
 <script>
 import { useCartStore } from '@/store/carts';
-
+import { usePerfil } from '@/store/perfil';
 
 export default{
     name: "NavBar", 
@@ -99,6 +102,7 @@ export default{
             isLogueado : false,
             usuario : "", 
             cartStore : useCartStore(),
+            perfilStore : usePerfil(),
         }; 
     }, 
     
@@ -136,7 +140,12 @@ export default{
 
             const usuario = await response.json(); 
             console.log("Respuesta obtenida", usuario); 
-            this.usuario = usuario[0].nombre; 
+            this.usuario = usuario[0]; 
+        }, 
+
+        cargarPerfil(){
+            this.perfilStore.cargarPerfil(this.usuario)
+            this.$router.push("/usuarios");
         }
     }
 
